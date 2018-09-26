@@ -220,11 +220,12 @@ class MySceneGraph {
         }
         var background=ambientNode.getElementsByTagName('background');
         this.ambientIlumination=[0,1,0,0];
+        this.backgroundIlumination=[0,0,1,0];
 
         if (background.length>1)
             return "no more than one initial background may be defined";
         var rAmbient=ambient.getAttribute("r");
-        if (rAmbient==null || r <0 || r>1){
+        if (rAmbient==null || rAmbient <0 || rAmbient>1){
             this.graph.ambientIlumination[0]=this.ambientIlumination[0];
         }
         var gAmbient=ambient.getAttribute("g");
@@ -239,6 +240,24 @@ class MySceneGraph {
         if (aAmbient==null || aAmbient <0 || aAmbient>1){
             this.graph.ambientIlumination[3]=this.ambientIlumination[3];
         }
+        var rBackground=background.getAttribute("r");
+        
+        if ( rBackground==null || rBackground <0 || rBackgound>1){
+            this.graph.backgroundIlumination[0]=this.backgroundIlumination[0];
+        }
+        var gBackground=background.getAttribute("g");
+        if ( gBackground==null || gBackground <0 || gBackgound>1){
+            this.graph.backgroundIlumination[1]=this.backgroundIlumination[1];
+        }
+        var bBackground=background.getAttribute("b");
+        if ( bBackground==null || bBackground <0 || bBackgound>1){
+            this.graph.backgroundIlumination[2]=this.backgroundIlumination[2];
+        }
+        var aBackground=background.getAttribute("a");
+        if ( aBackground==null || aBackground <0 || aBackgound>1){
+            this.graph.backgroundIlumination[3]=this.backgroundIlumination[3];
+        }
+
 
 
     }
