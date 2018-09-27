@@ -6,7 +6,7 @@ var DEGREE_TO_RAD = Math.PI / 180;
 class XMLscene extends CGFscene {
     /**
      * @constructor
-     * @param {MyInterface} myinterface 
+     * @param {MyInterface} myinterface
      */
     constructor(myinterface) {
         super();
@@ -77,7 +77,7 @@ class XMLscene extends CGFscene {
     }
 
 
-    /* Handler called when the graph is finally loaded. 
+    /* Handler called when the graph is finally loaded.
      * As loading is asynchronous, this may be called already after the application has started the run loop
      */
     onGraphLoaded() {
@@ -87,11 +87,11 @@ class XMLscene extends CGFscene {
         //TODO: Change reference length according to parsed graph
         this.axis = new CGFaxis(this, this.graph.referenceLength);
 
+        // TODO: Change ambient and background details according to parsed graph
         this.setGlobalAmbientLight(this.graph.ambientIlumination[0],this.graph.ambientIlumination[1],
                                     this.graph.ambientIlumination[2],this.graph.ambientIlumination[3]);
         this.setBackgroundAmbientLight(this.graph.backgroundIlumination[0],this.graph.backgroundIlumination[1],
             this.graph.backgroundIlumination[2],this.graph.backgroundIlumination[3]);
-        // TODO: Change ambient and background details according to parsed graph
 
         this.initLights();
 

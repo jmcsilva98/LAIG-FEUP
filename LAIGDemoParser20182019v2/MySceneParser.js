@@ -35,7 +35,7 @@ class MySceneGraph {
         this.axisCoords['y'] = [0, 1, 0];
         this.axisCoords['z'] = [0, 0, 1];
 
-        // File reading 
+        // File reading
         this.reader = new CGFXMLreader();
 
         /*
@@ -182,33 +182,34 @@ class MySceneGraph {
              return error;
      }
 
-     
+
             // <COMPONENTS>
             if ((index = nodeNames.indexOf("components")) == -1)
             return "tag <components> missing";
         else {
             if (index != COMPONENTS_INDEX)
                 this.onXMLMinorError("tag <components> out of order");
-   
+
             //Parse COMPONENTS block
             if ((error = this.parseComponents(nodes[index])) != null)
                 return error;
         }
     }
-   
+
      parseScene(sceneNode){
-         var rootName=getAttribute("root");
-         if (rootName==null)
+        var rootName = sceneNode.getAttribute("root");
+
+        if (rootName==null)
             this.onXMLMinorError("There's no scene name.");
-        var axisLength=getAttribute("axis_length");
+        var axisLength = sceneNode.getAttribute("axis_length");
         if (axisLength==null){
            this.onXMLMinorError("There's no axis length; assuming value=10");
            this.graph.referenceLength=10;
         }
-     
-    }  
+
+    }
     parseViews(viewsNode){
-            var defaultView=getAttribute("default");
+            var defaultView= viewsNode.getAttribute("default");
             if(defaultView==null)
             this.onXMLMinorError("There's no views name.");
     }
@@ -224,7 +225,7 @@ class MySceneGraph {
 
         if (background.length>1)
             return "no more than one initial background may be defined";
-        var rAmbient=ambient.getAttribute("r");
+        var rAmbient = ambient.getAttribute("r");
         if (rAmbient==null || rAmbient <0 || rAmbient>1){
             this.graph.ambientIlumination[0]=this.ambientIlumination[0];
         }
@@ -241,7 +242,7 @@ class MySceneGraph {
             this.graph.ambientIlumination[3]=this.ambientIlumination[3];
         }
         var rBackground=background.getAttribute("r");
-        
+
         if ( rBackground==null || rBackground <0 || rBackgound>1){
             this.graph.backgroundIlumination[0]=this.backgroundIlumination[0];
         }
@@ -261,6 +262,210 @@ class MySceneGraph {
 
 
     }
+    parseLights(lightsNode){
+      var children = lightsNode.children;
+
+      this.lights = [];
+      var numLights = 0;
+
+      var grandChildren = [];
+      var nodeNames = [];
+
+      // Any number of lights.
+      for (var i = 0; i < children.length; i++) {
+
+          if (children[i].nodeName != "omni") {
+              this.onXMLMinorError("unknown tag <" + children[i].nodeName + ">");
+              continue;
+          }
+
+          // Get id of the current light.
+          var lightId = this.reader.getString(children[i], 'id');
+          if (lightId == null)
+              return "no ID defined for light";
+
+
+          // Checks for repeated IDs.
+          if (this.lights[lightId] != null)
+              return "ID must be unique for each light (conflict: ID = " + lightId + ")";
+
+          //Get enable index of the current light
+          //VER SE E ASSIM PQ ESTA DIFERENTE DO EXEMPLO DADO. O ENABLE E UM PARAMETRO DE OMNI E NAO UM ATRIBUTO
+          var enableLight = children[i].getAttribute("enable");
+
+          if(!(enableLight == 0 || enableLight == 1)){
+              this.onXMLMinorError("The enable light must be 0 or 1 (false or true). Assuming value 1");
+          }
+
+
+          grandChildren = children[i].children;
+          // Specifications for the current light.
+
+          nodeNames = [];
+          for (var j = 0; j < grandChildren.length; j++) {
+              nodeNames.push(grandChildren[j].nodeName);
+          }
+
+          // Gets indices of each element.
+          //var enableIndex = nodeNames.indexOf("enable");
+          var locationIndex = nodeNames.indexOf("location");
+          var ambientIndex = nodeNames.indexOf("ambient");
+          var diffuseIndex = nodeNames.indexOf("diffuse");
+          var specularIndex = nodeNames.indexOf("specular");
+
+
+          // Retrieves the light location.
+          var locationLight = [];
+          if (locationIndex != -1) {
+              // x
+              var x = this.reader.getFloat(grandChildren[locationIndex], 'x');
+              if (!(x != null && !isNaN(x)))
+                  return "unable to parse x-coordinate of the light location for ID = " + lightId;
+              else
+                  locationLight.push(x);
+
+              // y
+              var y = this.reader.getFloat(grandChildren[locationIndex], 'y');
+              if (!(y != null && !isNaN(y)))
+                  return "unable to parse y-coordinate of the light location for ID = " + lightId;
+              else
+                  locationLight.push(y);
+
+              // z
+              var z = this.reader.getFloat(grandChildren[locationIndex], 'z');
+              if (!(z != null && !isNaN(z)))
+                  return "unable to parse z-coordinate of the light location for ID = " + lightId;
+              else
+                  locationLight.push(z);
+
+              // w
+              var w = this.reader.getFloat(grandChildren[locationIndex], 'w');
+              if (!(w != null && !isNaN(w) && w >= 0 && w <= 1))
+                  return "unable to parse x-coordinate of the light location for ID = " + lightId;
+              else
+                  locationLight.push(w);
+          }
+          else
+              return "light location undefined for ID = " + lightId;
+
+          // Retrieves the ambient component.
+          var ambientIllumination = [];
+          if (ambientIndex != -1) {
+              // R
+              var r = this.reader.getFloat(grandChildren[ambientIndex], 'r');
+              if (!(r != null && !isNaN(r) && r >= 0 && r <= 1))
+                  return "unable to parse R component of the ambient illumination for ID = " + lightId;
+              else
+                  ambientIllumination.push(r);
+
+              // G
+              var g = this.reader.getFloat(grandChildren[ambientIndex], 'g');
+              if (!(g != null && !isNaN(g) && g >= 0 && g <= 1))
+                  return "unable to parse G component of the ambient illumination for ID = " + lightId;
+              else
+                  ambientIllumination.push(g);
+
+              // B
+              var b = this.reader.getFloat(grandChildren[ambientIndex], 'b');
+              if (!(b != null && !isNaN(b) && b >= 0 && b <= 1))
+                  return "unable to parse B component of the ambient illumination for ID = " + lightId;
+              else
+                  ambientIllumination.push(b);
+
+              // A
+              var a = this.reader.getFloat(grandChildren[ambientIndex], 'a');
+              if (!(a != null && !isNaN(a) && a >= 0 && a <= 1))
+                  return "unable to parse A component of the ambient illumination for ID = " + lightId;
+              else
+                  ambientIllumination.push(a);
+          }
+          else
+              return "ambient component undefined for ID = " + lightId;
+
+          // TODO: Retrieve the diffuse component
+
+          var diffuseIllumination = [];
+          if (diffuseIndex != -1) {
+              // R
+              var r = this.reader.getFloat(grandChildren[diffuseIndex], 'r');
+              if (!(r != null && !isNaN(r) && r >= 0 && r <= 1))
+                  return "unable to parse R component of the diffuse illumination for ID = " + lightId;
+              else
+                  diffuseIllumination.push(r);
+
+              // G
+              var g = this.reader.getFloat(grandChildren[diffuseIndex], 'g');
+              if (!(g != null && !isNaN(g) && g >= 0 && g <= 1))
+                  return "unable to parse G component of the diffuse illumination for ID = " + lightId;
+              else
+                  diffuseIllumination.push(g);
+
+              // B
+              var b = this.reader.getFloat(grandChildren[diffuseIndex], 'b');
+              if (!(b != null && !isNaN(b) && b >= 0 && b <= 1))
+                  return "unable to parse B component of the diffuse illumination for ID = " + lightId;
+              else
+                  diffuseIllumination.push(b);
+
+              // A
+              var a = this.reader.getFloat(grandChildren[diffuseIndex], 'a');
+              if (!(a != null && !isNaN(a) && a >= 0 && a <= 1))
+                  return "unable to parse A component of the diffuse illumination for ID = " + lightId;
+              else
+                  diffuseIllumination.push(a);
+          }
+
+          // TODO: Retrieve the specular component
+
+          var specularIllumination = [];
+          if (specularIndex != -1) {
+              // R
+              var r = this.reader.getFloat(grandChildren[specularIndex], 'r');
+              if (!(r != null && !isNaN(r) && r >= 0 && r <= 1))
+                  return "unable to parse R component of the specular illumination for ID = " + lightId;
+              else
+                  specularIllumination.push(r);
+
+              // G
+              var g = this.reader.getFloat(grandChildren[specularIndex], 'g');
+              if (!(g != null && !isNaN(g) && g >= 0 && g <= 1))
+                  return "unable to parse G component of the specular illumination for ID = " + lightId;
+              else
+                  specularIllumination.push(g);
+
+              // B
+              var b = this.reader.getFloat(grandChildren[specularIndex], 'b');
+              if (!(b != null && !isNaN(b) && b >= 0 && b <= 1))
+                  return "unable to parse B component of the specular illumination for ID = " + lightId;
+              else
+                  specularIllumination.push(b);
+
+              // A
+              var a = this.reader.getFloat(grandChildren[specularIndex], 'a');
+              if (!(a != null && !isNaN(a) && a >= 0 && a <= 1))
+                  return "unable to parse A component of the specular illumination for ID = " + lightId;
+              else
+                  specularIllumination.push(a);
+          }
+
+          // TODO: Store Light global information.
+          //this.lights[lightId] = ...;
+
+          //NAO SEI SE O ENABLE LIGHT PODE ESTAR NESTE SITIO
+          this.lights[lightId] = [enableLight, locationLight, ambientIlumination, diffuseIllumination, specularIllumination];
+          numLights++;
+      }
+
+      if (numLights == 0)
+          return "at least one light must be defined";
+      else if (numLights > 8)
+          this.onXMLMinorError("too many lights defined; WebGL imposes a limit of 8 lights");
+
+      this.log("Parsed lights");
+
+      return null;
+    }
+
     /*
      * Callback to be executed on any read error, showing an error on the console.
      * @param {string} message
@@ -295,4 +500,3 @@ class MySceneGraph {
         //TODO: Render loop starting at root of graph
     }
 }
-
