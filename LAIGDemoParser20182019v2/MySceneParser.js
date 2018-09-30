@@ -82,6 +82,7 @@ class MySceneGraph {
         for (var i = 0; i < nodes.length; i++) {
             nodeNames.push(nodes[i].nodeName);
         }
+    
 
         var error;
 
@@ -123,7 +124,8 @@ class MySceneGraph {
             if ((error = this.parseAmbient(nodes[index])) != null)
                 return error;
         }
-
+    }
+/*
         // <LIGHTS>
         if ((index = nodeNames.indexOf("lights")) == -1)
             return "tag <lights> missing";
@@ -195,7 +197,7 @@ class MySceneGraph {
                 return error;
         }
     }
-
+*/
      parseScene(sceneNode){
         var rootName = sceneNode.getAttribute("root");
 
@@ -208,6 +210,8 @@ class MySceneGraph {
         }
 
     }
+
+    
     parseViews(viewsNode){
             var defaultView= viewsNode.getAttribute("default");
             if(defaultView==null)
@@ -225,41 +229,40 @@ class MySceneGraph {
 
         if (background.length>1)
             return "no more than one initial background may be defined";
-        var rAmbient = ambient.getAttribute("r");
+        var rAmbient = ambient[0].getAttribute('r');
         if (rAmbient==null || rAmbient <0 || rAmbient>1){
             this.graph.ambientIlumination[0]=this.ambientIlumination[0];
         }
-        var gAmbient=ambient.getAttribute("g");
+    
+        var gAmbient=ambient[0].getAttribute("g");
         if (gAmbient==null || gAmbient <0 || gAmbient>1){
             this.graph.ambientIlumination[1]=this.ambientIlumination[1];
         }
-        var bAmbient=ambient.getAttribute("b");
+        var bAmbient=ambient[0].getAttribute("b");
         if (bAmbient==null || bAmbient <0 || bAmbient>1){
             this.graph.ambientIlumination[2]=this.ambientIlumination[2];
         }
-        var aAmbient=ambient.getAttribute("a");
+        var aAmbient=ambient[0].getAttribute("a");
         if (aAmbient==null || aAmbient <0 || aAmbient>1){
             this.graph.ambientIlumination[3]=this.ambientIlumination[3];
         }
-        var rBackground=background.getAttribute("r");
+        var rBackground=background[0].getAttribute("r");
 
-        if ( rBackground==null || rBackground <0 || rBackgound>1){
+        if ( rBackground==null || rBackground <0 || rBackground>1){
             this.graph.backgroundIlumination[0]=this.backgroundIlumination[0];
         }
-        var gBackground=background.getAttribute("g");
-        if ( gBackground==null || gBackground <0 || gBackgound>1){
+        var gBackground=background[0].getAttribute("g");
+        if ( gBackground==null || gBackground <0 || gBackground>1){
             this.graph.backgroundIlumination[1]=this.backgroundIlumination[1];
         }
-        var bBackground=background.getAttribute("b");
-        if ( bBackground==null || bBackground <0 || bBackgound>1){
+        var bBackground=background[0].getAttribute("b");
+        if ( bBackground==null || bBackground <0 || bBackground>1){
             this.graph.backgroundIlumination[2]=this.backgroundIlumination[2];
         }
-        var aBackground=background.getAttribute("a");
-        if ( aBackground==null || aBackground <0 || aBackgound>1){
+        var aBackground=background[0].getAttribute("a");
+        if ( aBackground==null || aBackground <0 || aBackground>1){
             this.graph.backgroundIlumination[3]=this.backgroundIlumination[3];
         }
-
-
 
     }
     parseLights(lightsNode){
@@ -465,7 +468,6 @@ class MySceneGraph {
 
       return null;
     }
-
     /*
      * Callback to be executed on any read error, showing an error on the console.
      * @param {string} message
@@ -499,4 +501,5 @@ class MySceneGraph {
         // entry point for graph rendering
         //TODO: Render loop starting at root of graph
     }
+    
 }
