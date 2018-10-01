@@ -27,6 +27,9 @@ class MySceneParser {
         scene.graph = this;
 
         this.nodes = [];
+        this.perspectives = []; //added by me
+
+
 
         this.idRoot = null;                    // The id of the root element.
 
@@ -165,7 +168,7 @@ class MySceneParser {
          if ((index = nodeNames.indexOf("transformations")) == -1)
          return "tag <transformations> missing";
      else {
-         if (index != MATERIALS_INDEX)
+         if (index != TRANSFORMATIONS_INDEX)
              this.onXMLMinorError("tag <transformations> out of order");
 
          //Parse TRANSFORMATIONS block
@@ -196,26 +199,95 @@ class MySceneParser {
             if ((error = this.parseComponents(nodes[index])) != null)
                 return error;
         }
+
+          return null;
     }
 
      parseScene(sceneNode){
-        var rootName = sceneNode.getAttribute("root");
 
+        var rootName = sceneNode.getAttribute("root");
         if (rootName==null)
             this.onXMLMinorError("There's no scene name.");
+
         var axisLength = sceneNode.getAttribute("axis_length");
         if (axisLength==null){
            this.onXMLMinorError("There's no axis length; assuming value=10");
-           this.graph.referenceLength=10;
+           this.referenceLength=1;
+        }else{
+
+            this.referenceLength = axisLength;
         }
+
+        return null;
 
     }
 
 
     parseViews(viewsNode){
-            var defaultView= viewsNode.getAttribute("default");
-            if(defaultView==null)
-            this.onXMLMinorError("There's no views name.");
+        //this.views = [];
+        var view = viewsNode.children;
+
+        var defaultView= viewsNode.getAttribute("default");
+        if(defaultView==null)
+        this.onXMLMinorError("There's no views name.");
+
+        var perspective = viewsNode.getElementsByTagName('perspective');
+        if(perspective.length ==0){
+          this.onXMLMinorError("There isn't any block perspective.");
+        }
+
+        for(var i  =0; i < view.length;i++)
+        {
+          var nodeName = view[i].nodeName;
+          var perspectiveComponent = [];
+
+          if(nodeName == "perspective"){
+            var viewId = this.reader.getString(view[i], 'id');
+            if(viewId == null)
+              return "There's no perspective id";
+              perspectiveComponent.push(viewId);
+
+            var near = this.reader.getFloat(view[i], 'near');
+            if(near == null)
+                return "There's no near values"; //mudar
+                perspectiveComponent.push(near);
+
+            var far = this.reader.getFloat(view[i], 'far');
+            if(far == null)
+                return "There's no far values"; //mudar
+                perspectiveComponent.push(far);
+
+            var angle = this.reader.getFloat(view[i], 'angle');
+            //testar o angle
+            perspectiveComponent.push(angle);
+
+            var perspectiveChildren = view[i].children;
+
+
+            for(var j = 0; j < perspectiveChildren.length; j++){
+              var nodeName = perspectiveChildren[j].nodeName;
+                if(nodeName == "from"){
+                  var xfrom = this.reader.getFloat(perspectiveChildren[j], 'x');
+                  var yfrom = this.reader.getFloat(perspectiveChildren[j], 'y');
+                  var zfrom = this.reader.getFloat(perspectiveChildren[j], 'z');
+                }else if(nodeName == "to"){
+                  var xto = this.reader.getFloat(perspectiveChildren[j], 'x');
+                  var yto = this.reader.getFloat(perspectiveChildren[j], 'y');
+                  var zto = this.reader.getFloat(perspectiveChildren[j], 'z');
+                  }
+              }
+
+              this.newCamera = new CGFcamera(angle, near, far, vec3.fromValues(xfrom,yfrom,zfrom), vec3.fromValues(xto,yto,zto));
+              this.perspectives.push(this.newCamera); //the new camera view is added to the array
+
+          }else if(nodeName == "ortho"){
+            //se for ortho
+          }
+          else{
+            //testar se o nome nao e nenhumdos dois
+          }
+        }
+            return null;
     }
 
     parseAmbient(ambientNode){
@@ -264,6 +336,7 @@ class MySceneParser {
             this.graph.backgroundIlumination[3]=this.backgroundIlumination[3];
         }
 
+          return null;
     }
     parseLights(lightsNode){
       /*var children = lightsNode.children;
