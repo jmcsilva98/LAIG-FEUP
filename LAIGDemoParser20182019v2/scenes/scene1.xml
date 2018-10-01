@@ -55,11 +55,27 @@
 
 
  <primitives>
+
     <primitive id="cylinder">
         <cylinder base ="1" top="1" height="10" slices="12" stacks="8"/>
     </primitive>
+
     <primitive id="square">
         <rectangle x1="-5" y1="-5" x2="5" y2="5"/>
+    </primitive>
+
+    <primitive id="circle">
+        <cylinder base ="1" top="1" height="10" slices="12" stacks="1"/>
+    </primitive>
+
+    <primitive id="triangle">
+        <triangle x1="-5" y1="-5" z1="10"
+                  x2="5" y2="5" z2="15"
+                  x3="10" y3="10" z3="20" />
+    </primitive>
+
+    <primitive id="rectangle">
+        <rectangle x1="-5" y1="-5" x2="10" y2="5"/>
     </primitive>
 
  </primitives >
@@ -77,9 +93,10 @@
 
       <children>
           <componentref id= "columns"/>
-          <componentref id="column1"/>
+          <componentref id= "clockWall"/>
       </children>
     </component>
+
 
     <component id= "columns">
       <transformation>
@@ -90,6 +107,9 @@
 
       <children>
           <componentref id="column1"/>
+          <componentref id="column2"/>
+          <componentref id="column3"/>
+          <componentref id="column4"/>
       </children>
     </component>
 
@@ -105,7 +125,98 @@
            <primitiveref id="square"/>
        </children>
     </component>
+    <component id="column2">
+       <transformation>
+         <translate x="3" y="0" z="0" />
+       </transformation>
 
+       <materials>
+       </materials>
+
+       <children>
+           <primitiveref id="cylinder"/>
+           <primitiveref id="square"/>
+       </children>
+    </component>
+    <component id="column3">
+       <transformation>
+         <translate x="6" y="0" z="0" />
+       </transformation>
+
+       <materials>
+       </materials>
+
+       <children>
+           <primitiveref id="cylinder"/>
+           <primitiveref id="square"/>
+       </children>
+    </component>
+    <component id="column4">
+       <transformation>
+         <translate x="9" y="0" z="0" />
+       </transformation>
+
+       <materials>
+       </materials>
+
+       <children>
+           <primitiveref id="cylinder"/>
+           <primitiveref id="square"/>
+       </children>
+    </component>
+
+
+    <component id="clockWall">
+       <transformation>
+       </transformation>
+
+       <materials>
+       </materials>
+
+       <children>
+           <componentref id="clock"/>
+           <componentref id="wallTop"/>
+           <componentref id="wallBase"/>
+       </children>
+    </component>
+
+    <component id="clock">
+      <transformation>
+      </transformation>
+
+      <materials>
+      </materials>
+
+      <children>
+          <primitiveref id="circle"/>
+      </children>
+    </component>
+
+    <component id="wallTop">
+      <transformation>
+      </transformation>
+
+      <materials>
+      </materials>
+
+      <children>
+          <primitiveref id="triangle"/>
+          <primitiveref id="rectangle"/>
+      </children>
+   </component>
+
+   <component id="wallBase">
+     <transformation>
+     </transformation>
+
+     <materials>
+     </materials>
+
+     <children>
+         <primitiveref id="square"/>
+         <primitiveref id="rectangle"/>
+     </children>
+  </component>
 
 
  </components>

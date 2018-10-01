@@ -13,9 +13,9 @@ var COMPONENTS_INDEX=8;
 
 
 /**
- * MySceneGraph class, representing the scene graph.
+ * MySceneParser class, representing the scene graph.
  */
-class MySceneGraph {
+class MySceneParser {
     /**
      * @constructor
      */
@@ -266,7 +266,7 @@ class MySceneGraph {
 
     }
     parseLights(lightsNode){
-      var children = lightsNode.children;
+      /*var children = lightsNode.children;
 
       this.lights = [];
       var numLights = 0;
@@ -457,6 +457,7 @@ class MySceneGraph {
           //NAO SEI SE O ENABLE LIGHT PODE ESTAR NESTE SITIO
           this.lights[lightId] = [enableLight, locationLight, ambientIllumination, diffuseIllumination, specularIllumination];
           numLights++;
+
       }
 
       if (numLights == 0)
@@ -466,7 +467,9 @@ class MySceneGraph {
 
       this.log("Parsed lights");
 
+      */
       return null;
+
     }
     /**
      * Parses the <TEXTURES> block.
@@ -494,6 +497,28 @@ class MySceneGraph {
         console.log("Parsed textures");
 */
         return null;
+    }
+
+    parseMaterials(materialsNode){
+      return null;
+    }
+    parseTransformations(transformationsNode){
+      return null;
+    }
+    parsePrimitives(primitivesNode){
+
+      //var children = primitivesNode.getElementsByTagName()
+
+
+
+
+
+
+
+      return null;
+    }
+    parseComponents(componentsNode){
+      return null;
     }
     /*
      * Callback to be executed on any read error, showing an error on the console.
@@ -527,7 +552,7 @@ class MySceneGraph {
     displayScene() {
         // entry point for graph rendering
         //TODO: Render loop starting at root of graph
-        
+
     }
 
 }
