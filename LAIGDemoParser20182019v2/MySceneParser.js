@@ -339,10 +339,7 @@ class MySceneParser {
           return null;
     }
     parseLights(lightsNode){
-
-      if(lightsNode.length == 0)
-        this.onXMLMinorError("There isn't any light.");
-      var children = lightsNode.children;
+      /*var children = lightsNode.children;
 
       this.lights = [];
       var numLights = 0;
@@ -353,7 +350,7 @@ class MySceneParser {
       // Any number of lights.
       for (var i = 0; i < children.length; i++) {
 
-          if (!(children[i].nodeName == "omni" || children[i].nodeName == "spot")) {
+          if (children[i].nodeName != "omni") {
               this.onXMLMinorError("unknown tag <" + children[i].nodeName + ">");
               continue;
           }
@@ -364,13 +361,13 @@ class MySceneParser {
               return "no ID defined for light";
 
 
-          // repeated ids.
+          // Checks for repeated IDs.
           if (this.lights[lightId] != null)
               return "ID must be unique for each light (conflict: ID = " + lightId + ")";
 
           //Get enable index of the current light
           //VER SE E ASSIM PQ ESTA DIFERENTE DO EXEMPLO DADO. O ENABLE E UM PARAMETRO DE OMNI E NAO UM ATRIBUTO
-          var enableLight = this.reader.getBoolean(children[i],'enabled');
+          var enableLight = children[i].getAttribute("enable");
 
           if(!(enableLight == 0 || enableLight == 1)){
               this.onXMLMinorError("The enable light must be 0 or 1 (false or true). Assuming value 1");
@@ -492,8 +489,7 @@ class MySceneParser {
                   return "unable to parse A component of the diffuse illumination for ID = " + lightId;
               else
                   diffuseIllumination.push(a);
-          }  else
-                return "diffuse component undefined for ID = " + lightId;
+          }
 
           // TODO: Retrieve the specular component
 
@@ -526,8 +522,7 @@ class MySceneParser {
                   return "unable to parse A component of the specular illumination for ID = " + lightId;
               else
                   specularIllumination.push(a);
-          }  else
-                return "specular component undefined for ID = " + lightId;
+          }
 
           // TODO: Store Light global information.
           //this.lights[lightId] = ...;
@@ -545,7 +540,7 @@ class MySceneParser {
 
       this.log("Parsed lights");
 
-
+      */
       return null;
 
     }
