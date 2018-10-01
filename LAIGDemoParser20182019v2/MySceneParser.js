@@ -82,7 +82,7 @@ class MySceneGraph {
         for (var i = 0; i < nodes.length; i++) {
             nodeNames.push(nodes[i].nodeName);
         }
-    
+
 
         var error;
 
@@ -124,8 +124,8 @@ class MySceneGraph {
             if ((error = this.parseAmbient(nodes[index])) != null)
                 return error;
         }
-    }
-/*
+
+
         // <LIGHTS>
         if ((index = nodeNames.indexOf("lights")) == -1)
             return "tag <lights> missing";
@@ -197,7 +197,7 @@ class MySceneGraph {
                 return error;
         }
     }
-*/
+
      parseScene(sceneNode){
         var rootName = sceneNode.getAttribute("root");
 
@@ -211,7 +211,7 @@ class MySceneGraph {
 
     }
 
-    
+
     parseViews(viewsNode){
             var defaultView= viewsNode.getAttribute("default");
             if(defaultView==null)
@@ -233,7 +233,7 @@ class MySceneGraph {
         if (rAmbient==null || rAmbient <0 || rAmbient>1){
             this.graph.ambientIlumination[0]=this.ambientIlumination[0];
         }
-    
+
         var gAmbient=ambient[0].getAttribute("g");
         if (gAmbient==null || gAmbient <0 || gAmbient>1){
             this.graph.ambientIlumination[1]=this.ambientIlumination[1];
@@ -455,7 +455,7 @@ class MySceneGraph {
           //this.lights[lightId] = ...;
 
           //NAO SEI SE O ENABLE LIGHT PODE ESTAR NESTE SITIO
-          this.lights[lightId] = [enableLight, locationLight, ambientIlumination, diffuseIllumination, specularIllumination];
+          this.lights[lightId] = [enableLight, locationLight, ambientIllumination, diffuseIllumination, specularIllumination];
           numLights++;
       }
 
@@ -469,7 +469,7 @@ class MySceneGraph {
       return null;
     }
     /**
-     * Parses the <TEXTURES> block. 
+     * Parses the <TEXTURES> block.
      * @param {textures block element} texturesNode
      */
     parseTextures(texturesNode) {
@@ -487,7 +487,7 @@ class MySceneGraph {
            var file=null;
            var sFactor=null;
            var tFactor=null;
-           
+
            for (var j=0;j<)
         }
 
@@ -527,6 +527,7 @@ class MySceneGraph {
     displayScene() {
         // entry point for graph rendering
         //TODO: Render loop starting at root of graph
+        
     }
-    
+
 }
