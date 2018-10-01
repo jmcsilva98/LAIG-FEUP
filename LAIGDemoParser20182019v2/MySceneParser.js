@@ -468,6 +468,33 @@ class MySceneGraph {
 
       return null;
     }
+    /**
+     * Parses the <TEXTURES> block. 
+     * @param {textures block element} texturesNode
+     */
+    parseTextures(texturesNode) {
+        // TODO: Parse block
+       /* this.textures=[];
+        var texture=texturesNode.children;
+
+        for (var i =0;i<texture.length;i++){
+            var textID= this.reader.getString(texture[i],'id');
+            if (textID==null)
+            return "texture failed";
+            if (this.textures[textID] != null)
+            return "texture id must be unique";
+           var specification= texture[i].children;
+           var file=null;
+           var sFactor=null;
+           var tFactor=null;
+           
+           for (var j=0;j<)
+        }
+
+        console.log("Parsed textures");
+*/
+        return null;
+    }
     /*
      * Callback to be executed on any read error, showing an error on the console.
      * @param {string} message
