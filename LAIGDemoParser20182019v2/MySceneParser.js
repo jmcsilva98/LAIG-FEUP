@@ -224,7 +224,6 @@ class MySceneParser {
 
 
     parseViews(viewsNode){
-        //this.views = [];
         var view = viewsNode.children;
 
         var defaultView= viewsNode.getAttribute("default");
@@ -369,7 +368,6 @@ class MySceneParser {
               return "ID must be unique for each light (conflict: ID = " + lightId + ")";
 
           //Get enable index of the current light
-          //VER SE E ASSIM PQ ESTA DIFERENTE DO EXEMPLO DADO. O ENABLE E UM PARAMETRO DE OMNI E NAO UM ATRIBUTO
           var enableLight = this.reader.getBoolean(children[i],'enabled');
 
           if(!(enableLight == 0 || enableLight == 1)){
