@@ -555,7 +555,6 @@ class MySceneParser {
         // TODO: Parse block
        /* this.textures=[];
         var texture=texturesNode.children;
-
         for (var i =0;i<texture.length;i++){
             var textID= this.reader.getString(texture[i],'id');
             if (textID==null)
@@ -566,10 +565,8 @@ class MySceneParser {
            var file=null;
            var sFactor=null;
            var tFactor=null;
-
            for (var j=0;j<)
         }
-
         console.log("Parsed textures");
 */
         return null;
@@ -626,6 +623,9 @@ class MySceneParser {
      * Displays the scene, processing each node, starting in the root node.
      */
     displayScene() {
+
+        var square = new MyUnitCubeQuad(this.scene,-5,5,-5,5);
+        square.display();
         // entry point for graph rendering
         //TODO: Render loop starting at root of graph
 
