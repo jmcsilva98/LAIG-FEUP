@@ -59,7 +59,7 @@
         <cylinder base ="1" top="1" height="10" slices="12" stacks="8"/>
     </primitive>
     <primitive id="square">
-        <rectangle x1="-5" y1="-5" x2="5" y2="5"/>
+        <square x1="-5" y1="-5" x2="5" y2="5"/>
     </primitive>
     <primitive id="circle">
         <cylinder base ="1" top="1" height="10" slices="12" stacks="1"/>
@@ -75,8 +75,6 @@
         <rectangle x1="-5" y1="-5" x2="10" y2="5"/>
     </primitive>
  </primitives >
-
-
 
  <components>
 

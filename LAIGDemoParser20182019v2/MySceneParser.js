@@ -183,9 +183,11 @@ class MySceneParser {
              this.onXMLMinorError("tag <primitives> out of order");
 
          //Parse PRIMITIVES block
-         if ((error = this.parsePrimitives(nodes[index])) != null)
+         if ((error = this.parsePrimitives(nodes[index])) != null){
              return error;
-     }
+
+         }
+            }
 
 
             // <COMPONENTS>
@@ -576,37 +578,30 @@ class MySceneParser {
       return null;
     }
     parsePrimitives(primitivesNode){
-        console.log("-----------------",primitivesNode.length);
+       
       if (primitivesNode==null){
           this.onXMLError("primitives node doesn't exist!");
       }
 
       if (primitivesNode.children.length==0){
-          this.onXMLError("primitives node is empty!");
+         this.onXMLError("primitives node is empty!");
       }
      
 
-      for (var i = 0; i <  primitivesNode.length; i++){
+      for (var i = 0; i <  primitivesNode.children.length; i++){
           var node =primitivesNode.children[i];
           var primitive;
           switch (node.children[0].nodeName){
               case "square":
                 primitive= new MyQuad(this.scene,node.children[0].getAttribute('x1'),node.children[0].getAttribute('x2'),node.children[0].getAttribute('y1'),node.children[0].getAttribute('y2'));
-                primitive.display();
                 break;
              default:
-             primitive= new MyUnitCubeQuad(this.scene,node.children[0].getAttribute('x1'),node.children[0].getAttribute('x2'),node.children[0].getAttribute('y1'),node.children[0].getAttribute('y2'));
-            primitive.display();
           }
-      }
+        }
 
 
 
-
-
-
-
-      return null;
+     // return null;
     }
     parseComponents(componentsNode){
       return null;
