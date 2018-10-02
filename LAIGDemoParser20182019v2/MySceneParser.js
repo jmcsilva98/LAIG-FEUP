@@ -28,6 +28,7 @@ class MySceneParser {
 
         this.nodes = [];
         this.perspectives = []; //added by me
+        this.textures = [];
 
 
 
@@ -206,22 +207,18 @@ class MySceneParser {
     }
 
      parseScene(sceneNode){
-
         var rootName = sceneNode.getAttribute("root");
         if (rootName==null)
             this.onXMLMinorError("There's no scene name.");
 
         var axisLength = sceneNode.getAttribute("axis_length");
-        if (axisLength==null){
-           this.onXMLMinorError("There's no axis length; assuming value=10");
+        if (isNaN(axisLength)){
+           this.onXMLMinorError("Not a valid axis length; assuming value=1");
            this.referenceLength=1;
-        }else{
-
+        }else
             this.referenceLength = axisLength;
-        }
 
         return null;
-
     }
 
 
@@ -231,6 +228,9 @@ class MySceneParser {
         var defaultView= viewsNode.getAttribute("default");
         if(defaultView==null)
         this.onXMLMinorError("There's no views name.");
+
+        if(view.length == 0)
+          return "You need to have at least one type of view defined.";
 
         var perspective = viewsNode.getElementsByTagName('perspective');
         if(perspective.length ==0){
@@ -278,6 +278,7 @@ class MySceneParser {
                   }
               }
 
+
               this.newCamera = new CGFcamera(angle, near, far, vec3.fromValues(xfrom,yfrom,zfrom), vec3.fromValues(xto,yto,zto));
               this.perspectives.push(this.newCamera); //the new camera view is added to the array
 
@@ -288,19 +289,22 @@ class MySceneParser {
             //testar se o nome nao e nenhumdos dois
           }
         }
+
             return null;
     }
 
     parseAmbient(ambientNode){
         var ambient = ambientNode.getElementsByTagName('ambient');
-        if (ambient.length>1){
-            return "no more than one initial ambient may be defined";
-        }
         var background=ambientNode.getElementsByTagName('background');
         this.ambientIlumination=[0,1,0,0];
         this.backgroundIlumination=[0,0,0,1];
+
+        if (ambient.length>1)
+            return "no more than one initial ambient may be defined";
+
         if (background.length>1)
             return "no more than one initial background may be defined";
+
         var rAmbient = ambient[0].getAttribute('r');
           if (!(rAmbient==null || rAmbient <0 || rAmbient>1)){
             this.ambientIlumination[0]=rAmbient;
@@ -317,8 +321,8 @@ class MySceneParser {
         if (aAmbient==null || aAmbient <0 || aAmbient>1){
             this.ambientIlumination[3]=aAmbient;
         }
-        var rBackground=background[0].getAttribute("r");
 
+        var rBackground=background[0].getAttribute("r");
         if (!(rBackground==null || rBackground <0 || rBackground>1)){
             this.backgroundIlumination[0]=rBackground;
         }
@@ -334,12 +338,10 @@ class MySceneParser {
         if ( aBackground==null || aBackground <0 || aBackground>1){
             this.backgroundIlumination[3]=aBackground;
         }
-         // return null;
+
+        return null;
     }
     parseLights(lightsNode){
-
-      if(lightsNode.length == 0)
-        this.onXMLMinorError("There isn't any light.");
       var children = lightsNode.children;
 
       this.lights = [];
@@ -347,6 +349,10 @@ class MySceneParser {
 
       var grandChildren = [];
       var nodeNames = [];
+
+      if(children.length == 0)
+        //this.onXMLMinorError("There isn't any light.");
+        return "You have to have at least one light.";
 
       // Any number of lights.
       for (var i = 0; i < children.length; i++) {
@@ -383,7 +389,6 @@ class MySceneParser {
           }
 
           // Gets indices of each element.
-          //var enableIndex = nodeNames.indexOf("enable");
           var locationIndex = nodeNames.indexOf("location");
           var ambientIndex = nodeNames.indexOf("ambient");
           var diffuseIndex = nodeNames.indexOf("diffuse");
@@ -528,11 +533,8 @@ class MySceneParser {
 
           // TODO: Store Light global information.
           //this.lights[lightId] = ...;
-
-          //NAO SEI SE O ENABLE LIGHT PODE ESTAR NESTE SITIO
           this.lights[lightId] = [enableLight, locationLight, ambientIllumination, diffuseIllumination, specularIllumination];
           numLights++;
-
       }
 
       if (numLights == 0)
@@ -540,11 +542,9 @@ class MySceneParser {
       else if (numLights > 8)
           this.onXMLMinorError("too many lights defined; WebGL imposes a limit of 8 lights");
 
+      //FALTA PARA O SPOT
       this.log("Parsed lights");
-
-
       return null;
-
     }
     /**
      * Parses the <TEXTURES> block.
@@ -568,6 +568,27 @@ class MySceneParser {
         }
         console.log("Parsed textures");
 */
+
+        var textures = texturesNode.children;
+        if(textures.length == 0)
+          this.onXMLMinorError("You must have at least one texture.");
+
+        for(var i=0; i<textures.length;i++){
+          var textID = this.reader.getString(textures[i],'id');
+
+          if (textID==null)
+            return "A texture must have an id.";
+          if (this.textures[textID] != null)
+            return "A texture id must be unique, please change the id: " + textID + " .";
+          var file = this.reader.getString(textures[i],'file');
+          if(file == null)
+            return "There isn't a file path, please enter one.";
+
+
+          var newTexture = new CGFtexture(this.scene,file);
+          this.textures.push(newTexture);
+        }
+        console.log("Parsed textures");
         return null;
     }
 
@@ -578,7 +599,7 @@ class MySceneParser {
       return null;
     }
     parsePrimitives(primitivesNode){
-       
+
       if (primitivesNode==null){
           this.onXMLError("primitives node doesn't exist!");
       }
@@ -586,7 +607,7 @@ class MySceneParser {
       if (primitivesNode.children.length==0){
          this.onXMLError("primitives node is empty!");
       }
-     
+
 
       for (var i = 0; i <  primitivesNode.children.length; i++){
           var node =primitivesNode.children[i];
@@ -609,6 +630,26 @@ class MySceneParser {
      // return null;
     }
     parseComponents(componentsNode){
+    /*  var children = componentsNode.children;
+      var components[];
+
+      if(children.length == 0){
+        return "Must have at least one component";
+      }
+
+      //Goes through all component blocks
+      for(var i=0; i < children.length; i++){
+        var componentId = this.reader.getString(children[i],'id');
+
+        if(componentId==null)
+          return "There is no id for the component, please enter one.";
+        if(components[componentId])
+          return ("There can't be components with the same id: " + componentId + ".");
+
+
+
+      }*/
+
       return null;
     }
     /*
@@ -641,10 +682,10 @@ class MySceneParser {
      * Displays the scene, processing each node, starting in the root node.
      */
     displayScene() {
-        
+
         //var cube =new MyQuad(this.scene, -5,5,-5,5);
         //cube.display();
-        
+
         // entry point for graph rendering
         //TODO: Render loop starting at root of graph
 
