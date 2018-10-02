@@ -296,46 +296,43 @@ class MySceneParser {
         }
         var background=ambientNode.getElementsByTagName('background');
         this.ambientIlumination=[0,1,0,0];
-        this.backgroundIlumination=[0,0,1,0];
-
+        this.backgroundIlumination=[0,0,0,1];
         if (background.length>1)
             return "no more than one initial background may be defined";
         var rAmbient = ambient[0].getAttribute('r');
-        if (rAmbient==null || rAmbient <0 || rAmbient>1){
-            this.graph.ambientIlumination[0]=this.ambientIlumination[0];
+          if (!(rAmbient==null || rAmbient <0 || rAmbient>1)){
+            this.ambientIlumination[0]=rAmbient;
         }
-
         var gAmbient=ambient[0].getAttribute("g");
-        if (gAmbient==null || gAmbient <0 || gAmbient>1){
-            this.graph.ambientIlumination[1]=this.ambientIlumination[1];
+        if (!(gAmbient==null || gAmbient <0 || gAmbient>1)){
+           this.ambientIlumination[1]=gAmbient;
         }
         var bAmbient=ambient[0].getAttribute("b");
         if (bAmbient==null || bAmbient <0 || bAmbient>1){
-            this.graph.ambientIlumination[2]=this.ambientIlumination[2];
+            thisambientIlumination[2]=bAmbient;
         }
         var aAmbient=ambient[0].getAttribute("a");
         if (aAmbient==null || aAmbient <0 || aAmbient>1){
-            this.graph.ambientIlumination[3]=this.ambientIlumination[3];
+            this.ambientIlumination[3]=aAmbient;
         }
         var rBackground=background[0].getAttribute("r");
 
-        if ( rBackground==null || rBackground <0 || rBackground>1){
-            this.graph.backgroundIlumination[0]=this.backgroundIlumination[0];
+        if (!(rBackground==null || rBackground <0 || rBackground>1)){
+            this.backgroundIlumination[0]=rBackground;
         }
         var gBackground=background[0].getAttribute("g");
         if ( gBackground==null || gBackground <0 || gBackground>1){
-            this.graph.backgroundIlumination[1]=this.backgroundIlumination[1];
+            this.backgroundIlumination[1]=gBackground;
         }
         var bBackground=background[0].getAttribute("b");
         if ( bBackground==null || bBackground <0 || bBackground>1){
-            this.graph.backgroundIlumination[2]=this.backgroundIlumination[2];
+            this.backgroundIlumination[2]=bBackground;
         }
         var aBackground=background[0].getAttribute("a");
         if ( aBackground==null || aBackground <0 || aBackground>1){
-            this.graph.backgroundIlumination[3]=this.backgroundIlumination[3];
+            this.backgroundIlumination[3]=aBackground;
         }
-
-          return null;
+         // return null;
     }
     parseLights(lightsNode){
 
@@ -579,8 +576,29 @@ class MySceneParser {
       return null;
     }
     parsePrimitives(primitivesNode){
+        console.log("-----------------",primitivesNode.length);
+      if (primitivesNode==null){
+          this.onXMLError("primitives node doesn't exist!");
+      }
 
-      //var children = primitivesNode.getElementsByTagName()
+      if (primitivesNode.children.length==0){
+          this.onXMLError("primitives node is empty!");
+      }
+     
+
+      for (var i = 0; i <  primitivesNode.length; i++){
+          var node =primitivesNode.children[i];
+          var primitive;
+          switch (node.children[0].nodeName){
+              case "square":
+                primitive= new MyQuad(this.scene,node.children[0].getAttribute('x1'),node.children[0].getAttribute('x2'),node.children[0].getAttribute('y1'),node.children[0].getAttribute('y2'));
+                primitive.display();
+                break;
+             default:
+             primitive= new MyUnitCubeQuad(this.scene,node.children[0].getAttribute('x1'),node.children[0].getAttribute('x2'),node.children[0].getAttribute('y1'),node.children[0].getAttribute('y2'));
+            primitive.display();
+          }
+      }
 
 
 
@@ -623,6 +641,10 @@ class MySceneParser {
      * Displays the scene, processing each node, starting in the root node.
      */
     displayScene() {
+        
+        //var cube =new MyQuad(this.scene, -5,5,-5,5);
+        //cube.display();
+        
         // entry point for graph rendering
         //TODO: Render loop starting at root of graph
 
