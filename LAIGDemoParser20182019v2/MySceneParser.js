@@ -595,6 +595,11 @@ class MySceneParser {
               case "square":
                 primitive= new MyQuad(this.scene,node.children[0].getAttribute('x1'),node.children[0].getAttribute('x2'),node.children[0].getAttribute('y1'),node.children[0].getAttribute('y2'));
                 break;
+                case "cylinder":
+                primitive=new MyCylinder(this.scene,node.children[0].getAttribute('slices'),node.children[0].getAttribute('stacks'));
+                break;
+                case "triangle":
+                //primitive=new MyTriangle(this.scene,)
              default:
           }
         }
