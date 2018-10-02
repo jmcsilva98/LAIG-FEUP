@@ -623,9 +623,6 @@ class MySceneParser {
      * Displays the scene, processing each node, starting in the root node.
      */
     displayScene() {
-
-        var square = new MyUnitCubeQuad(this.scene,-5,5,-5,5);
-        square.display();
         // entry point for graph rendering
         //TODO: Render loop starting at root of graph
 
