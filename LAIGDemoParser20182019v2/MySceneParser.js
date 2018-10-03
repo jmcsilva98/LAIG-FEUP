@@ -705,7 +705,11 @@ class MySceneParser {
 
       //falta texturas
 
-      var componentChildren = children[i].getElementsByTagName('children');
+      var childrenArray = children[i].getElementsByTagName('children');
+      var componentChildren = [];
+      for(var j = 0; j< childrenArray.length; j++){
+        componentChildren.push(childrenArray[j].children);
+      }
 
       var newComponent = new Component(this.scene, this, componentId, identMatrix, 1, 1, componentChildren);
       this.components[componentId] = newComponent;
