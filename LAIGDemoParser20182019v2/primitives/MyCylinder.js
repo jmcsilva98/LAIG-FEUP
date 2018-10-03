@@ -1,23 +1,23 @@
-/** 
+/**
  * MyPrism
  * @param gl {WebGLRenderingContext}
  * @constructor
  */
 
 class MyCylinder extends CGFobject
-{ 
+{
 	constructor(scene, slices, stacks)
    {
 		super(scene);
 		this.slices = slices;
-		this.stacks = stacks;	
+		this.stacks = stacks;
 		this.initBuffers();
 
    }
-	initBuffers() 
+	initBuffers()
 	{
  	var angulo = 2*Math.PI/this.slices;
- 	
+
 
 	this.vertices=[];
  	this.normals=[];
@@ -31,7 +31,7 @@ class MyCylinder extends CGFobject
 
  	for(var i = 0; i < this.stacks;i++){
  		for(var j = 0; j < this.slices;j++){
- 			
+
  			this.vertices.push(Math.cos(j*angle), Math.sin(j*angle), i * stack_depth);
 			this.vertices.push(Math.cos(j*angle), Math.sin(j*angle), (i+1) * stack_depth);
 
@@ -46,7 +46,7 @@ class MyCylinder extends CGFobject
 				this.indices.push(0+j*2+i*2*this.slices,0+i*2*this.slices,1+j*2+i*2*this.slices);
 				this.indices.push(0+i*2*this.slices,1+i*2*this.slices,1+j*2+i*2*this.slices);
 			}
-	
+
 			else
 			{
 		    this.indices.push(0+j*2+i*2*this.slices,2+j*2+i*2*this.slices,1+j*2+i*2*this.slices);

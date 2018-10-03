@@ -210,6 +210,8 @@ class MySceneParser {
         var rootName = sceneNode.getAttribute("root");
         if (rootName==null)
             this.onXMLMinorError("There's no scene name.");
+        else
+        this.rootName = rootName;
 
         var axisLength = sceneNode.getAttribute("axis_length");
         if (isNaN(axisLength)){
@@ -551,23 +553,6 @@ class MySceneParser {
      * @param {textures block element} texturesNode
      */
     parseTextures(texturesNode) {
-        // TODO: Parse block
-       /* this.textures=[];
-        var texture=texturesNode.children;
-        for (var i =0;i<texture.length;i++){
-            var textID= this.reader.getString(texture[i],'id');
-            if (textID==null)
-            return "texture failed";
-            if (this.textures[textID] != null)
-            return "texture id must be unique";
-           var specification= texture[i].children;
-           var file=null;
-           var sFactor=null;
-           var tFactor=null;
-           for (var j=0;j<)
-        }
-        console.log("Parsed textures");
-*/
 
         var textures = texturesNode.children;
         if(textures.length == 0)
@@ -598,6 +583,7 @@ class MySceneParser {
     parseTransformations(transformationsNode){
       return null;
     }
+
     parsePrimitives(primitivesNode){
 
       if (primitivesNode==null){
@@ -610,32 +596,53 @@ class MySceneParser {
 
 
       for (var i = 0; i <  primitivesNode.children.length; i++){
-          var node =primitivesNode.children[i];
-          var primitive;
-          switch (node.children[0].nodeName){
-              case "square":
-                primitive= new MyQuad(this.scene,node.children[0].getAttribute('x1'),node.children[0].getAttribute('x2'),node.children[0].getAttribute('y1'),node.children[0].getAttribute('y2'));
-                break;
-                case "cylinder":
-                primitive=new MyCylinder(this.scene,node.children[0].getAttribute('slices'),node.children[0].getAttribute('stacks'));
-                break;
-                case "triangle":
-                //primitive=new MyTriangle(this.scene,)
-             default:
-          }
+        this.primitives=[];
+    if (primitivesNode==null){
+        this.onXMLError("primitives node doesn't exist!");
+    }
+
+    if (primitivesNode.children.length==0){
+       this.onXMLError("primitives node is empty!");
+    }
+
+
+    for (var i = 0; i <  primitivesNode.children.length; i++){
+        var node =primitivesNode.children[i];
+        var primitive;
+        var id = node.children[0].getAttribute('id');
+
+        switch (node.children[0].nodeName){
+            case "square":
+              this.primitives[id]= new MyQuad(this.scene,node.children[0].getAttribute('x1'),node.children[0].getAttribute('x2'),node.children[0].getAttribute('y1'),node.children[0].getAttribute('y2'));
+              break;
+              case "cylinder":
+              this.primitives[id]=new MyCylinder(this.scene,node.children[0].getAttribute('slices'),node.children[0].getAttribute('stacks'));
+              break;
+              case "triangle":
+              //primitive=new MyTriangle(this.scene,)
+              break;
+           default:
         }
 
-
-
-     // return null;
-    }
-    parseComponents(componentsNode){
-    /*  var children = componentsNode.children;
-      var components[];
-
-      if(children.length == 0){
-        return "Must have at least one component";
       }
+     // return null;
+      }
+    }
+
+
+    parseComponents(componentsNode){
+      var children = componentsNode.children;
+      this.components = [];
+      this.transformations  = [];
+
+      var identMatrix = mat4.create();
+      mat4.identity(identMatrix);
+      var defaultMaterial;
+
+
+      if(children.length == 0)
+        return "Must have at least one component";
+
 
       //Goes through all component blocks
       for(var i=0; i < children.length; i++){
@@ -643,12 +650,66 @@ class MySceneParser {
 
         if(componentId==null)
           return "There is no id for the component, please enter one.";
-        if(components[componentId])
+        if(!(this.components[componentId] == null))
           return ("There can't be components with the same id: " + componentId + ".");
 
+        var transformations = children[i].getElementsByTagName('transformation');
+        if(transformations[0].nodeName == "transformationref"){
+            identMatrix = this.transformations[transformations[0].getAttribute('id')];
+        }else{
+
+              for(var j = 0;j < transformations.length; j++){
+                var vector = vec3.create();
+                var x,y,z;
+
+                  switch (transformations[j].nodeName) {
+                  case "translate":
+                    x = transformations[j].getAttribute('x');
+                    y = transformations[j].getAttribute('y');
+                    z = transformations[j].getAttribute('z');
+                    vec3.set(vector,x,y,z);
+                    identMatrix.translate(identMatrix,identMatrix,vector);
+                    break;
+                  case "rotate":
+                    if(transformations[j].getAttribute('axis') == "x")
+                      mat4.rotateX(identMatrix,identMatrix,transformations[j].getAttribute('angle'));
+                    else if(transformations[j].getAttribute('axis') == "y")
+                      mat4.rotateY(identMatrix,identMatrix,transformations[j].getAttribute('angle'));
+                    else if (transformations[j].getAttribute('axis') == "z") {
+                      mat4.rotateZ(identMatrix,identMatrix,transformations[j].getAttribute('angle'));
+                    }else {
+                      this.onXMLMinorError("The axis must be x,y or z. Please change");
+                    }
+                    break;
+                  case "scale":
+                  x = transformations[j].getAttribute('x');
+                  y = transformations[j].getAttribute('y');
+                  z = transformations[j].getAttribute('z');
+                  vec3.set(vector,x,y,z);
+                  identMatrix.scale(identMatrix,identMatrix,vector);
+                  break;
+
+                  default:
+
+                }
+            }
+          }
+
+      var materials = children[i].getElementsByTagName('material');
+
+      /*if(materials.length == 0)
+        return "You need to have at least one material, please input one.";
+        */
+      //defaultMaterial = materials[0].getAttribute('id');
 
 
-      }*/
+      //falta texturas
+
+      var componentChildren = children[i].getElementsByTagName('children');
+
+      var newComponent = new Component(this.scene, this, componentId, identMatrix, 1, 1, componentChildren);
+      this.components[componentId] = newComponent;
+      }
 
       return null;
     }
@@ -688,6 +749,8 @@ class MySceneParser {
 
         // entry point for graph rendering
         //TODO: Render loop starting at root of graph
+
+          this.components[this.rootName].display();
 
     }
 
