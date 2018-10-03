@@ -613,17 +613,16 @@ class MySceneParser {
 
         switch (node.children[0].nodeName){
             case "square":
-              this.primitives[id]= new MyQuad(this.scene,node.children[0].getAttribute('x1'),node.children[0].getAttribute('x2'),node.children[0].getAttribute('y1'),node.children[0].getAttribute('y2'));
+              this.primitives[0]= new MyQuad(this.scene,node.children[0].getAttribute('x1'),node.children[0].getAttribute('x2'),node.children[0].getAttribute('y1'),node.children[0].getAttribute('y2'));
               break;
               case "cylinder":
-              this.primitives[id]=new MyCylinder(this.scene,node.children[0].getAttribute('slices'),node.children[0].getAttribute('stacks'));
+              this.primitives[1]=new MyCylinder(this.scene,node.children[0].getAttribute('slices'),node.children[0].getAttribute('stacks'));
               break;
               case "triangle":
               //primitive=new MyTriangle(this.scene,)
               break;
            default:
         }
-
       }
      // return null;
       }
@@ -706,15 +705,10 @@ class MySceneParser {
       //falta texturas
 
       var childrenArray = component[i].getElementsByTagName('children')[0];
-      var primitiveChildren = childrenArray.getElementsByTagName('primitiveref');
-      
-      var componentChildren=childrenArray.getElementsByTagName('componentref');
-      for( var j =0;j<componentChildren.length;j++) 
-      {
-          console.log(componentChildren[j].getAttribute('id'));
-      }
+      var primitivesChildren = childrenArray.getElementsByTagName('primitiveref');
+      var componentsChildren=childrenArray.getElementsByTagName('componentref');
 
-      var newComponent = new Component(this.scene, this, componentId, identMatrix, 1, 1, primitiveChildren,componentChildren);
+      var newComponent = new Component(this.scene, this, componentId, identMatrix, 1, 1, primitivesChildren,componentsChildren);
       this.components[componentId] = newComponent;
       }
 
@@ -757,7 +751,7 @@ class MySceneParser {
         // entry point for graph rendering
         //TODO: Render loop starting at root of graph
 
-          this.components[this.rootName].display();
+          this.components["column1"].display();
 
     }
 
