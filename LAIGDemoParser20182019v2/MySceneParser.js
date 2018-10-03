@@ -631,7 +631,7 @@ class MySceneParser {
 
 
     parseComponents(componentsNode){
-      var children = componentsNode.children;
+      var component = componentsNode.children;
       this.components = [];
       this.transformations  = [];
 
@@ -640,20 +640,20 @@ class MySceneParser {
       var defaultMaterial;
 
 
-      if(children.length == 0)
+      if(component.length == 0)
         return "Must have at least one component";
 
 
       //Goes through all component blocks
-      for(var i=0; i < children.length; i++){
-        var componentId = this.reader.getString(children[i],'id');
+      for(var i=0; i < component.length; i++){
+        var componentId = this.reader.getString(component[i],'id');
 
         if(componentId==null)
           return "There is no id for the component, please enter one.";
         if(!(this.components[componentId] == null))
           return ("There can't be components with the same id: " + componentId + ".");
 
-        var transformations = children[i].getElementsByTagName('transformation');
+        var transformations =component[i].getElementsByTagName('transformation');
         if(transformations[0].nodeName == "transformationref"){
             identMatrix = this.transformations[transformations[0].getAttribute('id')];
         }else{
@@ -695,7 +695,7 @@ class MySceneParser {
             }
           }
 
-      var materials = children[i].getElementsByTagName('material');
+      var materials = component[i].getElementsByTagName('material');
 
       /*if(materials.length == 0)
         return "You need to have at least one material, please input one.";
@@ -705,13 +705,16 @@ class MySceneParser {
 
       //falta texturas
 
-      var childrenArray = children[i].getElementsByTagName('children');
-      var componentChildren = [];
-      for(var j = 0; j< childrenArray.length; j++){
-        componentChildren.push(childrenArray[j].children);
+      var childrenArray = component[i].getElementsByTagName('children')[0];
+      var primitiveChildren = childrenArray.getElementsByTagName('primitiveref');
+      
+      var componentChildren=childrenArray.getElementsByTagName('componentref');
+      for( var j =0;j<componentChildren.length;j++) 
+      {
+          console.log(componentChildren[j].getAttribute('id'));
       }
 
-      var newComponent = new Component(this.scene, this, componentId, identMatrix, 1, 1, componentChildren);
+      var newComponent = new Component(this.scene, this, componentId, identMatrix, 1, 1, primitiveChildren,componentChildren);
       this.components[componentId] = newComponent;
       }
 

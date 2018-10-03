@@ -95,8 +95,8 @@
       </materials>
 
       <children>
-          <componentref id= "columns"/>
-          <componentref id= "clockWall"/>
+          <componentref id="columns"/>
+          <componentref id="clockWall"/>
       </children>
     </component>
 

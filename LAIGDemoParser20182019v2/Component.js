@@ -36,7 +36,7 @@ class Component extends CGFobject
 
 
 	 display(){
-		 for(var i = 0; i < this.children.length ; i++){
+		/* for(var i = 0; i < this.children.length ; i++){
 			 console.log(this.children[i].localName);
 			if(this.children[i].localName == "componentref")
 				this.childrenComponents.push(this.children[i]);
@@ -47,13 +47,12 @@ class Component extends CGFobject
 			}
 		//this.transformationMatrix.pushMatrix();
 
-		for(var i = 0; i < this.childrenPrimitives.length; i++){
+	for(var i = 0; i < this.childrenPrimitives.length; i++){
 
 			this.graph.primitives[this.childrenPrimitives[i].getAttribute('id')].display();
 
-
 		//this.transformationMatrix.popMatrix();
-	 }
- }
+*/
+	}
 
 };
