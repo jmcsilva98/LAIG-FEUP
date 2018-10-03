@@ -578,7 +578,7 @@ class MySceneParser {
       return null;
     }
     parsePrimitives(primitivesNode){
-       
+       this.primitives=[];
       if (primitivesNode==null){
           this.onXMLError("primitives node doesn't exist!");
       }
@@ -600,8 +600,10 @@ class MySceneParser {
                 break;
                 case "triangle":
                 //primitive=new MyTriangle(this.scene,)
+                break;
              default:
           }
+          this.primitives[i]=primitive;
         }
 
 
@@ -644,10 +646,12 @@ class MySceneParser {
         
         //var cube =new MyQuad(this.scene, -5,5,-5,5);
         //cube.display();
-        
-        // entry point for graph rendering
-        //TODO: Render loop starting at root of graph
+        for (var i =0;i<this.primitives.length;i++){
+            this.primitives[i].display();
+        }
+        // entry nder loop starting at root of graph
 
     }
 
 }
+        //TODO: Repoint for graph rendering
