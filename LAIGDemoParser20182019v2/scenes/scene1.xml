@@ -19,14 +19,28 @@
  <lights>
 
    <omni id="light0" enabled="1" >
-     <location x="0" y="10" z="0" w="1" />
+     <location x="5" y="5" z="5" w="1" />
      <ambient r="0.2" g="0.2" b="0.2" a="1" />
      <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
      <specular r="1.0" g="1.0" b="1.0" a="1.0" />
    </omni>
 
-   <omni id="light1" enabled="1" >
-     <location x="0" y="20" z="0" w="1" />
+   <omni id="light1" enabled="0" >
+     <location x="5" y="-5" z="5" w="1" />
+     <ambient r="0.2" g="0.2" b="0.2" a="1" />
+     <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
+     <specular r="1.0" g="1.0" b="1.0" a="1.0" />
+   </omni>
+
+   <omni id="light2" enabled="1" >
+     <location x="5" y="5" z="5" w="1" />
+     <ambient r="0.2" g="0.2" b="0.2" a="1" />
+     <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
+     <specular r="1.0" g="1.0" b="1.0" a="1.0" />
+   </omni>
+
+   <omni id="light3" enabled="0" >
+     <location x="5" y="5" z="5" w="1" />
      <ambient r="0.2" g="0.2" b="0.2" a="1" />
      <diffuse r="1.0" g="1.0" b="1.0" a="1.0" />
      <specular r="1.0" g="1.0" b="1.0" a="1.0" />
@@ -65,10 +79,10 @@
 
  <primitives>
     <primitive id="cylinder">
-        <cylinder base ="1" top="1" height="10" slices="12" stacks="8"/>
+        <cylinder base ="1" top="1" height="10" slices="25" stacks="8"/>
     </primitive>
     <primitive id="square">
-        <square x1="-5" y1="-5" x2="5" y2="5"/>
+        <square x1="0" y1="0" x2="10" y2="10"/>
     </primitive>
     <primitive id="circle">
         <cylinder base ="1" top="1" height="10" slices="12" stacks="1"/>
@@ -96,10 +110,11 @@
 
       <children>
           <componentref id="columns"/>
+          <componentref id= "floor"/>
       </children>
     </component>
 
-  
+
     <component id= "columns">
       <transformation>
       </transformation>
@@ -108,15 +123,17 @@
       </materials>
 
       <children>
+          <componentref id="column1"/>
           <componentref id="column2"/>
-         <!--  <componentref id="column2"/>
           <componentref id="column3"/>
-          <componentref id="column4"/> -->
+          <componentref id="column4"/>
       </children>
     </component>
 
     <component id="column1">
        <transformation>
+         <scale x="0.5" y="5" z="0.5"/>
+         <rotate axis="x" angle = "-90"/>
        </transformation>
 
        <materials>
@@ -129,7 +146,9 @@
     </component>
     <component id="column2">
        <transformation>
-         <translate x="2" y="0" z="0" />
+         <scale x="0.5" y="5" z="0.5"/>
+         <rotate axis="x" angle = "-90"/>
+         <translate x="3" y="0" z="0" />
        </transformation>
 
        <materials>
@@ -142,6 +161,8 @@
     </component>
     <component id="column3">
        <transformation>
+         <scale x="0.5" y="5" z="0.5"/>
+         <rotate axis="x" angle = "-90"/>
          <translate x="6" y="0" z="0" />
        </transformation>
 
@@ -155,6 +176,8 @@
     </component>
     <component id="column4">
        <transformation>
+         <scale x="0.5" y="5" z="0.5"/>
+         <rotate axis="x" angle = "-90"/>
          <translate x="9" y="0" z="0" />
        </transformation>
 
@@ -166,6 +189,24 @@
            <primitiveref id="square"/>
        </children>
     </component>
+
+
+    <component id="floor">
+       <transformation>
+         <translate x="2" y="-0.5" z="0" />
+         <scale x="15" y="1" z="15"/>
+         <rotate axis="x" angle = "-90"/>
+       </transformation>
+
+       <materials>
+       </materials>
+
+
+       <children>
+           <primitiveref id="square"/>
+       </children>
+    </component>
+
 
 
     <component id="clockWall">

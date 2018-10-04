@@ -637,7 +637,7 @@ class MySceneParser {
       this.transformations  = [];
       var identMatrix = mat4.create();
 
-      
+
       var defaultMaterial;
 
 
@@ -659,9 +659,8 @@ class MySceneParser {
         if(transformations.nodeName == "transformationref"){
             identMatrix = this.transformations[transformations.getAttribute('id')];
         }else{
-
+              identMatrix=mat4.create();
               for(var j = 0;j < transformations.length; j++){
-                identMatrix=mat4.create();
                 var vector = vec3.create();
                 var x,y,z;
 
@@ -671,17 +670,17 @@ class MySceneParser {
                     y = transformations[j].getAttribute('y');
                     z = transformations[j].getAttribute('z');
                     vec3.set(vector,x,y,z);
-                    
+
                     mat4.translate(identMatrix,identMatrix,vector);
-                    
+
                     break;
                   case "rotate":
                     if(transformations[j].getAttribute('axis') == "x")
-                      mat4.rotateX(identMatrix,identMatrix,transformations[j].getAttribute('angle'));
+                      mat4.rotateX(identMatrix,identMatrix,transformations[j].getAttribute('angle')*DEGREE_TO_RAD);
                     else if(transformations[j].getAttribute('axis') == "y")
-                      mat4.rotateY(identMatrix,identMatrix,transformations[j].getAttribute('angle'));
+                      mat4.rotateY(identMatrix,identMatrix,transformations[j].getAttribute('angle')*DEGREE_TO_RAD);
                     else if (transformations[j].getAttribute('axis') == "z") {
-                      mat4.rotateZ(identMatrix,identMatrix,transformations[j].getAttribute('angle'));
+                      mat4.rotateZ(identMatrix,identMatrix,transformations[j].getAttribute('angle')*DEGREE_TO_RAD);
                     }else {
                       this.onXMLMinorError("The axis must be x,y or z. Please change");
                     }
@@ -709,7 +708,7 @@ class MySceneParser {
 
 
       //falta texturas
-    
+
 
       var childrenArray = component[i].getElementsByTagName('children')[0];
       var primitivesChildren = childrenArray.getElementsByTagName('primitiveref');
@@ -723,7 +722,7 @@ class MySceneParser {
       for (var j =0;j<componentsChildren.length;j++){
         componentsId.push(componentsChildren[j].getAttribute('id'));
          }
-      
+
 
       var newComponent = new Component(this.scene, this, componentId, identMatrix, 1, 1, primitivesId,componentsId);
       this.components[componentId] = newComponent;
@@ -767,7 +766,7 @@ class MySceneParser {
 
         // entry point for graph rendering
         //TODO: Render loop starting at root of graph
-          this.components["scene1"].display();
+          this.components[this.rootName].display();
 
     }
 
