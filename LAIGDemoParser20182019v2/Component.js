@@ -4,38 +4,37 @@
  * @constructor
  */
 
-class Component extends CGFobject
-{
-	constructor(scene,graph, id, transformationMatrix, textId, materialId, primitivesChildren, componentsChildren)
-   {
-    super(scene);
+class Component {
+	constructor(scene, graph, id, transformationMatrix, textId, materialId, primitivesChildren, componentsChildren) {
+		this.scene = scene;
 		this.graph = graph;
-    this.id = id;
-    this.transformationMatrix = transformationMatrix;
-    this.textId = textId;
-	this.materialId = materialId;
-	this.primitivesChildren=primitivesChildren;
-	this.componentsChildren=componentsChildren;
+		this.id = id;
+		this.transformationMatrix = transformationMatrix;
+		this.textId = textId;
+		this.materialId = materialId;
+		this.primitivesChildren = primitivesChildren;
+		this.componentsChildren = componentsChildren;
 
-   }
+	}
+	display() {
+		this.scene.pushMatrix();
+		this.scene.multMatrix(this.transformationMatrix);
 
+		for (var i = 0; i < this.primitivesChildren.length; i++) {
 
-
-
-	 display(){
-		console.log("display");
-		for (var i = 0; i<this.primitivesChildren.length;i++){
-			switch (this.primitivesChildren[i].getAttribute('id')){
-				case "square":
-				this.graph.primitives[0].display();
-				break;
-				case "cylinder":
-				this.graph.primitives[1].display();
-				break;
-				default:
-			}
+			this.graph.primitives[this.primitivesChildren[i]].display();
 
 		}
+		this.scene.popMatrix();
+		this.scene.pushMatrix();
+		this.scene.multMatrix(this.transformationMatrix);
+		for (var i = 0; i < this.componentsChildren.length; i++) {
+
+			this.graph.components[this.componentsChildren[i]].display();
+		}
+		this.scene.popMatrix();
+
 	}
+
 
 };

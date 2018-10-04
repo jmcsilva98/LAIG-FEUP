@@ -609,19 +609,21 @@ class MySceneParser {
     for (var i = 0; i <  primitivesNode.children.length; i++){
         var node =primitivesNode.children[i];
         var primitive;
-        var id = node.children[0].getAttribute('id');
+        var id = this.reader.getString(node,'id');
+        //verificar se e nulo
 
         switch (node.children[0].nodeName){
             case "square":
-              this.primitives[0]= new MyQuad(this.scene,node.children[0].getAttribute('x1'),node.children[0].getAttribute('x2'),node.children[0].getAttribute('y1'),node.children[0].getAttribute('y2'));
+              this.primitives[id]= new MyQuad(this.scene,node.children[0].getAttribute('x1'),node.children[0].getAttribute('x2'),node.children[0].getAttribute('y1'),node.children[0].getAttribute('y2'));
               break;
               case "cylinder":
-              this.primitives[1]=new MyCylinder(this.scene,node.children[0].getAttribute('slices'),node.children[0].getAttribute('stacks'));
+              this.primitives[id]=new MyCylinder(this.scene,node.children[0].getAttribute('slices'),node.children[0].getAttribute('stacks'));
               break;
               case "triangle":
               //primitive=new MyTriangle(this.scene,)
               break;
            default:
+
         }
       }
      // return null;
@@ -633,9 +635,9 @@ class MySceneParser {
       var component = componentsNode.children;
       this.components = [];
       this.transformations  = [];
-
       var identMatrix = mat4.create();
-      mat4.identity(identMatrix);
+
+      
       var defaultMaterial;
 
 
@@ -652,12 +654,14 @@ class MySceneParser {
         if(!(this.components[componentId] == null))
           return ("There can't be components with the same id: " + componentId + ".");
 
-        var transformations =component[i].getElementsByTagName('transformation');
-        if(transformations[0].nodeName == "transformationref"){
-            identMatrix = this.transformations[transformations[0].getAttribute('id')];
+        var transformations =component[i].getElementsByTagName('transformation')[0].children;
+        //verificar se há mais que uma transformação
+        if(transformations.nodeName == "transformationref"){
+            identMatrix = this.transformations[transformations.getAttribute('id')];
         }else{
 
               for(var j = 0;j < transformations.length; j++){
+                identMatrix=mat4.create();
                 var vector = vec3.create();
                 var x,y,z;
 
@@ -667,7 +671,9 @@ class MySceneParser {
                     y = transformations[j].getAttribute('y');
                     z = transformations[j].getAttribute('z');
                     vec3.set(vector,x,y,z);
-                    identMatrix.translate(identMatrix,identMatrix,vector);
+                    
+                    mat4.translate(identMatrix,identMatrix,vector);
+                    
                     break;
                   case "rotate":
                     if(transformations[j].getAttribute('axis') == "x")
@@ -685,7 +691,7 @@ class MySceneParser {
                   y = transformations[j].getAttribute('y');
                   z = transformations[j].getAttribute('z');
                   vec3.set(vector,x,y,z);
-                  identMatrix.scale(identMatrix,identMatrix,vector);
+                  mat4.scale(identMatrix,identMatrix,vector);
                   break;
 
                   default:
@@ -703,12 +709,23 @@ class MySceneParser {
 
 
       //falta texturas
+    
 
       var childrenArray = component[i].getElementsByTagName('children')[0];
       var primitivesChildren = childrenArray.getElementsByTagName('primitiveref');
       var componentsChildren=childrenArray.getElementsByTagName('componentref');
+      var primitivesId=[];
+      var componentsId=[];
+      for (var j =0;j<primitivesChildren.length;j++){
+            primitivesId.push(primitivesChildren[j].getAttribute('id'));
+      }
 
-      var newComponent = new Component(this.scene, this, componentId, identMatrix, 1, 1, primitivesChildren,componentsChildren);
+      for (var j =0;j<componentsChildren.length;j++){
+        componentsId.push(componentsChildren[j].getAttribute('id'));
+         }
+      
+
+      var newComponent = new Component(this.scene, this, componentId, identMatrix, 1, 1, primitivesId,componentsId);
       this.components[componentId] = newComponent;
       }
 
@@ -750,8 +767,7 @@ class MySceneParser {
 
         // entry point for graph rendering
         //TODO: Render loop starting at root of graph
-
-          this.components["column1"].display();
+          this.components["scene1"].display();
 
     }
 

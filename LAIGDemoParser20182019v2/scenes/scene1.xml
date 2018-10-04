@@ -96,7 +96,6 @@
 
       <children>
           <componentref id="columns"/>
-          <componentref id="clockWall"/>
       </children>
     </component>
 
@@ -109,10 +108,10 @@
       </materials>
 
       <children>
-          <componentref id="column1"/>
           <componentref id="column2"/>
+         <!--  <componentref id="column2"/>
           <componentref id="column3"/>
-          <componentref id="column4"/>
+          <componentref id="column4"/> -->
       </children>
     </component>
 
@@ -130,7 +129,7 @@
     </component>
     <component id="column2">
        <transformation>
-         <translate x="3" y="0" z="0" />
+         <translate x="2" y="0" z="0" />
        </transformation>
 
        <materials>
