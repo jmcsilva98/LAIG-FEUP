@@ -89,9 +89,9 @@
     </primitive>
 
     <primitive id="triangle">
-        <triangle x1="-5" y1="-5" z1="10"
-                  x2="5" y2="5" z2="15"
-                  x3="10" y3="10" z3="20" />
+        <triangle x1="-0.5" y1="0.5" z1="0"
+                  x2="5" y2="0.5" z2="0"
+                  x3="2.25" y3="2.65" z3="0" />
     </primitive>
 
     <primitive id="rectangle">
@@ -111,6 +111,7 @@
       <children>
           <componentref id="columns"/>
           <componentref id= "floor"/>
+          <componentref id="clockWall"/>
       </children>
     </component>
 
@@ -211,15 +212,20 @@
 
     <component id="clockWall">
        <transformation>
+       <translate x="0" y="5" z="0"/>
        </transformation>
 
        <materials>
        </materials>
 
        <children>
-           <componentref id="clock"/>
-           <componentref id="wallTop"/>
-           <componentref id="wallBase"/>
+           <!-- <componentref id="clock"/> -->
+         
+           <componentref id="wallBack"/>
+           <componentref id="wallFront"/>
+           <componentref id="leftSideWall"/>
+            <componentref id="rightSideWall"/>
+          <!--  <componentref id="wallBase"/> -->
        </children>
     </component>
 
@@ -235,16 +241,28 @@
       </children>
     </component>
 
-    <component id="wallTop">
+    <component id="wallBack">
       <transformation>
+      <translate x="0" y="0" z="0.5"/>
       </transformation>
-
       <materials>
       </materials>
 
       <children>
           <primitiveref id="triangle"/>
-          <primitiveref id="rectangle"/>
+        <!--  <primitiveref id="rectangle"/> -->
+      </children>
+   </component>
+   <component id="wallFront">
+      <transformation>
+       <translate x="0" y="0" z="-0.5"/>
+      </transformation>
+      <materials>
+      </materials>
+
+      <children>
+          <primitiveref id="triangle"/>
+        <!--  <primitiveref id="rectangle"/> -->
       </children>
    </component>
 
@@ -260,6 +278,42 @@
          <primitiveref id="rectangle"/>
      </children>
   </component>
+
+  <component id="leftSideWall">
+      <transformation>
+      <!-- <rotate axis="y" angle="-45"/> -->
+      
+      <translate x="1.15" y="1.15" z="0"/>
+       <rotate axis="z" angle="38"/>
+        <rotate axis="x" angle="-90"/>
+        <scale x="3.5" y ="1" z ="1"/>
+<!--       <translate x="5.5" y="0" z="0"/>
+ -->      </transformation>
+      <materials>
+      </materials>
+
+      <children>
+          <primitiveref id="square"/>
+        <!--  <primitiveref id="rectangle"/> -->
+      </children>
+      </component>
+
+<component id="rightSideWall">
+      <transformation>
+      <!-- <rotate axis="y" angle="-45"/> -->
+        <translate x="3.3" y="1.15" z="0"/>
+       <rotate axis="z" angle="-38"/>
+        <rotate axis="x" angle="-90"/>
+        <scale x="3.5" y ="1" z ="1"/>
+      </transformation>
+      <materials>
+      </materials>
+
+      <children>
+          <primitiveref id="square"/>
+        <!--  <primitiveref id="rectangle"/> -->
+      </children>
+      </component>
 
 
  </components>

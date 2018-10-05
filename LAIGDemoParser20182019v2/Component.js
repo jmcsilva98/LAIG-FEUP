@@ -29,7 +29,6 @@ class Component {
 		this.scene.pushMatrix();
 		this.scene.multMatrix(this.transformationMatrix);
 		for (var i = 0; i < this.componentsChildren.length; i++) {
-
 			this.graph.components[this.componentsChildren[i]].display();
 		}
 		this.scene.popMatrix();

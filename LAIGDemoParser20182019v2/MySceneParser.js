@@ -620,7 +620,7 @@ class MySceneParser {
               this.primitives[id]=new MyCylinder(this.scene,node.children[0].getAttribute('slices'),node.children[0].getAttribute('stacks'));
               break;
               case "triangle":
-              //primitive=new MyTriangle(this.scene,)
+                this.primitives[id]=new MyTriangle(this.scene,node.children[0].getAttribute('x1'),node.children[0].getAttribute('y1'),node.children[0].getAttribute('z1'),node.children[0].getAttribute('x2'),node.children[0].getAttribute('y2'),node.children[0].getAttribute('z2'),node.children[0].getAttribute('x3'),node.children[0].getAttribute('y3'),node.children[0].getAttribute('z3'));
               break;
            default:
 
@@ -761,12 +761,11 @@ class MySceneParser {
      */
     displayScene() {
 
-        //var cube =new MyQuad(this.scene, -5,5,-5,5);
-        //cube.display();
 
         // entry point for graph rendering
         //TODO: Render loop starting at root of graph
-          this.components[this.rootName].display();
+    
+         this.components[this.rootName].display();
 
     }
 
