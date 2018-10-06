@@ -329,15 +329,15 @@ class MySceneParser {
             this.backgroundIlumination[0]=rBackground;
         }
         var gBackground=background[0].getAttribute("g");
-        if ( gBackground==null || gBackground <0 || gBackground>1){
+        if (!(gBackground==null || gBackground <0 || gBackground>1)){
             this.backgroundIlumination[1]=gBackground;
         }
         var bBackground=background[0].getAttribute("b");
-        if ( bBackground==null || bBackground <0 || bBackground>1){
+        if (!(bBackground==null || bBackground <0 || bBackground>1)){
             this.backgroundIlumination[2]=bBackground;
         }
         var aBackground=background[0].getAttribute("a");
-        if ( aBackground==null || aBackground <0 || aBackground>1){
+        if (!(aBackground==null || aBackground <0 || aBackground>1)){
             this.backgroundIlumination[3]=aBackground;
         }
 
@@ -684,7 +684,7 @@ class MySceneParser {
               case "triangle":
                 this.primitives[id]=new MyTriangle(this.scene,node.children[0].getAttribute('x1'),node.children[0].getAttribute('y1'),node.children[0].getAttribute('z1'),node.children[0].getAttribute('x2'),node.children[0].getAttribute('y2'),node.children[0].getAttribute('z2'),node.children[0].getAttribute('x3'),node.children[0].getAttribute('y3'),node.children[0].getAttribute('z3'));
               break;
-          
+
            default:
 
         }

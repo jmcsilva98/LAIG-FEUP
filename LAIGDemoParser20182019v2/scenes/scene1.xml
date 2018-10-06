@@ -12,7 +12,7 @@
 
   <ambient>
     <ambient r="0.2" g="0.2" b="0.2" a="1" />
-    <background r="0" g="0" b="0" a="1" />
+    <background r="0.47" g="0.82" b="0.86" a="1" />
   </ambient>
 
 
@@ -87,7 +87,7 @@
       <specular a="1" b="0" g="0" r="0"/>
     </material>
 
-    <material id="darkMaterial">
+    <material id="darkMaterial" shininess="1">
       <emission r="0" g="0" b="0" a="1"/>
       <ambient r="0.2" g="0.2" b="0.2" a="1"/>
       <diffuse r="0.1" g="0.1" b="0.1" a="1"/>
@@ -550,7 +550,7 @@
       <children>
         <componentref id="clockBack" />
         <componentref id="clockHand" />
-      
+
       </children>
     </component>
     <component id="clockBack">
