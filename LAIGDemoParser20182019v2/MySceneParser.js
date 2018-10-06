@@ -571,15 +571,77 @@ class MySceneParser {
 
 
           var newTexture = new CGFtexture(this.scene,file);
-          this.textures.push(newTexture);
+          this.textures[textID] = newTexture;
         }
         console.log("Parsed textures");
         return null;
     }
 
     parseMaterials(materialsNode){
+      this.materials = [];
+
+      var materials = materialsNode.children;
+      if(materials.length == 0)
+        this.onXMLMinorError("You must have at least one material.");
+
+      for(var i=0; i<materials.length;i++){
+        var matId =  this.reader.getString(materials[i],'id');
+        var shininess = this.reader.getFloat(materials[i],'shininess');
+
+        if (matId==null)
+          this.onXMLMinorError("A material must have an id.");
+        if (this.materials[matId] != null)
+          this.onXMLMinorError("A material id must be unique, please change the id: " + matId + " .");
+        if(isNaN(shininess))
+            this.onXMLMinorError("shininess must be a valid float");
+
+        var emission = this.parseRgba(materials[i].getElementsByTagName('emission')[0]);
+        var ambient = this.parseRgba(materials[i].getElementsByTagName('ambient')[0]);
+        var diffuse = this.parseRgba(materials[i].getElementsByTagName('diffuse')[0]);
+        var specular = this.parseRgba(materials[i].getElementsByTagName('specular')[0]);
+
+        var newMaterial = new CGFappearance(this.scene);
+        newMaterial.setEmission(emission[0].r, emission[0].g, emission[0].b,emission[0].a );
+        newMaterial.setAmbient(ambient[0].r, ambient[0].g, ambient[0].b,ambient[0].a );
+        newMaterial.setDiffuse(diffuse[0].r, diffuse[0].g, diffuse[0].b,diffuse[0].a );
+        newMaterial.setSpecular(specular[0].r, specular[0].g, specular[0].b,specular[0].a );
+        newMaterial.setShininess(shininess);
+
+        this.materials[matId] = newMaterial;
+      }
       return null;
-    }
+      }
+
+      parseRgba(element){
+        var rgba = [];
+
+        var r = this.reader.getFloat(element,'r');
+        if (!(r != null && !isNaN(r) && r >= 0 && r <= 1))
+            this.onXMLError( "unable to parse R component.");
+        else
+            rgba.push(r);
+        var g = this.reader.getFloat(element,'g');
+        if (!(g != null && !isNaN(g) && g >= 0 && g <= 1))
+            this.onXMLError( "unable to parse G component.");
+        else
+            rgba.push(g);
+        var b = this.reader.getFloat(element,'b');
+        if (!(b != null && !isNaN(b) && b >= 0 && b <= 1))
+            this.onXMLError( "unable to parse B component.");
+        else
+            rgba.push(b);
+        var a = this.reader.getFloat(element,'a');
+        if (!(a != null && !isNaN(a) && a >= 0 && a <= 1))
+            this.onXMLError( "unable to parse A component.");
+        else
+            rgba.push(a);
+
+
+        return rgba;
+      }
+
+
+
     parseTransformations(transformationsNode){
       return null;
     }
@@ -699,15 +761,29 @@ class MySceneParser {
             }
           }
 
-      var materials = component[i].getElementsByTagName('material');
+      var materials = component[i].getElementsByTagName('material')[0];
 
-      /*if(materials.length == 0)
-        return "You need to have at least one material, please input one.";
-        */
-      //defaultMaterial = materials[0].getAttribute('id');
+      /*if(materials.length < 1)
+        this.onXMLMinorError("You need to have at least one material, please input one.");*/
+
+      defaultMaterial = this.reader.getString(materials, 'id');
 
 
       //falta texturas
+      /*var textures = component[i].getElementsByTagName('texture');
+      if(textures.length > 1){
+        this.onXMLMinorError("Only one tag texture is possible in the components block.");
+      }else if(textures.length == 0){
+        this.onXMLMinorError("You need one tag texture in the components block.");
+      }
+
+
+      var texture = component[i].getElementsByTagName('texture')[0];
+      var textID = this.reader.getString(texture, 'id');
+      if(!(textID == "inherit" || textID == "none" || textID == this.textures[textID])){
+        this.onXMLMinorError("Doesn't exist any texture with the id " + textID + " .");
+      }*/
+
 
 
       var childrenArray = component[i].getElementsByTagName('children')[0];
@@ -723,8 +799,8 @@ class MySceneParser {
         componentsId.push(componentsChildren[j].getAttribute('id'));
          }
 
-
-      var newComponent = new Component(this.scene, this, componentId, identMatrix, 1, 1, primitivesId,componentsId);
+                                                                                //texture? defaultMaterial
+      var newComponent = new Component(this.scene, this, componentId, identMatrix, 1 , 1, primitivesId,componentsId);
       this.components[componentId] = newComponent;
       }
 
@@ -764,7 +840,7 @@ class MySceneParser {
 
         // entry point for graph rendering
         //TODO: Render loop starting at root of graph
-    
+
          this.components[this.rootName].display();
 
     }
