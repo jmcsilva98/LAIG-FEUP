@@ -54,18 +54,6 @@ class MyCylinder extends CGFobject
 			}
  		}
  	}
-
-/*	for(i=0; i < this.stacks;i++){
-		for(j=0; j < this.slices;j++){
-				this.indices.push(0+j*4+i*4*this.slices,1+j*4+i*4*this.slices,2+j*4+i*4*this.slices);
-				this.indices.push(2+j*4+i*4*this.slices,1+j*4+i*4*this.slices,3+j*4+i*4*this.slices);		}
-	}
-*/
-
-//	 	console.log("vertices: " + this.vertices.length/3 + "   " + this.vertices + "\n");
-//	 	console.log("normals: " +  this.normals.length/3 + "   " +  this.normals + "\n");
-//	 	console.log("faces: " + this.indices.length/3 + "  " + this.indices + "\n");
- 	this.primitiveType = this.scene.gl.TRIANGLES;
  	this.initGLBuffers();
 	};
 };

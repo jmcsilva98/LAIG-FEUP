@@ -219,26 +219,14 @@
        </materials>
 
        <children>
-           <!-- <componentref id="clock"/> -->
-         
+            
            <componentref id="wallBack"/>
            <componentref id="wallFront"/>
            <componentref id="leftSideWall"/>
             <componentref id="rightSideWall"/>
-          <!--  <componentref id="wallBase"/> -->
+            <componentref id="wallBase"/>
+            <componentref id="clock"/>
        </children>
-    </component>
-
-    <component id="clock">
-      <transformation>
-      </transformation>
-
-      <materials>
-      </materials>
-
-      <children>
-          <primitiveref id="circle"/>
-      </children>
     </component>
 
     <component id="wallBack">
@@ -265,8 +253,7 @@
         <!--  <primitiveref id="rectangle"/> -->
       </children>
    </component>
-
-   <component id="wallBase">
+   <component id ="parallelepiped">
      <transformation>
      </transformation>
 
@@ -274,10 +261,133 @@
      </materials>
 
      <children>
-         <primitiveref id="square"/>
-         <primitiveref id="rectangle"/>
+         <componentref id="faceCube1"/>
+         <componentref id="faceCube2"/>
+         <componentref id="faceCube3"/>
+         <componentref id ="faceCube4"/>
+         <componentref id ="faceCube5"/>
+         <componentref id ="faceCube6"/>
+
      </children>
   </component>
+
+<component id ="faceCube1">
+     <transformation>
+     <translate x="0.5" y="-0.5" z="0"/>
+        <rotate axis ="x" angle="-90"/>
+     </transformation>
+
+     <materials>
+     </materials>
+
+     <children>
+         <primitiveref id="square"/>
+     </children>
+  </component>
+<component id ="faceCube2">
+     <transformation>
+     <translate x="0.5" y="1.5" z="0"/>
+      <rotate axis ="x" angle="90"/>
+     </transformation>
+
+     <materials>
+     </materials>
+
+     <children>
+         <primitiveref id="square"/>
+     </children>
+  </component>
+  <component id ="faceCube3">
+     <transformation>
+     <translate x="0.5" y="0.5" z="0"/>
+     </transformation>
+
+     <materials>
+     </materials>
+
+     <children>
+         <primitiveref id="square"/>
+     </children>
+  </component>
+  <component id ="faceCube4">
+     <transformation>
+     <translate x="0.5" y="0.5" z="0"/>
+     <rotate axis="y" angle="90"/>
+     </transformation>
+
+     <materials>
+     </materials>
+
+     <children>
+         <primitiveref id="square"/>
+     </children>
+  </component>
+   <component id ="faceCube5">
+     <transformation>
+     <translate x="0.5" y="0.5" z="0"/>
+     <rotate axis="y" angle="180"/>
+     </transformation>
+
+     <materials>
+     </materials>
+
+     <children>
+         <primitiveref id="square"/>
+     </children>
+  </component>
+<component id ="faceCube6">
+     <transformation>
+     <translate x="0.5" y="0.5" z="0"/>
+     <rotate axis="y" angle="270"/>
+     </transformation>
+
+     <materials>
+     </materials>
+
+     <children>
+         <primitiveref id="square"/>
+     </children>
+  </component>
+ <component id="wallBase">
+     <transformation>
+     </transformation>
+
+     <materials>
+     </materials>
+
+     <children>
+         <componentref id ="wallBase1"/>
+         <componentref id ="wallBase2"/>
+        
+     </children>
+  </component>
+   <component id="wallBase1">
+     <transformation>
+     <translate x="-0.5" y="0" z="0"/>
+      <scale x="5.5" y="0.25" z ="1"/>
+     </transformation>
+
+     <materials>
+     </materials>
+
+     <children>
+         <componentref id ="parallelepiped"/>
+     </children>
+  </component>
+   <component id="wallBase2">
+     <transformation>
+     <translate x="-0.75" y="0.25" z="0"/>
+      <scale x="6" y="0.25" z ="1"/>
+     </transformation>
+
+     <materials>
+     </materials>
+
+     <children>
+         <componentref id ="parallelepiped"/>
+     </children>
+  </component>
+  
 
   <component id="leftSideWall">
       <transformation>
@@ -311,12 +421,82 @@
 
       <children>
           <primitiveref id="square"/>
-        <!--  <primitiveref id="rectangle"/> -->
+
+      </children>
+      </component>
+<component id="clock">
+      <transformation>
+      </transformation>
+      <materials>
+      </materials>
+
+      <children>
+          <componentref id="clockBack"/>
+          <componentref id ="clockHand"/>
+  
+      </children>
+      </component>
+<component id="clockBack">
+      <transformation>
+      <translate x="2.25" y="1.5" z ="0.5"/>
+      <scale x="0.5" y="0.5" z ="0.25"/>
+      </transformation>
+      <materials>
+      </materials>
+
+      <children>
+          <primitiveref id="cylinder"/>
+  
+      </children>
+      </component>
+      <component id="clockHand">
+      <transformation>
+      <translate x="2.25" y="1.75" z ="0.5"/>
+      </transformation>
+      <materials>
+      </materials>
+
+      <children>
+          <componentref id="hours"/>
+          <componentref id="minutes"/>
+
+      </children>
+      </component>
+
+      <component id="hours">
+      <transformation>
+      <scale x="0.05" y="0.25" z ="0.20"/> 
+      </transformation>
+      <materials>
+      </materials>
+
+      <children>
+          <primitiveref id="square"/>
+  
+      </children>
+      </component>
+
+       <component id="minutes">
+      <transformation>
+      <rotate axis ="z" angle="-90"/>
+       <translate x="0.1" y ="0.1" z="0"/> 
+      <scale x="0.03" y="0.3" z ="0.20"/>
+      
+      </transformation>
+      <materials>
+      </materials>
+
+      <children>
+          <primitiveref id="square"/>
+  
       </children>
       </component>
 
 
+
  </components>
+ 
+
 
 
 </yas>
