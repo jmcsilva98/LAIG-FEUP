@@ -601,15 +601,15 @@ class MySceneParser {
         var specular = this.parseRgba(materials[i].getElementsByTagName('specular')[0]);
 
         var newMaterial = new CGFappearance(this.scene);
-        newMaterial.setEmission(emission[0].r, emission[0].g, emission[0].b,emission[0].a );
-        newMaterial.setAmbient(ambient[0].r, ambient[0].g, ambient[0].b,ambient[0].a );
-        newMaterial.setDiffuse(diffuse[0].r, diffuse[0].g, diffuse[0].b,diffuse[0].a );
-        newMaterial.setSpecular(specular[0].r, specular[0].g, specular[0].b,specular[0].a );
+        newMaterial.setEmission(emission[0], emission[1], emission[2],emission[3]);
+        newMaterial.setAmbient(ambient[0], ambient[1], ambient[2],ambient[3]);
+        newMaterial.setDiffuse(diffuse[0], diffuse[1], diffuse[2],diffuse[3] );
+        newMaterial.setSpecular(specular[0], specular[1], specular[2],specular[3] );
         newMaterial.setShininess(shininess);
 
         this.materials[matId] = newMaterial;
       }
-      return null;
+      //return null;
       }
 
       parseRgba(element){
@@ -684,6 +684,7 @@ class MySceneParser {
               case "triangle":
                 this.primitives[id]=new MyTriangle(this.scene,node.children[0].getAttribute('x1'),node.children[0].getAttribute('y1'),node.children[0].getAttribute('z1'),node.children[0].getAttribute('x2'),node.children[0].getAttribute('y2'),node.children[0].getAttribute('z2'),node.children[0].getAttribute('x3'),node.children[0].getAttribute('y3'),node.children[0].getAttribute('z3'));
               break;
+          
            default:
 
         }
@@ -800,7 +801,7 @@ class MySceneParser {
          }
 
                                                                                 //texture? defaultMaterial
-      var newComponent = new Component(this.scene, this, componentId, identMatrix, 1 , 1, primitivesId,componentsId);
+      var newComponent = new Component(this.scene, this, componentId, identMatrix, 1 ,  defaultMaterial, primitivesId,componentsId);
       this.components[componentId] = newComponent;
       }
 

@@ -51,8 +51,8 @@ class Component {
 		this.graph.materials[this.materialId].setTexture("grass");
 		this.graph.materials[this.materialId].apply();*/
 
+		this.graph.materials[this.materialId].apply();
 		for (var i = 0; i < this.primitivesChildren.length; i++) {
-
 			this.graph.primitives[this.primitivesChildren[i]].display();
 
 
