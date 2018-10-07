@@ -684,6 +684,9 @@ class MySceneParser {
               case "triangle":
                 this.primitives[id]=new MyTriangle(this.scene,node.children[0].getAttribute('x1'),node.children[0].getAttribute('y1'),node.children[0].getAttribute('z1'),node.children[0].getAttribute('x2'),node.children[0].getAttribute('y2'),node.children[0].getAttribute('z2'),node.children[0].getAttribute('x3'),node.children[0].getAttribute('y3'),node.children[0].getAttribute('z3'));
               break;
+              case "sphere":
+              this.primitives[id]=new MySphere(this.scene,node.children[0].getAttribute('radius'),node.children[0].getAttribute('slices'),node.children[0].getAttribute('stacks'));
+              break;
 
            default:
 
