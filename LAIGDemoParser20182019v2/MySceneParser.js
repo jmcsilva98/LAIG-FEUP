@@ -675,7 +675,7 @@ class MySceneParser {
         //verificar se e nulo
 
         switch (node.children[0].nodeName){
-            case "square":
+            case "rectangle":
               this.primitives[id]= new MyQuad(this.scene,node.children[0].getAttribute('x1'),node.children[0].getAttribute('x2'),node.children[0].getAttribute('y1'),node.children[0].getAttribute('y2'));
               break;
               case "cylinder":

@@ -123,8 +123,8 @@
     <primitive id="cylinder">
       <cylinder base="1" top="1" height="10" slices="25" stacks="8" />
     </primitive>
-    <primitive id="square">
-      <square x1="0" y1="0" x2="10" y2="10" />
+    <primitive id="rectangle">
+        <rectangle x1="0" y1="0" x2="10" y2="10"/>
     </primitive>
     <primitive id="circle">
       <cylinder base="1" top="1" height="5" slices="1" stacks="1" />
@@ -192,12 +192,10 @@
         <material id="columns" />
       </materials>
 
-      <texture id="none" length_s="1" length_t="1" />
-
-      <children>
-        <primitiveref id="cylinder" />
-        <primitiveref id="square" />
-      </children>
+       <children>
+           <primitiveref id="cylinder"/>
+           <primitiveref id="rectangle"/>
+       </children>
     </component>
 
     <component id="column2">
@@ -211,12 +209,10 @@
         <material id="columns" />
       </materials>
 
-      <texture id="none" length_s="1" length_t="1" />
-
-      <children>
-        <primitiveref id="cylinder" />
-        <primitiveref id="square" />
-      </children>
+       <children>
+           <primitiveref id="cylinder"/>
+           <primitiveref id="rectangle"/>
+       </children>
     </component>
 
     <component id="column3">
@@ -230,12 +226,10 @@
         <material id="columns" />
       </materials>
 
-      <texture id="none" length_s="1" length_t="1" />
-
-      <children>
-        <primitiveref id="cylinder" />
-        <primitiveref id="square" />
-      </children>
+       <children>
+           <primitiveref id="cylinder"/>
+           <primitiveref id="rectangle"/>
+       </children>
     </component>
 
     <component id="column4">
@@ -249,12 +243,10 @@
         <material id="columns" />
       </materials>
 
-      <texture id="none" length_s="1" length_t="1" />
-
-      <children>
-        <primitiveref id="cylinder" />
-        <primitiveref id="square" />
-      </children>
+       <children>
+           <primitiveref id="cylinder"/>
+           <primitiveref id="rectangle"/>
+       </children>
     </component>
 
 
@@ -271,9 +263,9 @@
 
       <texture id="grass" length_s="1" length_t="1" />
 
-      <children>
-        <primitiveref id="square" />
-      </children>
+       <children>
+           <primitiveref id="rectangle"/>
+       </children>
     </component>
 
 
@@ -354,50 +346,84 @@
       </children>
     </component>
 
-    <component id="faceCube1">
-      <transformation>
-        <translate x="0.5" y="-0.5" z="0" />
-        <rotate axis="x" angle="-90" />
-      </transformation>
+     <children>
+         <primitiveref id="rectangle"/>
+     </children>
+  </component>
+<component id ="faceCube2">
+     <transformation>
+     <translate x="0.5" y="1.5" z="0"/>
+      <rotate axis ="x" angle="90"/>
+     </transformation>
 
       <materials>
         <material id="darkMaterial" />
       </materials>
 
-      <texture id="none" length_s="1" length_t="1" />
+     <children>
+         <primitiveref id="rectangle"/>
+     </children>
+  </component>
+  <component id ="faceCube3">
+     <transformation>
+     <translate x="0.5" y="0.5" z="0"/>
+     </transformation>
 
       <children>
         <primitiveref id="square" />
       </children>
     </component>
 
-    <component id="faceCube2">
-      <transformation>
-        <translate x="0.5" y="1.5" z="0" />
-        <rotate axis="x" angle="90" />
-      </transformation>
+     <children>
+         <primitiveref id="rectangle"/>
+     </children>
+  </component>
+  <component id ="faceCube4">
+     <transformation>
+     <translate x="0.5" y="0.5" z="0"/>
+     <rotate axis="y" angle="90"/>
+     </transformation>
 
       <materials>
         <material id="darkMaterial" />
       </materials>
 
-      <texture id="none" length_s="1" length_t="1" />
+     <children>
+         <primitiveref id="rectangle"/>
+     </children>
+  </component>
+   <component id ="faceCube5">
+     <transformation>
+     <translate x="0.5" y="0.5" z="0"/>
+     <rotate axis="y" angle="180"/>
+     </transformation>
 
       <children>
         <primitiveref id="square" />
       </children>
     </component>
 
-    <component id="faceCube3">
-      <transformation>
-        <translate x="0.5" y="0.5" z="0" />
-      </transformation>
+     <children>
+         <primitiveref id="rectangle"/>
+     </children>
+  </component>
+<component id ="faceCube6">
+     <transformation>
+     <translate x="0.5" y="0.5" z="0"/>
+     <rotate axis="y" angle="270"/>
+     </transformation>
 
       <materials>
         <material id="darkMaterial" />
       </materials>
 
-      <texture id="none" length_s="1" length_t="1" />
+     <children>
+         <primitiveref id="rectangle"/>
+     </children>
+  </component>
+ <component id="wallBase">
+     <transformation>
+     </transformation>
 
       <children>
         <primitiveref id="square" />
@@ -451,80 +477,7 @@
       <texture id="none" length_s="1" length_t="1" />
 
       <children>
-        <primitiveref id="square" />
-      </children>
-    </component>
-
-    <component id="wallBase">
-      <transformation>
-      </transformation>
-
-      <materials>
-        <material id="defaultMaterial" />
-      </materials>
-
-      <texture id="none" length_s="1" length_t="1" />
-
-      <children>
-        <componentref id="wallBase1" />
-        <componentref id="wallBase2" />
-
-      </children>
-    </component>
-
-    <component id="wallBase1">
-      <transformation>
-        <translate x="-0.5" y="0" z="0" />
-        <scale x="5.5" y="0.25" z="1" />
-      </transformation>
-
-      <materials>
-        <material id="defaultMaterial" />
-      </materials>
-
-      <texture id="none" length_s="1" length_t="1" />
-
-      <children>
-        <componentref id="parallelepiped" />
-      </children>
-    </component>
-
-    <component id="wallBase2">
-      <transformation>
-        <translate x="-0.75" y="0.25" z="0" />
-        <scale x="6" y="0.25" z="1" />
-      </transformation>
-
-      <materials>
-        <material id="defaultMaterial" />
-      </materials>
-
-      <texture id="none" length_s="1" length_t="1" />
-
-      <children>
-        <componentref id="parallelepiped" />
-      </children>
-    </component>
-
-    <component id="leftSideWall">
-      <transformation>
-        <!-- <rotate axis="y" angle="-45"/> -->
-        <translate x="1.15" y="1.15" z="0" />
-        <rotate axis="z" angle="38" />
-        <rotate axis="x" angle="-90" />
-        <scale x="3.5" y="1" z="1" />
-        <!--       <translate x="5.5" y="0" z="0"/>
- -->
-      </transformation>
-
-      <materials>
-        <material id="roof" />
-      </materials>
-
-      <texture id="none" length_s="1" length_t="1" />
-
-      <children>
-        <primitiveref id="square" />
+          <primitiveref id="rectangle"/>
         <!--  <primitiveref id="rectangle"/> -->
       </children>
     </component>
@@ -545,7 +498,7 @@
       <texture id="none" length_s="1" length_t="1" />
 
       <children>
-        <primitiveref id="square" />
+          <primitiveref id="rectangle"/>
 
       </children>
     </component>
@@ -614,8 +567,8 @@
       <texture id="none" length_s="1" length_t="1" />
 
       <children>
-        <primitiveref id="square" />
-
+          <primitiveref id="rectangle"/>
+  
       </children>
     </component>
 
@@ -633,8 +586,8 @@
       <texture id="none" length_s="1" length_t="1" />
 
       <children>
-        <primitiveref id="square" />
-
+          <primitiveref id="rectangle"/>
+  
       </children>
     </component>
 
