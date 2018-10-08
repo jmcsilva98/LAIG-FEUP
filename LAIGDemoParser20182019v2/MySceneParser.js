@@ -29,6 +29,8 @@ class MySceneParser {
         this.nodes = [];
         this.perspectives = []; //added by me
         this.textures = [];
+        this.transformations=[];
+        this.components=[];
 
 
 
@@ -643,6 +645,50 @@ class MySceneParser {
 
 
     parseTransformations(transformationsNode){
+      
+      var identMatrix=mat4.create();
+      for (var i =0;i<transformationsNode.children.length;i++){
+        var transformations=transformationsNode.children[i].children;
+        identMatrix=mat4.create();
+              for(var j = 0;j < transformations.length; j++){
+                var vector = vec3.create();
+                var x,y,z;
+
+                  switch (transformations[j].nodeName) {
+                  case "translate":
+                    x = transformations[j].getAttribute('x');
+                    y = transformations[j].getAttribute('y');
+                    z = transformations[j].getAttribute('z');
+                    vec3.set(vector,x,y,z);
+
+                    mat4.translate(identMatrix,identMatrix,vector);
+
+                    break;
+                  case "rotate":
+                    if(transformations[j].getAttribute('axis') == "x")
+                      mat4.rotateX(identMatrix,identMatrix,transformations[j].getAttribute('angle')*DEGREE_TO_RAD);
+                    else if(transformations[j].getAttribute('axis') == "y")
+                      mat4.rotateY(identMatrix,identMatrix,transformations[j].getAttribute('angle')*DEGREE_TO_RAD);
+                    else if (transformations[j].getAttribute('axis') == "z") {
+                      mat4.rotateZ(identMatrix,identMatrix,transformations[j].getAttribute('angle')*DEGREE_TO_RAD);
+                    }else {
+                      this.onXMLMinorError("The axis must be x,y or z. Please change");
+                    }
+                    break;
+                  case "scale":
+                  x = transformations[j].getAttribute('x');
+                  y = transformations[j].getAttribute('y');
+                  z = transformations[j].getAttribute('z');
+                  vec3.set(vector,x,y,z);
+                  mat4.scale(identMatrix,identMatrix,vector);
+                  break;
+                  default:
+
+                }
+            }
+            this.transformations[transformationsNode.children[i].getAttribute('id')]=identMatrix;
+        }
+        
       return null;
     }
 
@@ -702,8 +748,6 @@ class MySceneParser {
 
     parseComponents(componentsNode){
       var component = componentsNode.children;
-      this.components = [];
-      this.transformations  = [];
       var identMatrix = mat4.create();
 
 
@@ -725,9 +769,14 @@ class MySceneParser {
 
         var transformations =component[i].getElementsByTagName('transformation')[0].children;
         //verificar se há mais que uma transformação
-        if(transformations.nodeName == "transformationref"){
-            identMatrix = this.transformations[transformations.getAttribute('id')];
-        }else{
+        if (transformations.length>1){
+            this.onXMLMinorError("There can't have more than one transformation block!");
+        }
+       /*  if(transformations[0].nodeName == "transformationref"){
+           
+            identMatrix = this.transformations[transformations[0].getAttribute('id')];
+        }
+        else { */
               identMatrix=mat4.create();
               for(var j = 0;j < transformations.length; j++){
                 var vector = vec3.create();
@@ -761,12 +810,15 @@ class MySceneParser {
                   vec3.set(vector,x,y,z);
                   mat4.scale(identMatrix,identMatrix,vector);
                   break;
-
+                  case "transformationref":
+                  identMatrix=this.transformations[transformations[j].getAttribute('id')];
+                  console.log(this.transformations);
+                  break;
                   default:
 
                 }
             }
-          }
+
 
       var materials = component[i].getElementsByTagName('material')[0];
 
