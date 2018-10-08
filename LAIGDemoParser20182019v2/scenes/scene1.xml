@@ -53,7 +53,8 @@
   <textures>
     <!-- <texture id="grass" file="grass.jpg" /> -->
     <texture id="grass" file="../images/grass.jpg" />
-
+    <texture id="marmore" file="../images/marmore.jpg" />
+    <texture id="sun" file="../images/sun.jpg" />
   </textures>
 
 
@@ -178,7 +179,7 @@
         <material id="columns" />
       </materials>
 
-      <texture id="none" length_s="1" length_t="1" />
+      <texture id="marmore" length_s="1" length_t="1" />
 
       <children>
         <componentref id="column1" />
@@ -199,7 +200,7 @@
         <!-- <material id="inherit"/> -->
       </materials>
 
-      <texture id="none" length_s="1" length_t="1" />
+      <texture id="marmore" length_s="1" length_t="1" />
 
       <children>
         <primitiveref id="cylinder" />
@@ -219,7 +220,7 @@
         <!-- <material id="inherit"/> -->
       </materials>
 
-      <texture id="none" length_s="1" length_t="1" />
+      <texture id="marmore" length_s="1" length_t="1" />
 
       <children>
         <primitiveref id="cylinder" />
@@ -239,7 +240,7 @@
         <!-- <material id="inherit"/> -->
       </materials>
 
-      <texture id="none" length_s="1" length_t="1" />
+      <texture id="marmore" length_s="1" length_t="1" />
 
       <children>
         <primitiveref id="cylinder" />
@@ -259,7 +260,7 @@
         <!-- <material id="inherit"/> -->
       </materials>
 
-      <texture id="none" length_s="1" length_t="1" />
+      <texture id="marmore" length_s="1" length_t="1" />
 
       <children>
         <primitiveref id="cylinder" />
@@ -659,7 +660,7 @@
         <material id="yellow" />
       </materials>
 
-      <texture id="none" length_s="1" length_t="1" />
+      <texture id="sun" length_s="1" length_t="1" />
 
       <children>
         <primitiveref id="sphere" />

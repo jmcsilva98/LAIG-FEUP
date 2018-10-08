@@ -777,19 +777,17 @@ class MySceneParser {
 
 
       //falta texturas
-      /*var textures = component[i].getElementsByTagName('texture');
+
+      var textures = component[i].getElementsByTagName('texture');
       if(textures.length > 1){
         this.onXMLMinorError("Only one tag texture is possible in the components block.");
       }else if(textures.length == 0){
         this.onXMLMinorError("You need one tag texture in the components block.");
       }
-
-
       var texture = component[i].getElementsByTagName('texture')[0];
       var textID = this.reader.getString(texture, 'id');
-      if(!(textID == "inherit" || textID == "none" || textID == this.textures[textID])){
+      if(!(textID == "inherit" || textID == "none" || textID == this.textures[textID]))
         this.onXMLMinorError("Doesn't exist any texture with the id " + textID + " .");
-      }*/
 
 
 
@@ -807,7 +805,7 @@ class MySceneParser {
          }
 
                                                                                 //texture? defaultMaterial
-      var newComponent = new Component(this.scene, this, componentId, identMatrix, 1 ,  defaultMaterial, primitivesId,componentsId);
+      var newComponent = new Component(this.scene, this, componentId, identMatrix, this.textures[textID] ,  defaultMaterial, primitivesId,componentsId);
       this.components[componentId] = newComponent;
       }
 
