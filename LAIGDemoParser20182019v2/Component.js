@@ -54,6 +54,8 @@ class Component {
 		this.scene.popMatrix();
 		this.scene.pushMatrix();
 		this.scene.multMatrix(this.transformationMatrix);
+		this.graph.materials[this.materialId].setTexture(this.texture);
+		this.graph.materials[this.materialId].apply();
 		for (var i = 0; i < this.componentsChildren.length; i++) {
 
 			//this.graph.components[this.componentsChildren[i]].setTexCoords(this.length_s,this.length_t);
