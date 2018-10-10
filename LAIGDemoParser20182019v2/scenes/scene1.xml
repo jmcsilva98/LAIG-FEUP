@@ -55,6 +55,8 @@
     <texture id="grass" file="../images/grass.jpg" />
     <texture id="marmore" file="../images/marmore.jpg" />
     <texture id="sun" file="../images/sun.jpg" />
+    <texture id="window" file="../images/window.jpg"/>
+    <textures id="brick" file="../images/brick.jpg"/>
   </textures>
 
 
@@ -115,7 +117,12 @@
       <diffuse r="0.1" g="0.1" b="0.1" a="1"/>
       <specular r="0.1" g="0.1" b="0.1" a="1"/>
     </material>
-
+<material id="wall" shininess="1">
+      <emission r="0.34" g="0.05" b="0.01" a="1"/>
+      <ambient r="0.1" g="0.1" b="0.1" a="1"/>
+      <diffuse r="0.1" g="0.1" b="0.1" a="1"/>
+      <specular r="0.1" g="0.1" b="0.1" a="1"/>
+    </material>
 
   </materials>
 
@@ -124,7 +131,7 @@
   <transformations>
     <transformation id="floorTransf">
       <translate x="2" y="-0.5" z="0" />
-      <scale x="15" y="1" z="15" />
+      <scale x="20" y="1" z="20" />
       <rotate axis="x" angle="-90" />
     </transformation>
 
@@ -163,7 +170,7 @@
       </transformation>
 
       <materials>
-        <material id="defaultMaterial" />
+        <material id="wall" />
       </materials>
 
       <texture id="none" length_s="1" length_t="1" />
@@ -327,14 +334,14 @@
     
 <component id="leftBuilding">
       <transformation>
-        <translate x="-5" y="0" z="-1"/>
+        <translate x="-5.5" y="0" z="-1"/>
       </transformation>
 
       <materials>
-        <material id="floor" />
+        <material id="wall" />
       </materials>
 
-      <texture id="grass" length_s="1" length_t="1" />
+      <texture id="brick" length_s="1" length_t="1" />
 
       <children>
         <componentref id="building" />
@@ -346,10 +353,10 @@
       </transformation>
 
       <materials>
-        <material id="floor" />
+        <material id="wall" />
       </materials>
 
-      <texture id="grass" length_s="1" length_t="1" />
+      <texture id="brick" length_s="1" length_t="1" />
 
       <children>
         <componentref id="building" />
@@ -360,28 +367,30 @@
       </transformation>
 
       <materials>
-        <material id="floor" />
+        <material id="wall" />
       </materials>
 
-      <texture id="grass" length_s="1" length_t="1" />
+      <texture id="none" length_s="1" length_t="1" />
 
       <children>
         <componentref id="backBuilding" />
         <componentref id="window1"/>
         <componentref id="window2"/>
          <componentref id="window3"/>
+         <componentref id="buildingStairs"/> 
+         <componentref id="buildingBase"/>
       </children>
     </component>
     <component id="backBuilding">
       <transformation>
-      <scale x="5" y="5" z ="2"/>
+      <scale x="5.5" y="5" z ="2"/>
       </transformation>
 
       <materials>
-        <material id="floor" />
+        <material id="wall" />
       </materials>
 
-      <texture id="grass" length_s="1" length_t="1" />
+      <texture id="brick" length_s="1" length_t="1" />
 
       <children>
         <componentref id="parallelepiped" />
@@ -445,6 +454,38 @@
 
       <children>
         <componentref id="window"/>
+      </children>
+    </component>
+    <component id="buildingStairs">
+      <transformation>
+      <translate x="-0.3" y="-3" z="0"/>
+      <scale x="1.2" y="0.8" z="1"/>
+      </transformation>
+
+      <materials>
+        <material id="white" />
+      </materials>
+
+      <texture id="window" length_s="1" length_t="1" />
+
+      <children>
+        <componentref id="stairs"/>
+      </children>
+    </component>
+    <component id="buildingBase">
+      <transformation>
+      <translate x="-0.5" y="-1.8" z="0"/>
+      <scale x="6" y="2" z ="3"/>
+      </transformation>
+
+      <materials>
+        <material id="wall" />
+      </materials>
+
+      <texture id="brick" length_s="1" length_t="1" />
+
+      <children>
+        <componentref id="parallelepiped" />
       </children>
     </component>
 
@@ -526,7 +567,7 @@
       </transformation>
 
       <materials>
-        <material id="darkMaterial" />
+        <material id="defaultMaterial" />
       </materials>
 
       <texture id="none" length_s="1" length_t="1" />
@@ -566,7 +607,7 @@
       </transformation>
 
       <materials>
-        <material id="darkMaterial" />
+        <material id="defaultMaterial" />
       </materials>
 
       <texture id="none" length_s="1" length_t="1" />
@@ -828,7 +869,7 @@
 
     <component id="sun">
       <transformation>
-        <translate x="-4.75" y="7" z="-4.75" />
+        <translate x="-4.75" y="8" z="-4.75" />
         <scale x="1.2" y="1.2" z="1.2" />
       </transformation>
 
@@ -885,7 +926,7 @@
       </transformation>
 
       <materials>
-        <material id="floor" />
+        <material id="darkMaterial" />
       </materials>
 
       <texture id="grass" length_s="1" length_t="1" />
