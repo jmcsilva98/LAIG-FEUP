@@ -241,7 +241,7 @@ class MySceneParser {
           this.onXMLMinorError("There isn't any block perspective.");
         }
 
-        for(var i  =0; i < view.length;i++)
+        for(var i  = 0; i < view.length;i++)
         {
           var nodeName = view[i].nodeName;
           var perspectiveComponent = [];
@@ -611,7 +611,7 @@ class MySceneParser {
 
         this.materials[matId] = newMaterial;
       }
-      //return null;
+      return null;
       }
 
       parseRgba(element){
@@ -718,8 +718,9 @@ class MySceneParser {
         var node =primitivesNode.children[i];
         var primitive;
         var id = this.reader.getString(node,'id');
-        //verificar se e nulo
-
+        if (id == null){
+            this.onXMLMinorError("Primitive id is null.");
+        }
         switch (node.children[0].nodeName){
             case "rectangle":
               this.primitives[id]= new MyQuad(this.scene,node.children[0].getAttribute('x1'),node.children[0].getAttribute('x2'),node.children[0].getAttribute('y1'),node.children[0].getAttribute('y2'));
@@ -741,7 +742,7 @@ class MySceneParser {
 
         }
       }
-     // return null;
+      return null;
       }
     }
 
@@ -772,11 +773,6 @@ class MySceneParser {
         if (transformations.length>1){
             this.onXMLMinorError("There can't have more than one transformation block!");
         }
-       /*  if(transformations[0].nodeName == "transformationref"){
-           
-            identMatrix = this.transformations[transformations[0].getAttribute('id')];
-        }
-        else { */
               identMatrix=mat4.create();
               for(var j = 0;j < transformations.length; j++){
                 var vector = vec3.create();
@@ -822,13 +818,11 @@ class MySceneParser {
 
       var materials = component[i].getElementsByTagName('material')[0];
 
-      /*if(materials.length < 1)
-        this.onXMLMinorError("You need to have at least one material, please input one.");*/
+      if(materials.length < 1)
+        this.onXMLMinorError("You need to have at least one material, please input one.");
 
       defaultMaterial = this.reader.getString(materials, 'id');
 
-
-      //falta texturas
 
       var textures = component[i].getElementsByTagName('texture');
       if(textures.length > 1){
@@ -856,7 +850,7 @@ class MySceneParser {
         componentsId.push(componentsChildren[j].getAttribute('id'));
          }
 
-                                                                                //texture? defaultMaterial
+                                                                                
       var newComponent = new Component(this.scene, this, componentId, identMatrix, this.textures[textID] ,  defaultMaterial, primitivesId,componentsId);
       this.components[componentId] = newComponent;
       }
@@ -897,7 +891,6 @@ class MySceneParser {
 
         // entry point for graph rendering
         //TODO: Render loop starting at root of graph
-
          this.components[this.rootName].display();
 
     }
