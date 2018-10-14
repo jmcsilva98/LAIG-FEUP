@@ -347,7 +347,7 @@ class MySceneParser {
     }
     parseLights(lightsNode){
       var children = lightsNode.children;
-
+      
       this.lights = [];
       var numLights = 0;
 
@@ -355,12 +355,11 @@ class MySceneParser {
       var nodeNames = [];
 
       if(children.length == 0)
-        //this.onXMLMinorError("There isn't any light.");
         return "You have to have at least one light.";
 
       // Any number of lights.
       for (var i = 0; i < children.length; i++) {
-
+        var type = children[i].nodeName;
           if (!(children[i].nodeName == "omni" || children[i].nodeName == "spot")) {
               this.onXMLMinorError("unknown tag <" + children[i].nodeName + ">");
               continue;
@@ -378,7 +377,6 @@ class MySceneParser {
 
           //Get enable index of the current light
           var enableLight = this.reader.getBoolean(children[i],'enabled');
-
           if(!(enableLight == 0 || enableLight == 1)){
               this.onXMLMinorError("The enable light must be 0 or 1 (false or true). Assuming value 1");
           }
@@ -534,10 +532,33 @@ class MySceneParser {
                   specularIllumination.push(a);
           }  else
                 return "specular component undefined for ID = " + lightId;
+          if (children[i].nodeName == 'spot'){
+            var targetIllumination=[];
+            var targetIndex = nodeNames.indexOf("target");
+            var x= this.reader.getFloat(grandChildren[targetIndex],'x')
+            if (!(x != null && !isNaN(x)))
+            return "unable to parse X component of the specular illumination for ID = " + lightId;
+        else
+            targetIllumination.push(x);
+            var y= this.reader.getFloat(grandChildren[targetIndex],'y')
+            if (!(y != null && !isNaN(y)))
+            return "unable to parse y component of the specular illumination for ID = " + lightId;
+        else
+            targetIllumination.push(y);
+            var z= this.reader.getFloat(grandChildren[targetIndex],'z')
+            if (!(z != null && !isNaN(z)))
+            return "unable to parse X component of the specular illumination for ID = " + lightId;
+        else
+            targetIllumination.push(z);
+        
+            var angleLight= this.reader.getFloat(children[i],'angle')*DEGREE_TO_RAD;
+            var exponentLight=this.reader.getFloat(children[i],'exponent');
+            this.lights[lightId] = [type,enableLight, angleLight,exponentLight,locationLight, targetIllumination, ambientIllumination, diffuseIllumination, specularIllumination,type];
 
-          // TODO: Store Light global information.
-          //this.lights[lightId] = ...;
-          this.lights[lightId] = [enableLight, locationLight, ambientIllumination, diffuseIllumination, specularIllumination];
+          }
+          else
+          this.lights[lightId] = [type,enableLight, locationLight, ambientIllumination, diffuseIllumination, specularIllumination];
+           
           numLights++;
       }
 
@@ -546,7 +567,6 @@ class MySceneParser {
       else if (numLights > 8)
           this.onXMLMinorError("too many lights defined; WebGL imposes a limit of 8 lights");
 
-      //FALTA PARA O SPOT
       this.log("Parsed lights");
       return null;
     }
