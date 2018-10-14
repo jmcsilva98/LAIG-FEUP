@@ -27,7 +27,8 @@ class MySceneParser {
         scene.graph = this;
 
         this.nodes = [];
-        this.perspectives = []; //added by me
+        this.viewsPerspective = []; //added by me
+        this.viewsOrtho = [];
         this.textures = [];
         this.transformations=[];
         this.components=[];
@@ -237,19 +238,26 @@ class MySceneParser {
           return "You need to have at least one type of view defined.";
 
         var perspective = viewsNode.getElementsByTagName('perspective');
-        if(perspective.length ==0){
+        var ortho = viewsNode.getElementsByTagName('ortho');
+        if(perspective.length ==0)
           this.onXMLMinorError("There isn't any block perspective.");
-        }
+
+        if(ortho.length ==0)
+          this.onXMLMinorError("There isn't any block ortho.");
+
 
         for(var i  = 0; i < view.length;i++)
         {
           var nodeName = view[i].nodeName;
           var perspectiveComponent = [];
+          var orthoComponent = [];
+
 
           if(nodeName == "perspective"){
             var viewId = this.reader.getString(view[i], 'id');
             if(viewId == null)
               return "There's no perspective id";
+              //this.onXMLMinorError("There's no perspective id"); QUAL MELHOR
               perspectiveComponent.push(viewId);
 
             var near = this.reader.getFloat(view[i], 'near');
@@ -284,13 +292,65 @@ class MySceneParser {
 
 
               this.newCamera = new CGFcamera(angle, near, far, vec3.fromValues(xfrom,yfrom,zfrom), vec3.fromValues(xto,yto,zto));
-              this.perspectives.push(this.newCamera); //the new camera view is added to the array
+              this.viewsPerspective.push(this.newCamera); //the new camera view is added to the array
 
           }else if(nodeName == "ortho"){
-            //se for ortho
+                  var viewId = this.reader.getString(view[i], 'id');
+                  if(viewId == null)
+                   return "There's no ortho id";
+                  orthoComponent.push(viewId);
+
+                  var near = this.reader.getFloat(view[i], 'near');
+                  if(near == null)
+                    return "There's no near values"; //mudar
+                  orthoComponent.push(near);
+
+                  var far = this.reader.getFloat(view[i], 'far');
+                  if(far == null)
+                    return "There's no far values"; //mudar
+                  orthoComponent.push(far);
+
+                  var left = this.reader.getFloat(view[i], 'left');
+                  if(left == null)
+                    return "There's no left values"; //mudar
+                  orthoComponent.push(left);
+
+                  var right = this.reader.getFloat(view[i], 'right');
+                  if(right == null)
+                    return "There's no right values"; //mudar
+                  orthoComponent.push(right);
+
+                  var top = this.reader.getFloat(view[i], 'top');
+                  if(top == null)
+                    return "There's no top values"; //mudar
+                  orthoComponent.push(top);
+
+                  var bottom = this.reader.getFloat(view[i], 'bottom');
+                  if(bottom == null)
+                      return "There's no bottom values"; //mudar
+                  orthoComponent.push(bottom);
+
+                  var orthoChildren = view[i].children;
+
+                  for(var j = 0; j < orthoChildren.length; j++){
+                    var nodeName = orthoChildren[j].nodeName;
+                      if(nodeName == "from"){
+                        var xfrom = this.reader.getFloat(perspectiveChildren[j], 'x');
+                        var yfrom = this.reader.getFloat(perspectiveChildren[j], 'y');
+                        var zfrom = this.reader.getFloat(perspectiveChildren[j], 'z');
+                      }else if(nodeName == "to"){
+                        var xto = this.reader.getFloat(perspectiveChildren[j], 'x');
+                        var yto = this.reader.getFloat(perspectiveChildren[j], 'y');
+                        var zto = this.reader.getFloat(perspectiveChildren[j], 'z');
+                        }
+                    }
+
+                    this.newCamera = new CGFcameraOrtho(left, right, bottom, top, near, far, vec3.fromValues(xfrom,yfrom,zfrom), vec3.fromValues(xto,yto,zto));
+                    this.viewsOrtho.push(this.newCamera); //the new camera view is added to the array
+
           }
           else{
-            //testar se o nome nao e nenhumdos dois
+            this.onXMLMinorError("The name of the view must be or ortho or perspective.");
           }
         }
 
@@ -347,7 +407,7 @@ class MySceneParser {
     }
     parseLights(lightsNode){
       var children = lightsNode.children;
-      
+
       this.lights = [];
       var numLights = 0;
 
@@ -550,7 +610,7 @@ class MySceneParser {
             return "unable to parse X component of the specular illumination for ID = " + lightId;
         else
             targetIllumination.push(z);
-        
+
             var angleLight= this.reader.getFloat(children[i],'angle')*DEGREE_TO_RAD;
             var exponentLight=this.reader.getFloat(children[i],'exponent');
             this.lights[lightId] = [type,enableLight, angleLight,exponentLight,locationLight, targetIllumination, ambientIllumination, diffuseIllumination, specularIllumination,type];
@@ -558,7 +618,7 @@ class MySceneParser {
           }
           else
           this.lights[lightId] = [type,enableLight, locationLight, ambientIllumination, diffuseIllumination, specularIllumination];
-           
+
           numLights++;
       }
 
@@ -665,7 +725,7 @@ class MySceneParser {
 
 
     parseTransformations(transformationsNode){
-      
+
       var identMatrix=mat4.create();
       for (var i =0;i<transformationsNode.children.length;i++){
         var transformations=transformationsNode.children[i].children;
@@ -708,7 +768,7 @@ class MySceneParser {
             }
             this.transformations[transformationsNode.children[i].getAttribute('id')]=identMatrix;
         }
-        
+
       return null;
     }
 
@@ -870,7 +930,7 @@ class MySceneParser {
         componentsId.push(componentsChildren[j].getAttribute('id'));
          }
 
-                                                                                
+
       var newComponent = new Component(this.scene, this, componentId, identMatrix, this.textures[textID] ,  defaultMaterial, primitivesId,componentsId);
       this.components[componentId] = newComponent;
       }

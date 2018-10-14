@@ -44,4 +44,50 @@ class MyInterface extends CGFinterface {
             }
         }
     }
+
+
+    /**
+     * Adds a folder containing the IDs of the views passed as parameter.
+     * @param {array} Views
+     */
+    addViewsGroup(viewsPerspective,viewsOrtho) {
+
+        var group = this.gui.addFolder("Views");
+        group.open();
+
+        // add two check boxes to the group. The identifiers must be members variables of the scene initialized in scene.init as boolean
+        //this.option1=true; this.option2=false;
+
+      /*  for (var i = 0; i<viewsPerspective.length ; i++) {
+          group.add(this.scene, 'camera1');
+
+        }
+        for (var j = 0; j<viewsOrtho.length ; j++) {
+          group.add(this.scene, 'ortho1');
+
+        }*/
+    }
+
+  /*initKeys() {
+  this.scene.gui=this;
+  this.processKeyboard=function(){};
+  this.activeKeys={};
+  }
+  processKeyDown(event) {
+  this.activeKeys[event.code]=true;
+  };
+  processKeyUp(event) {
+  this.activeKeys[event.code]=false;
+  };
+  isKeyPressed(keyCode) {
+  return this.activeKeys[keyCode] || false;
+}
+checkKeys(){
+  if(this.isKeyPressed("KeyM")){
+
+  }
+  if(this,isKeyPressed("Keym")){
+
+  }
+}*/
 }

@@ -7,6 +7,12 @@
       <from x="30" y="30" z="30" />
       <to x="0" y="0" z="0" />
     </perspective>
+
+    <ortho id="ortho1" near="0.1" far="1000.0" left="-100.0" right="100.0" top="1.0" bottom="-1.0" >
+      <from x="100.0" y="100.0" z="100.0"/>
+      <to x="0.0" y="0.0" z="0.0"/>
+    </ortho>
+
   </views>
 
 
@@ -205,7 +211,7 @@
         <componentref id="columns" />
         <componentref id="clockWall" />
         <componentref id ="leftBuilding"/>
-        <componentref id="rightBuilding"/> 
+        <componentref id="rightBuilding"/>
       </children>
     </component>
 
@@ -339,7 +345,7 @@
         <componentref id="fullColumn"/>
       </children>
     </component>
-    
+
 <component id="leftBuilding">
       <transformation>
         <translate x="-5.5" y="0" z="-1"/>
@@ -389,13 +395,13 @@
         <componentref id="window4"/>
         <componentref id="window5"/>
         <componentref id="window6"/>
-         <componentref id="buildingStairs"/> 
+         <componentref id="buildingStairs"/>
          <componentref id="buildingBase"/>
       </children>
     </component>
     <component id="backBuilding">
       <transformation>
-      
+
       <scale x="5.5" y="5" z ="2"/>
       </transformation>
 
@@ -960,7 +966,7 @@
         <componentref id="stair3"/>
         <componentref id="stair4"/>
       </children>
-    </component> 
+    </component>
        <component id="stair1">
       <transformation>
       <translate x="1" y="0" z="2"/>
@@ -976,7 +982,7 @@
       <children>
         <componentref id="parallelepiped" />
       </children>
-    </component>  
+    </component>
    <component id="stair2">
       <transformation>
       <translate x="0.9" y="0.5" z="1.5"/>
@@ -992,7 +998,7 @@
       <children>
         <componentref id="parallelepiped" />
       </children>
-    </component> 
+    </component>
     <component id="stair3">
       <transformation>
       <translate x="0.8" y="1" z="1"/>
@@ -1008,7 +1014,7 @@
       <children>
         <componentref id="parallelepiped" />
       </children>
-    </component> 
+    </component>
     <component id="stair4">
       <transformation>
       <translate x="0.7" y="1.5" z="0.5"/>
@@ -1024,7 +1030,7 @@
       <children>
         <componentref id="parallelepiped" />
       </children>
-    </component> 
+    </component>
 
   </components>
 

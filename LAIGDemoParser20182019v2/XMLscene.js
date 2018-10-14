@@ -13,6 +13,7 @@ class XMLscene extends CGFscene {
 
         this.interface = myinterface;
         this.lightValues = {};
+        this.viewValues = {};
     }
 
     /**
@@ -41,6 +42,9 @@ class XMLscene extends CGFscene {
      */
     initCameras() {
         this.camera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(15, 15, 15), vec3.fromValues(0, 0, 0));
+
+
+
     }
     /**
      * Initializes the scene lights with the values read from the XML file.
@@ -110,6 +114,8 @@ class XMLscene extends CGFscene {
         // Adds lights group.
         this.interface.addLightsGroup(this.graph.lights);
 
+        //Adds views group.
+        this.interface.addViewsGroup(this.graph.viewsPerspective,this.graph.viewsOrtho);
 
         this.sceneInited = true;
     }
@@ -153,6 +159,7 @@ class XMLscene extends CGFscene {
                     i++;
                 }
             }
+
 
             // Displays the scene (MySceneGraph function).
             this.graph.displayScene();
