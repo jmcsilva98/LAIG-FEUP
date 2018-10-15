@@ -1,55 +1,58 @@
 /**
- * MyOpenCylinder
+ * MyCylinder
  * @constructor
  */
 class MyOpenCylinder extends CGFobject
- {
+{
+	constructor(scene, slices, stacks)
+	{
+		super(scene);
+	
+		this.slices = slices;
+		this.stacks = stacks;
+		this.initBuffers();
+	};
 
-  constructor(scene, base, top, height, slices, stacks){
-    super(scene);
+	initBuffers()
+	{
+		this.vertices = [];
+		this.indices = [];
+		this.normals = [];
+		this.texCoords = [];
 
-  this.base = base;
-  this.top = top;
-	this.height = height;
-	this.slices = slices;
-	this.stacks = stacks;
+		let step_angle = 2*Math.PI/this.slices;
+		let stack_step = 1/this.stacks;
 
- 	this.initBuffers();
-};
+		for(let i = 0; i <= this.slices; ++i) {
 
- initBuffers()
-  {
-	this.ang = Math.PI*2/this.slices;
-	this.stackSize = this.height/this.stacks;
-  var radiusDifference = (this.base - this.top)/this.stacks;
+			for(let j = 0; j <= this.stacks; ++j) {
 
-  this.vertices = [];
-	this.indices = [];
-	this.normals = [];
-	this.texCoords = [];
+				this.vertices.push(
+					Math.cos(step_angle*i), Math.sin(step_angle*i), j*stack_step
+				);
 
-		for(var i = 0 ; i < this.slices; i++) {
-			//NORMAL FOR THIS SLICE : (Math.cos(this.normalAng + this.ang * i), Math.sin(this.normalAng + this.ang * i), 0);
-			//x1 = Math.cos(this.ang*i), x2 = Math.cos(this.ang*(i+1)), y1 =..., y2=... only z changes.
-			var x1 = Math.cos(this.ang*i);
-			var y1 = Math.sin(this.ang*i);
-			var x2 = Math.cos(this.ang*(i+1));
-			var y2 = Math.sin(this.ang*(i+1));
-			for(var j = this.stacks, k = 0; j >= 0; j--, k++){
-				this.vertices.push(x1 * (this.top + radiusDifference*k), y1 * (this.top + radiusDifference*k), j*this.stackSize);
-				this.vertices.push(x2 * (this.top + radiusDifference*k), y2 * (this.top + radiusDifference*k), j*this.stackSize);
-				this.texCoords.push(x1, y1);
-				this.texCoords.push(x2, y2);
-				this.normals.push(x1, y1, 0);
-				this.normals.push(x2, y2, 0);
-				if(j != 0){
-					this.indices.push((i*2*(this.stacks+1))+k*2+1, (i*2*(this.stacks+1))+k*2, (i*2*(this.stacks+1))+k*2+2);
-					this.indices.push((i*2*(this.stacks+1))+k*2+2, (i*2*(this.stacks+1))+k*2+3, (i*2*(this.stacks+1))+k*2+1);
-				}
+				this.texCoords.push(
+					i*1/this.slices, j*1/this.stacks
+				);
+
+				this.normals.push(
+					Math.cos(step_angle*i), Math.sin(step_angle*i), 0
+				);
+
+			}
+
+		}
+
+		for (let i = 0; i < this.slices; ++i) {
+			for(let j = 0; j < this.stacks; ++j) {
+				this.indices.push(
+					(i+1)*(this.stacks+1) + j, i*(this.stacks+1) + j+1, i*(this.stacks+1) + j,
+					i*(this.stacks+1) + j+1, (i+1)*(this.stacks+1) + j, (i+1)*(this.stacks+1) + j+1
+				);
 			}
 		}
 
- 	this.primitiveType = this.scene.gl.TRIANGLES;
- 	this.initGLBuffers();
- };
+		this.primitiveType = this.scene.gl.TRIANGLES;
+		this.initGLBuffers();
+	};
 };
