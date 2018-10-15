@@ -50,24 +50,23 @@ class MyInterface extends CGFinterface {
      * Adds a folder containing the IDs of the views passed as parameter.
      * @param {array} Views
      */
-    addViewsGroup(viewsPerspective,viewsOrtho) {
+    addViewsGroup(views) {
 
         var group = this.gui.addFolder("Views");
         group.open();
         var view = [];
 
-       for(var key in viewsPerspective){
-          if(viewsPerspective.hasOwnProperty(key)){
+       for(var key in views){
+          if(views.hasOwnProperty(key)){
             view.push(key);
+
           }
         }
-        for(var key in viewsOrtho){
-           if(viewsOrtho.hasOwnProperty(key)){
-             view.push(key);
-           }
-         }
-      
-          group.add(this.scene, "index", view);
+
+        group.add(this.scene, "index", view).onChange(function(index){
+          this.scene.camera = views[index];
+          this.setActiveCamera(this.scene.camera);
+        });
 
 
 

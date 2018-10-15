@@ -111,7 +111,7 @@ class XMLscene extends CGFscene {
         this.interface.addLightsGroup(this.graph.lights);
 
         //Adds views group.
-        this.interface.addViewsGroup(this.graph.perspectiveComponent,this.graph.orthoComponent);
+        this.interface.addViewsGroup(this.graph.newView);
 
         this.sceneInited = true;
     }
@@ -127,11 +127,10 @@ class XMLscene extends CGFscene {
         this.gl.viewport(0, 0, this.gl.canvas.width, this.gl.canvas.height);
         this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
 
-        if(this.oldIndex != this.index){
-          /*this.setActiveCamera(this.graph.viewsOrtho[this.index]);
-          this.oldIndex = this.index;*/
+        //if(this.oldIndex != this.index){
 
-          if(this.graph.perspectiveComponent[this.index] != null){
+
+          /*if(this.graph.perspectiveComponent[this.index] != null){
           this.camera.fov = this.graph.perspectiveComponent[this.index][0];
           this.camera.near = this.graph.perspectiveComponent[this.index][1];
           this.camera.far = this.graph.perspectiveComponent[this.index][2];
@@ -148,11 +147,12 @@ class XMLscene extends CGFscene {
           this.camera.setTarget(this.graph.orthoComponent[this.index][7]);
           this.camera.setUp(this.graph.orthoComponent[this.index][8]);
 
-        }
+        }*/
+      /*  this.interface.setActiveCamera(this.graph.newView[this.index]);
 
+        this.oldIndex = this.index;
 
-
-        }
+      }*/
 
 
 
