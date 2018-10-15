@@ -352,8 +352,12 @@ class MySceneParser {
                         var zto = this.reader.getFloat(perspectiveChildren[j], 'z');
                         }
                     }
+                    var up = this.reader.getFloat(view[i], 'up');
+                    if(up == null)
+                      return "There's no up values"; //mudar
+                    orthoComponent.push(up);
 
-                    this.newCamera = new CGFcameraOrtho(left, right, bottom, top, near, far, vec3.fromValues(xfrom,yfrom,zfrom), vec3.fromValues(xto,yto,zto));
+                    this.newCamera = new CGFcameraOrtho(left, right, bottom, top, near, far, vec3.fromValues(xfrom,yfrom,zfrom), vec3.fromValues(xto,yto,zto),up);
                     //this.viewsOrtho[viewId] = this.newCamera; //the new camera view is added to the array
                     this.newView[viewId] = this.newCamera;
                     //orthoComponent.push(vec3.fromValues(xfrom,yfrom,zfrom));
