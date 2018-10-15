@@ -18,7 +18,7 @@ class MyCylinder extends CGFobject
 		this.tube =  new MyOpenCylinder(scene, base, top, height, slices, stacks);
 		this.initBuffers();
 
-   }
+	};
 	display()
 	{
 			this.scene.pushMatrix();

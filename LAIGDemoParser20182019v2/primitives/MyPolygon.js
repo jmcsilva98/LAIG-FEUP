@@ -12,7 +12,7 @@ class MyPolygon extends CGFobject
 
 
 	this.initBuffers();
-}
+};
 
 initBuffers()
 {

@@ -1,17 +1,17 @@
-function MySphere(scene, radius, slices, stacks) {
-    CGFobject.call(this, scene);
+class MySphere extends CGFobject
+ {
+   constructor(scene, radius, slices, stacks){
+    super(scene);
 
     this.slices = slices;
     this.stacks = stacks;
     this.radius = radius;
 
     this.initBuffers();
-};
+    };
 
-MySphere.prototype = Object.create(CGFobject.prototype);
-MySphere.prototype.constructor = MySphere;
 
-MySphere.prototype.initBuffers = function() {
+    initBuffers(){
 
     this.vertices = [];
     this.normals = [];
@@ -48,7 +48,7 @@ MySphere.prototype.initBuffers = function() {
 
                 yCoord += patchLengthy;
 
-          
+
             this.originalTexCoords.push(  xCoord,yCoord);
         }
 
@@ -60,4 +60,6 @@ MySphere.prototype.initBuffers = function() {
     this.texCoords = this.originalTexCoords.slice();
     this.primitiveType = this.scene.gl.TRIANGLES;
     this.initGLBuffers();
+};
+
 };

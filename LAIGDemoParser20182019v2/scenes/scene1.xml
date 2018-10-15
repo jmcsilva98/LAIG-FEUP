@@ -199,7 +199,9 @@
         <componentref id="floor" />
         <componentref id="sun"/>
         <componentref id="stairs"/>-->
+
         <componentref id="bodyColumn"/>
+
 
       </children>
     </component>

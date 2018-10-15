@@ -15,7 +15,7 @@ class MyOpenCylinder extends CGFobject
 	this.stacks = stacks;
 
  	this.initBuffers();
- }
+};
 
  initBuffers()
   {
