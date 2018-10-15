@@ -823,7 +823,7 @@ class MySceneParser {
               this.primitives[id]= new MyQuad(this.scene,node.children[0].getAttribute('x1'),node.children[0].getAttribute('x2'),node.children[0].getAttribute('y1'),node.children[0].getAttribute('y2'));
               break;
               case "cylinder":
-              this.primitives[id]=new MyCylinder(this.scene,node.children[0].getAttribute('slices'),node.children[0].getAttribute('stacks'));
+              this.primitives[id]=new MyCylinder(this.scene,node.children[0].getAttribute('base'), node.children[0].getAttribute('top'), node.children[0].getAttribute('height'),node.children[0].getAttribute('slices'),node.children[0].getAttribute('stacks'));
               break;
               case "triangle":
                 this.primitives[id]=new MyTriangle(this.scene,node.children[0].getAttribute('x1'),node.children[0].getAttribute('y1'),node.children[0].getAttribute('z1'),node.children[0].getAttribute('x2'),node.children[0].getAttribute('y2'),node.children[0].getAttribute('z2'),node.children[0].getAttribute('x3'),node.children[0].getAttribute('y3'),node.children[0].getAttribute('z3'));

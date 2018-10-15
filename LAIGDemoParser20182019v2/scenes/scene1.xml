@@ -163,7 +163,7 @@
       <cylinder base="1" top="1" height="10" slices="25" stacks="8" />
     </primitive>
     <primitive id="square">
-      <rectangle x1="0" y1="0" x2="10" y2="10" />
+      <rectangle x1="-0.5" y1="-0.5" x2="0.5" y2="0.5" />
     </primitive>
     <primitive id="circle">
       <cylinder base="1" top="1" height="5" slices="1" stacks="1" />
@@ -174,7 +174,7 @@
     </primitive>
 
     <primitive id="rectangle">
-      <rectangle x1="-5" y1="-5" x2="10" y2="5" />
+      <rectangle x1="-0.5" y1="-0.5" x2="0.5" y2="0.5" />
     </primitive>
 
     <primitive id="sphere">
@@ -195,10 +195,12 @@
       <texture id="none" length_s="1" length_t="1" />
 
       <children>
-        <componentref id="clockTower" />
+        <!--<componentref id="clockTower" />
         <componentref id="floor" />
         <componentref id="sun"/>
-        <componentref id="stairs"/>
+        <componentref id="stairs"/>-->
+        <componentref id="bodyColumn"/>
+
       </children>
     </component>
   <component id="clockTower">
