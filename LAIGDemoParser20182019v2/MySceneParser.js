@@ -291,8 +291,11 @@ class MySceneParser {
               }
 
 
-              this.newCamera = new CGFcamera(angle, near, far, vec3.fromValues(xfrom,yfrom,zfrom), vec3.fromValues(xto,yto,zto));
-              this.viewsPerspective.push(this.newCamera); //the new camera view is added to the array
+            //  this.newCamera = new CGFcamera(angle, near, far, vec3.fromValues(xfrom,yfrom,zfrom), vec3.fromValues(xto,yto,zto));
+            //  this.viewsPerspective[viewId] = this.newCamera; //the new camera view is added to the array
+
+            perspectiveComponent.push(vec3.fromValues(xfrom,yfrom,zfrom));
+            perspectiveComponent.push( vec3.fromValues(xto,yto,zto));
 
           }else if(nodeName == "ortho"){
                   var viewId = this.reader.getString(view[i], 'id');
@@ -345,8 +348,10 @@ class MySceneParser {
                         }
                     }
 
-                    this.newCamera = new CGFcameraOrtho(left, right, bottom, top, near, far, vec3.fromValues(xfrom,yfrom,zfrom), vec3.fromValues(xto,yto,zto));
-                    this.viewsOrtho.push(this.newCamera); //the new camera view is added to the array
+                    //this.newCamera = new CGFcameraOrtho(left, right, bottom, top, near, far, vec3.fromValues(xfrom,yfrom,zfrom), vec3.fromValues(xto,yto,zto));
+                    //this.viewsOrtho[viewId] = this.newCamera; //the new camera view is added to the array
+                    orthoComponent.push(vec3.fromValues(xfrom,yfrom,zfrom));
+                    orthoComponent.push(vec3.fromValues(xto,yto,zto));
 
           }
           else{

@@ -13,7 +13,8 @@ class XMLscene extends CGFscene {
 
         this.interface = myinterface;
         this.lightValues = {};
-        this.viewValues = {};
+        this.index = "view1";
+        this.oldIndex = this.index;
     }
 
     /**
@@ -35,6 +36,7 @@ class XMLscene extends CGFscene {
         this.gl.depthFunc(this.gl.LEQUAL);
 
         this.axis = new CGFaxis(this);
+
     }
 
     /**
@@ -79,13 +81,7 @@ class XMLscene extends CGFscene {
                 }
 
                 this.lights[i].setVisible(true);
-              /*  if (light[1])
-                    this.lights[i].enable();
-                else
-                    this.lights[i].disable();
 
-                this.lights[i].update();
-*/
                 i++;
             }
         }
@@ -115,7 +111,7 @@ class XMLscene extends CGFscene {
         this.interface.addLightsGroup(this.graph.lights);
 
         //Adds views group.
-        this.interface.addViewsGroup(this.graph.viewsPerspective,this.graph.viewsOrtho);
+        this.interface.addViewsGroup(this.graph.perspectiveComponent,this.graph.orthoComponent);
 
         this.sceneInited = true;
     }
@@ -130,6 +126,36 @@ class XMLscene extends CGFscene {
         // Clear image and depth buffer everytime we update the scene
         this.gl.viewport(0, 0, this.gl.canvas.width, this.gl.canvas.height);
         this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
+
+        if(this.oldIndex != this.index){
+          /*this.setActiveCamera(this.graph.viewsOrtho[this.index]);
+          this.oldIndex = this.index;*/
+
+          if(this.graph.perspectiveComponent[this.index] != null){
+          this.camera.fov = this.graph.perspectiveComponent[this.index][0];
+          this.camera.near = this.graph.perspectiveComponent[this.index][1];
+          this.camera.far = this.graph.perspectiveComponent[this.index][2];
+          this.camera.setPosition(this.graph.perspectiveComponent[this.index][3]);
+          this.camera.setTarget(this.graph.perspectiveComponent[this.index][4]);
+        }else{
+          this.camera.left = this.graph.orthoComponent[this.index][0];
+          this.camera.right = this.graph.orthoComponent[this.index][1];
+          this.camera.bottom = this.graph.orthoComponent[this.index][2];
+          this.camera.top = this.graph.orthoComponent[this.index][3];
+          this.camera.near = this.graph.orthoComponent[this.index][4];
+          this.camera.far = this.graph.orthoComponent[this.index][5];
+          this.camera.setPosition(this.graph.orthoComponent[this.index][6]);
+          this.camera.setTarget(this.graph.orthoComponent[this.index][7]);
+          this.camera.setUp(this.graph.orthoComponent[this.index][8]);
+
+        }
+
+
+
+        }
+
+
+
 
         // Initialize Model-View matrix as identity (no transformation
         this.updateProjectionMatrix();
