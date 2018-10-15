@@ -195,12 +195,11 @@
       <texture id="none" length_s="1" length_t="1" />
 
       <children>
-        <!--<componentref id="clockTower" />
+
+        <componentref id="clockTower" />
         <componentref id="floor" />
         <componentref id="sun"/>
-        <componentref id="stairs"/>-->
-
-        <componentref id="bodyColumn"/>
+        <componentref id="stairs"/>
 
 
       </children>
@@ -647,18 +646,18 @@
 
       <children>
         <componentref id="faceCube1" />
-        <componentref id="faceCube2" />
-        <componentref id="faceCube3" />
+         <componentref id="faceCube2" />
+         <componentref id="faceCube3" />
         <componentref id="faceCube4" />
-        <componentref id="faceCube5" />
-        <componentref id="faceCube6" />
+       <componentref id="faceCube5" />
+       <componentref id="faceCube6" />
 
       </children>
     </component>
 
     <component id="faceCube1">
       <transformation>
-        <translate x="0.5" y="-0.5" z="0" />
+        <translate x="0.5" y="0" z="0" />
         <rotate axis="x" angle="-90" />
       </transformation>
 
@@ -675,7 +674,7 @@
 
     <component id="faceCube2">
       <transformation>
-        <translate x="0.5" y="1.5" z="0" />
+        <translate x="0.5" y="1" z="0" />
         <rotate axis="x" angle="90" />
       </transformation>
 
@@ -692,7 +691,7 @@
 
     <component id="faceCube3">
       <transformation>
-        <translate x="0.5" y="0.5" z="0" />
+        <translate x="0.5" y="0.5" z="-0.5" />
       </transformation>
 
       <materials>
@@ -708,7 +707,7 @@
 
     <component id="faceCube4">
       <transformation>
-        <translate x="0.5" y="0.5" z="0" />
+        <translate x="0" y="0.5" z="0" />
         <rotate axis="y" angle="90" />
       </transformation>
 
@@ -725,7 +724,7 @@
 
     <component id="faceCube5">
       <transformation>
-        <translate x="0.5" y="0.5" z="0" />
+        <translate x="0.5" y="0.5" z="0.5" />
         <rotate axis="y" angle="180" />
       </transformation>
 
@@ -742,7 +741,7 @@
 
     <component id="faceCube6">
       <transformation>
-        <translate x="0.5" y="0.5" z="0" />
+        <translate x="1" y="0.5" z="0" />
         <rotate axis="y" angle="270" />
       </transformation>
 
