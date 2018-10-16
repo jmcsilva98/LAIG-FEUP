@@ -833,7 +833,10 @@ class MySceneParser {
               break;
               case "square":
                 this.primitives[id]= new MyQuad(this.scene,node.children[0].getAttribute('x1'),node.children[0].getAttribute('x2'),node.children[0].getAttribute('y1'),node.children[0].getAttribute('y2'));
-                break;
+              break;
+              case "torus":
+                this.primitives[id]= new MyTorus(this.scene,node.children[0].getAttribute('inner'),node.children[0].getAttribute('outer'),node.children[0].getAttribute('slices'),node.children[0].getAttribute('loops'));
+              break;
 
            default:
 
@@ -912,13 +915,26 @@ class MySceneParser {
                 }
             }
 
+      //MATERIALS
 
-      var materials = component[i].getElementsByTagName('material')[0];
-
+      var materials = component[i].getElementsByTagName('material');
+      var materialsList = [];
       if(materials.length < 1)
         this.onXMLMinorError("You need to have at least one material, please input one.");
 
-      defaultMaterial = this.reader.getString(materials, 'id');
+      defaultMaterial = this.reader.getString(materials[0], 'id');
+
+      if(materials.length > 1){
+      for(var j = 0; j < materials.length; j++){
+        var id = this.reader.getString(materials[j], 'id');
+
+        if(!this.materials[id] || id == null)
+          return "Undefined material id: " + id;
+
+        materialsList.push(id);
+      }
+    }
+
 
 
       var textures = component[i].getElementsByTagName('texture');
@@ -948,7 +964,7 @@ class MySceneParser {
          }
 
 
-      var newComponent = new Component(this.scene, this, componentId, identMatrix, this.textures[textID] ,  defaultMaterial, primitivesId,componentsId);
+      var newComponent = new Component(this.scene, this, componentId, identMatrix, this.textures[textID] ,  defaultMaterial, primitivesId,componentsId, materialsList);
       this.components[componentId] = newComponent;
       }
 

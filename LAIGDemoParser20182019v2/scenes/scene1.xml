@@ -16,7 +16,7 @@
     <ortho id="ortho1" near="0.1" far="500" left="-100.0" right="100.0" top="5.0" bottom="-5.0" up="5">
       <from x="30" y="30" z="30"/>
       <to x="0.0" y="0.0" z="0.0"/>
-    </ortho> 
+    </ortho>
 
   </views>
 
@@ -177,7 +177,12 @@
     <primitive id="sphere">
       <sphere radius="0.6" slices="20" stacks="25" />
     </primitive>
-  </primitives>
+
+    <primitive id="torus">
+      <torus inner="1" outer="2" slices="40" loops="40" />
+    </primitive>
+
+    </primitives>
 
   <components>
 
@@ -192,11 +197,13 @@
       <texture id="none" length_s="1" length_t="1" />
 
       <children>
-    
-         <componentref id="clockTower" />
+
+        <componentref id="clockTower" />
         <componentref id="floor" />
         <componentref id="sun"/>
-        <componentref id="stairs"/> 
+        <componentref id="stairs"/>
+
+      <!--  <primitiveref id="torus"/> -->
 
 
       </children>
@@ -853,6 +860,8 @@
 
       <materials>
         <material id="purple" />
+        <material id="yellow" />
+        <material id="white" />
       </materials>
 
       <texture id="none" length_s="1" length_t="1" />

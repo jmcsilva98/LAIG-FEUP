@@ -73,17 +73,25 @@ class MyInterface extends CGFinterface {
     processKeyboard (event) {
         // call CGFinterface default code (omit if you want to override)
         CGFinterface.prototype.processKeyboard.call(this,event);
-    
+
       switch (event.keyCode) {
         case 86:
-                    this.scene.changingToNextCamera();
+          this.scene.changingToNextCamera();
           break;
         case 118:
-                    this.scene.changingToNextCamera();
+          this.scene.changingToNextCamera();
+          break;
+        case 109:
+          this.scene.switchMaterials();
+          console.log("pressed M");
+        break;
+        case 77:
+          this.scene.switchMaterials();
+          console.log("pressed M");
+        break;
 
-    
       }
-    
+
     }
 
 }

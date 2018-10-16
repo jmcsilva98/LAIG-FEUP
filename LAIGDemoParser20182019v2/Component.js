@@ -5,7 +5,7 @@
  */
 
 class Component {
-	constructor(scene, graph, id, transformationMatrix, texture, materialId, primitivesChildren, componentsChildren) {
+	constructor(scene, graph, id, transformationMatrix, texture, materialId, primitivesChildren, componentsChildren, materialsList) {
 		this.scene = scene;
 		this.graph = graph;
 		this.id = id;
@@ -17,6 +17,8 @@ class Component {
 
 		this.texture = texture;
 		this.oldTexture = texture;
+		this.materialsList = materialsList;
+		this.nextMaterialId = 0;
 
 		this.length_s;
 		this.length_t;
@@ -64,6 +66,8 @@ class Component {
 		this.scene.popMatrix();
 
 	}
+
+	
 
 
 };

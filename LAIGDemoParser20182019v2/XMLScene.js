@@ -27,17 +27,18 @@ class XMLscene extends CGFscene {
 
         this.sceneInited = false;
 
-        this.initCameras();
 
-        this.enableTextures(true);
+      this.initCameras();
 
-        this.gl.clearDepth(100.0);
-        this.gl.enable(this.gl.DEPTH_TEST);
-        this.gl.enable(this.gl.CULL_FACE);
-        this.gl.depthFunc(this.gl.LEQUAL);
+      this.enableTextures(true);
 
-        this.axis = new CGFaxis(this);
-        this.view = [];
+      this.gl.clearDepth(100.0);
+      this.gl.enable(this.gl.DEPTH_TEST);
+      this.gl.enable(this.gl.CULL_FACE);
+      this.gl.depthFunc(this.gl.LEQUAL);
+
+      this.axis = new CGFaxis(this);
+      this.view = [];
 
     }
 
@@ -47,7 +48,6 @@ class XMLscene extends CGFscene {
     initCameras() {
         this.camera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(15, 15, 15), vec3.fromValues(0, 0, 0));
         this.orthoCamera= new CGFcameraOrtho(-100, 100, -5, 5, 0.1, 500, vec3.fromValues(30,5,2), vec3.fromValues(0,0,0),1);
-
 
 
     }
@@ -106,7 +106,6 @@ class XMLscene extends CGFscene {
                                     this.graph.ambientIlumination[2],this.graph.ambientIlumination[3]);
         this.gl.clearColor(this.graph.backgroundIlumination[0],this.graph.backgroundIlumination[1],
             this.graph.backgroundIlumination[2],this.graph.backgroundIlumination[3]);
-        
 
 
         this.initLights();
@@ -117,74 +116,33 @@ class XMLscene extends CGFscene {
         //Adds views group.
         this.interface.addViewsGroup(this.graph.newView);
         this.interface.setActiveCamera(this.graph.newView[0]);
+
         this.sceneInited = true;
     }
 
+    switchMaterials(){
 
-    /**
-     * Displays the scene.
-     */
-    display() {
-        // ---- BEGIN Background, camera and axis setup
+      for(var key in this.graph.components){
+        var component = this.graph.components[key];
 
-        // Clear image and depth buffer everytime we update the scene
-        this.gl.viewport(0, 0, this.gl.canvas.width, this.gl.canvas.height);
-        this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
-      
 
-        // Initialize Model-View matrix as identity (no transformation
-        this.updateProjectionMatrix();
-        this.loadIdentity();
+        if(component.materialId != "inherit" && component.materialsList.lenght > 0){
+          if(component.nextMaterialId == component.materialsList.length_t - 1)
+            component.nextMaterialId = 0;
+          else component.nextMaterialId++;
 
-        // Apply transformations corresponding to the camera position relative to the origin
-        this.applyViewMatrix();
-
-        this.pushMatrix();
-
-        if (this.sceneInited) {
-            // Draw axis
-            this.axis.display();
-
-            var i = 0;
-            for (var key in this.lightValues) {
-                if (this.lightValues.hasOwnProperty(key)) {
-                    if (this.lightValues[key]) {
-                        this.lights[i].setVisible(true);
-                        this.lights[i].enable();
-                    }
-                    else {
-                        this.lights[i].setVisible(false);
-                        this.lights[i].disable();
-                    }
-                    this.lights[i].update();
-                    i++;
-                }
-            }
-        
-
-            // Displays the scene (MySceneGraph function).
-            this.graph.displayScene();
-            this.interface.setActiveCamera(this.camera);
-        }
-        else {
-            // Draw axis
-            this.axis.display();
+          component.materialId = component.materialsList[component.nextMaterialId];
         }
 
-        this.popMatrix();
-        // ---- END Background, camera and axis setup
+      }
+
     }
-     /**
-     * Initializes the scene, setting some WebGL defaults, initializing the camera and the axis.
-     * @param Integer i
-     */
-
     changingToNextCamera(){
         console.log(this.i);
         if (this.i == this.graph.newView.length - 1) {
             this.i = 0;
         } else this.i++;
-    
+
         //this.camera = this.graph.newView[this.i];
         if (this.graph.newView[this.i][0]=="perspective"){
         this.camera.fov = this.graph.newView[this.i][1];
@@ -203,9 +161,64 @@ class XMLscene extends CGFscene {
             this.orthoCamera.far = this.graph.newView[this.i][6];
             this.orthoCamera.setPosition(this.graph.newView[this.i][7]);
            this.orthoCamera.setTarget(this.graph.newView[this.i][8]);
-            this.orthoCamera.setUp(this.graph.newView[this.i][9]); 
+            this.orthoCamera.setUp(this.graph.newView[this.i][9]);
             this.interface.setActiveCamera(this.orthoCamera);
             }
 
     }
+
+
+    /**
+     * Displays the scene.
+     */
+    display() {
+      // ---- BEGIN Background, camera and axis setup
+
+      // Clear image and depth buffer everytime we update the scene
+      this.gl.viewport(0, 0, this.gl.canvas.width, this.gl.canvas.height);
+      this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
+
+
+      // Initialize Model-View matrix as identity (no transformation
+      this.updateProjectionMatrix();
+      this.loadIdentity();
+
+      // Apply transformations corresponding to the camera position relative to the origin
+      this.applyViewMatrix();
+
+      this.pushMatrix();
+
+      if (this.sceneInited) {
+          // Draw axis
+          this.axis.display();
+
+          var i = 0;
+          for (var key in this.lightValues) {
+              if (this.lightValues.hasOwnProperty(key)) {
+                  if (this.lightValues[key]) {
+                      this.lights[i].setVisible(true);
+                      this.lights[i].enable();
+                  }
+                  else {
+                      this.lights[i].setVisible(false);
+                      this.lights[i].disable();
+                  }
+                  this.lights[i].update();
+                  i++;
+              }
+          }
+
+
+          // Displays the scene (MySceneGraph function).
+          this.graph.displayScene();
+          this.interface.setActiveCamera(this.camera);
+      }
+      else {
+          // Draw axis
+          this.axis.display();
+      }
+
+      this.popMatrix();
+      // ---- END Background, camera and axis setup
+  }
 }
