@@ -13,10 +13,10 @@
       <to x="0" y="0" z="0" />
     </perspective>
 
-    <ortho id="ortho1" near="0.1" far="1000.0" left="-100.0" right="100.0" top="1.0" bottom="-1.0" up="0">
-      <from x="100.0" y="100.0" z="100.0"/>
+    <ortho id="ortho1" near="0.1" far="500" left="-100.0" right="100.0" top="5.0" bottom="-5.0" up="5">
+      <from x="30" y="30" z="30"/>
       <to x="0.0" y="0.0" z="0.0"/>
-    </ortho>
+    </ortho> 
 
   </views>
 

@@ -260,7 +260,7 @@ class MySceneParser {
             if(viewId == null)
               return "There's no perspective id";
               //this.onXMLMinorError("There's no perspective id"); QUAL MELHOR
-              perspectiveComponent.push(viewId);
+              perspectiveComponent.push("perspective");
 
             var angle = this.reader.getFloat(view[i], 'angle');
             //testar o angle
@@ -294,18 +294,18 @@ class MySceneParser {
               }
 
               this.newCamera = new CGFcamera(angle, near, far, vec3.fromValues(xfrom,yfrom,zfrom), vec3.fromValues(xto,yto,zto));
-              this.newView[viewId] = this.newCamera; //the new camera view is added to the array
+              this.newView[i] = this.newCamera; //the new camera view is added to the array
 
-          //  perspectiveComponent.push(vec3.fromValues(xfrom,yfrom,zfrom));
-          //  perspectiveComponent.push( vec3.fromValues(xto,yto,zto));
+            perspectiveComponent.push(vec3.fromValues(xfrom,yfrom,zfrom));
+            perspectiveComponent.push( vec3.fromValues(xto,yto,zto));
 
-            //this.newView[viewId] = this.perspectiveComponent;
+           // this.newView[i] = perspectiveComponent;
 
           }else if(nodeName == "ortho"){
                   var viewId = this.reader.getString(view[i], 'id');
                   if(viewId == null)
                    return "There's no ortho id";
-                  orthoComponent.push(viewId);
+                  orthoComponent.push("ortho");
 
                   var left = this.reader.getFloat(view[i], 'left');
                   if(left == null)
@@ -359,18 +359,18 @@ class MySceneParser {
 
                     this.newCamera = new CGFcameraOrtho(left, right, bottom, top, near, far, vec3.fromValues(xfrom,yfrom,zfrom), vec3.fromValues(xto,yto,zto),up);
                     //this.viewsOrtho[viewId] = this.newCamera; //the new camera view is added to the array
-                    this.newView[viewId] = this.newCamera;
-                    //orthoComponent.push(vec3.fromValues(xfrom,yfrom,zfrom));
-                  //  orthoComponent.push(vec3.fromValues(xto,yto,zto));
+                   this.newView[i] = this.newCamera;
+                    orthoComponent.push(vec3.fromValues(xfrom,yfrom,zfrom));
+                    orthoComponent.push(vec3.fromValues(xto,yto,zto));
 
-                    //this.newView[viewId] = this.orthoComponent;
+                    //this.newView[i] = orthoComponent;
 
           }
           else{
             this.onXMLMinorError("The name of the view must be or ortho or perspective.");
           }
         }
-
+        console.log(".......",this.newView);
             return null;
     }
 
