@@ -27,8 +27,6 @@ class MySceneParser {
         scene.graph = this;
 
         this.nodes = [];
-        this.viewsPerspective = []; //added by me
-        this.viewsOrtho = [];
         this.textures = [];
         this.transformations=[];
         this.components=[];
