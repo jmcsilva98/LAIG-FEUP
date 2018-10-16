@@ -880,6 +880,8 @@
 
       <materials>
         <material id="purple" />
+        <material id="yellow" />
+        <material id="white" />
       </materials>
 
       <texture id="none" length_s="1" length_t="1" />

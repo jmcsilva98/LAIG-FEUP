@@ -19,6 +19,7 @@ class Component {
 		this.oldTexture = texture;
 		this.materialsList = materialsList;
 		this.nextMaterialId = 0;
+	
 
 		this.length_s;
 		this.length_t;
@@ -67,7 +68,7 @@ class Component {
 
 	}
 
-	
+
 
 
 };

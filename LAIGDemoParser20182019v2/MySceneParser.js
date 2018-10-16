@@ -866,6 +866,7 @@ class MySceneParser {
         if(!(this.components[componentId] == null))
           return ("There can't be components with the same id: " + componentId + ".");
 
+        //-----------------------TRANSFORMATIONS------------------------------------//
         var transformations =component[i].getElementsByTagName('transformation')[0].children;
         //verificar se há mais que uma transformação
         if (transformations.length>1){
@@ -913,7 +914,7 @@ class MySceneParser {
                 }
             }
 
-      //MATERIALS
+      //-----------------------MATERIALS------------------------------------//
 
       var materials = component[i].getElementsByTagName('material');
       var materialsList = [];
@@ -931,9 +932,9 @@ class MySceneParser {
 
         materialsList.push(id);
       }
-    }
+      }
 
-
+      //-----------------------TEXTURES------------------------------------//
 
       var textures = component[i].getElementsByTagName('texture');
       if(textures.length > 1){
@@ -946,7 +947,7 @@ class MySceneParser {
       if(!(textID == "inherit" || textID == "none" || textID == this.textures[textID]))
         this.onXMLMinorError("Doesn't exist any texture with the id " + textID + " .");
 
-
+      //-----------------------CHILDREN------------------------------------//
 
       var childrenArray = component[i].getElementsByTagName('children')[0];
       var primitivesChildren = childrenArray.getElementsByTagName('primitiveref');
