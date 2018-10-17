@@ -833,7 +833,7 @@ class MySceneParser {
                 this.primitives[id]= new MyQuad(this.scene,this.reader.getFloat(node.children[0],'x1'),this.reader.getFloat(node.children[0],'x2'),this.reader.getFloat(node.children[0],'y1'),this.reader.getFloat(node.children[0],'y2'));
               break;
               case "torus":
-                this.primitives[id]= new MyTorus(this.scene,this.reader.getFloat(node.children[0],'inner'),this.reader.getFloat(node.children[0],'outer'),this.reader.getInteger(node.children[0],'slices'),this.reader.getInteger(node.children[0],'loops'));
+                this.primitives[id]= new MyTorus(this.scene,this.reader.getFloat(node.children[0],'inner'),this.reader.getFloat(node.children[0],'outer'),this.reader.getInteger(node.children[0],'slices'),this.reader.getInteger(node.children[0],'loops'),vec3.fromValues(0,1,0));
               break;
 
            default:
