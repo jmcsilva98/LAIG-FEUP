@@ -818,22 +818,22 @@ class MySceneParser {
         }
         switch (node.children[0].nodeName){
             case "rectangle":
-              this.primitives[id]= new MyQuad(this.scene,node.children[0].getAttribute('x1'),node.children[0].getAttribute('x2'),node.children[0].getAttribute('y1'),node.children[0].getAttribute('y2'));
+            this.primitives[id]= new MyQuad(this.scene,this.reader.getFloat(node.children[0],'x1'),this.reader.getFloat(node.children[0],'x2'),this.reader.getFloat(node.children[0],'y1'),this.reader.getFloat(node.children[0],'y2'));
               break;
               case "cylinder":
-              this.primitives[id]=new MyCylinder(this.scene,node.children[0].getAttribute('base'), node.children[0].getAttribute('top'), node.children[0].getAttribute('height'),node.children[0].getAttribute('slices'),node.children[0].getAttribute('stacks'));
+              this.primitives[id]=new MyCylinder(this.scene,this.reader.getFloat(node.children[0],'base'), this.reader.getFloat(node.children[0],'top'), this.reader.getFloat(node.children[0],'height'),this.reader.getInteger(node.children[0],'slices'),this.reader.getInteger(node.children[0],'stacks'));
               break;
               case "triangle":
-                this.primitives[id]=new MyTriangle(this.scene,node.children[0].getAttribute('x1'),node.children[0].getAttribute('y1'),node.children[0].getAttribute('z1'),node.children[0].getAttribute('x2'),node.children[0].getAttribute('y2'),node.children[0].getAttribute('z2'),node.children[0].getAttribute('x3'),node.children[0].getAttribute('y3'),node.children[0].getAttribute('z3'));
+                this.primitives[id]=new MyTriangle(this.scene,this.reader.getFloat(node.children[0],'x1'),this.reader.getFloat(node.children[0],'y1'),this.reader.getFloat(node.children[0],'z1'),this.reader.getFloat(node.children[0],'x2'),this.reader.getFloat(node.children[0],'y2'),this.reader.getFloat(node.children[0],'z2'),this.reader.getFloat(node.children[0],'x3'),this.reader.getFloat(node.children[0],'y3'),this.reader.getFloat(node.children[0],'z3'));
               break;
               case "sphere":
-              this.primitives[id]=new MySphere(this.scene,node.children[0].getAttribute('radius'),node.children[0].getAttribute('slices'),node.children[0].getAttribute('stacks'));
+              this.primitives[id]=new MySphere(this.scene,this.reader.getFloat(node.children[0],'radius'),this.reader.getInteger(node.children[0],'slices'),this.reader.getInteger(node.children[0],'stacks'));
               break;
               case "square":
-                this.primitives[id]= new MyQuad(this.scene,node.children[0].getAttribute('x1'),node.children[0].getAttribute('x2'),node.children[0].getAttribute('y1'),node.children[0].getAttribute('y2'));
+                this.primitives[id]= new MyQuad(this.scene,this.reader.getFloat(node.children[0],'x1'),this.reader.getFloat(node.children[0],'x2'),this.reader.getFloat(node.children[0],'y1'),this.reader.getFloat(node.children[0],'y2'));
               break;
               case "torus":
-                this.primitives[id]= new MyTorus(this.scene,node.children[0].getAttribute('inner'),node.children[0].getAttribute('outer'),node.children[0].getAttribute('slices'),node.children[0].getAttribute('loops'));
+                this.primitives[id]= new MyTorus(this.scene,this.reader.getFloat(node.children[0],'inner'),this.reader.getFloat(node.children[0],'outer'),this.reader.getInteger(node.children[0],'slices'),this.reader.getInteger(node.children[0],'loops'));
               break;
 
            default:

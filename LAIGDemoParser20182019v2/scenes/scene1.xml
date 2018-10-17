@@ -198,12 +198,12 @@
 
       <children>
 
-      <!--  <componentref id="clockTower" />
+       <componentref id="clockTower" />
         <componentref id="floor" />
         <componentref id="sun"/>
-        <componentref id="stairs"/>-->
+        <componentref id="stairs"/>
 
-      <componentref id="floor"/>
+
 
 
       </children>
@@ -574,7 +574,7 @@
         <material id="floor" />
       </materials>
 
-      <texture id="grass" length_s="0.8" length_t="0.8" />
+      <texture id="grass" length_s="0.5" length_t="0.5" />
 
       <children>
         <primitiveref id="square" />
@@ -648,7 +648,7 @@
         <material id="inherit" />
       </materials>
 
-      <texture id="inherit" length_s="1" length_t="1" />
+      <texture id="brick" length_s="1" length_t="1" />
 
       <children>
         <componentref id="faceCube1" />
@@ -664,7 +664,7 @@
     <component id="faceCube1">
       <transformation>
         <translate x="0.5" y="0" z="0" />
-        <rotate axis="x" angle="-90" />
+        <rotate axis="x" angle="90" />
       </transformation>
 
       <materials>
@@ -681,7 +681,7 @@
     <component id="faceCube2">
       <transformation>
         <translate x="0.5" y="1" z="0" />
-        <rotate axis="x" angle="90" />
+        <rotate axis="x" angle="-90" />
       </transformation>
 
       <materials>
@@ -701,7 +701,7 @@
       </transformation>
 
       <materials>
-        <material id="wall" />
+        <material id="inherit" />
       </materials>
 
       <texture id="inherit" length_s="1" length_t="1" />
@@ -718,7 +718,7 @@
       </transformation>
 
       <materials>
-        <material id="wall" />
+        <material id="inherit" />
       </materials>
 
       <texture id="inherit" length_s="1" length_t="1" />
@@ -735,7 +735,7 @@
       </transformation>
 
       <materials>
-        <material id="wall" />
+        <material id="inherit" />
       </materials>
 
       <texture id="inherit" length_s="1" length_t="1" />
@@ -752,7 +752,7 @@
       </transformation>
 
       <materials>
-        <material id="wall" />
+        <material id="inherit" />
       </materials>
 
       <texture id="inherit" length_s="1" length_t="1" />

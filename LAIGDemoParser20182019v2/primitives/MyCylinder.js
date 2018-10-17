@@ -14,17 +14,17 @@ class MyCylinder extends CGFobject
 		this.stacks = stacks;
 		this.height = height;
 
-		this.tube =  new MyOpenCylinder(scene, parseInt(slices), parseInt(stacks));
-		this.base = new MyPolygon(scene, parseInt(slices), parseInt(base));
-		this.top = new MyPolygon(scene, parseInt(slices), parseInt(top));
-		
+		this.tube =  new MyOpenCylinder(scene, slices, stacks);
+		this.base = new MyPolygon(scene, slices, base);
+		this.top = new MyPolygon(scene, slices, top);
+
 		this.initBuffers();
 
 	};
 	display()
 	{
-	
-	
+
+
 		this.scene.pushMatrix();
     	this.tube.display();
         this.scene.popMatrix();
@@ -39,7 +39,7 @@ class MyCylinder extends CGFobject
          this.top.display();
 	 this.scene.popMatrix();
 
-	 
+
 };
 
 };
