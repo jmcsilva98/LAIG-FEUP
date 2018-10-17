@@ -126,7 +126,7 @@ class XMLscene extends CGFscene {
         var component = this.graph.components[key];
 
         if(component.materialId != "inherit" && component.materialsList.length != 0){
-          if(component.nextMaterialId == component.materialsList.length_t - 1)
+          if(component.nextMaterialId == component.materialsList.length - 1)
             component.nextMaterialId = 0;
           else component.nextMaterialId++;
 
