@@ -350,8 +350,12 @@ class MySceneParser {
                         var zto = this.reader.getFloat(perspectiveChildren[j], 'z');
                         }
                     }
+                    var up = this.reader.getFloat(view[i], 'up');
+                    if(up == null)
+                      return "There's no up values"; //mudar
+                    orthoComponent.push(up);
 
-                    this.newCamera = new CGFcameraOrtho(left, right, bottom, top, near, far, vec3.fromValues(xfrom,yfrom,zfrom), vec3.fromValues(xto,yto,zto),vec3.fromValues(0,1,0));
+                    this.newCamera = new CGFcameraOrtho(left, right, bottom, top, near, far, vec3.fromValues(xfrom,yfrom,zfrom), vec3.fromValues(xto,yto,zto),up);
                     //this.viewsOrtho[viewId] = this.newCamera; //the new camera view is added to the array
                    this.newView[i] = this.newCamera;
                     orthoComponent.push(vec3.fromValues(xfrom,yfrom,zfrom));
@@ -814,23 +818,24 @@ class MySceneParser {
         }
         switch (node.children[0].nodeName){
             case "rectangle":
-              this.primitives[id]= new MyQuad(this.scene,node.children[0].getAttribute('x1'),node.children[0].getAttribute('x2'),node.children[0].getAttribute('y1'),node.children[0].getAttribute('y2'));
+            this.primitives[id]= new MyQuad(this.scene,this.reader.getFloat(node.children[0],'x1'),this.reader.getFloat(node.children[0],'x2'),this.reader.getFloat(node.children[0],'y1'),this.reader.getFloat(node.children[0],'y2'));
               break;
               case "cylinder":
-              this.primitives[id]=new MyCylinder(this.scene,node.children[0].getAttribute('base'), node.children[0].getAttribute('top'), node.children[0].getAttribute('height'),node.children[0].getAttribute('slices'),node.children[0].getAttribute('stacks'));
+              this.primitives[id]=new MyCylinder(this.scene,this.reader.getFloat(node.children[0],'base'), this.reader.getFloat(node.children[0],'top'), this.reader.getFloat(node.children[0],'height'),this.reader.getInteger(node.children[0],'slices'),this.reader.getInteger(node.children[0],'stacks'));
               break;
               case "triangle":
-                this.primitives[id]=new MyTriangle(this.scene,node.children[0].getAttribute('x1'),node.children[0].getAttribute('y1'),node.children[0].getAttribute('z1'),node.children[0].getAttribute('x2'),node.children[0].getAttribute('y2'),node.children[0].getAttribute('z2'),node.children[0].getAttribute('x3'),node.children[0].getAttribute('y3'),node.children[0].getAttribute('z3'));
+                this.primitives[id]=new MyTriangle(this.scene,this.reader.getFloat(node.children[0],'x1'),this.reader.getFloat(node.children[0],'y1'),this.reader.getFloat(node.children[0],'z1'),this.reader.getFloat(node.children[0],'x2'),this.reader.getFloat(node.children[0],'y2'),this.reader.getFloat(node.children[0],'z2'),this.reader.getFloat(node.children[0],'x3'),this.reader.getFloat(node.children[0],'y3'),this.reader.getFloat(node.children[0],'z3'));
               break;
               case "sphere":
-              this.primitives[id]=new MySphere(this.scene,node.children[0].getAttribute('radius'),node.children[0].getAttribute('slices'),node.children[0].getAttribute('stacks'));
+              this.primitives[id]=new MySphere(this.scene,this.reader.getFloat(node.children[0],'radius'),this.reader.getInteger(node.children[0],'slices'),this.reader.getInteger(node.children[0],'stacks'));
               break;
               case "square":
-                this.primitives[id]= new MyQuad(this.scene,node.children[0].getAttribute('x1'),node.children[0].getAttribute('x2'),node.children[0].getAttribute('y1'),node.children[0].getAttribute('y2'));
+                this.primitives[id]= new MyQuad(this.scene,this.reader.getFloat(node.children[0],'x1'),this.reader.getFloat(node.children[0],'x2'),this.reader.getFloat(node.children[0],'y1'),this.reader.getFloat(node.children[0],'y2'));
               break;
               case "torus":
-              this.primitives[id]= new MyTorus(this.scene,this.reader.getFloat(node.children[0],'inner'),this.reader.getFloat(node.children[0],'outer'),this.reader.getInteger(node.children[0],'slices'),this.reader.getInteger(node.children[0],'loops'));
+                this.primitives[id]= new MyTorus(this.scene,this.reader.getFloat(node.children[0],'inner'),this.reader.getFloat(node.children[0],'outer'),this.reader.getInteger(node.children[0],'slices'),this.reader.getInteger(node.children[0],'loops'));
               break;
+
            default:
 
         }
@@ -925,6 +930,7 @@ class MySceneParser {
         if(!this.materials[id] || id == null)
           return "Undefined material id: " + id;
 
+
         materialsList.push(id);
       }
       }
@@ -938,9 +944,13 @@ class MySceneParser {
         this.onXMLMinorError("You need one tag texture in the components block.");
       }
       var texture = component[i].getElementsByTagName('texture')[0];
-      var textID = this.reader.getString(texture, 'id');
-      if(!(textID == "inherit" || textID == "none" || textID == this.textures[textID]))
-        this.onXMLMinorError("Doesn't exist any texture with the id " + textID + " .");
+      var textId = this.reader.getString(texture, 'id');
+
+      var length_s = this.reader.getString(texture, 'length_s');
+      var length_t = this.reader.getString(texture, 'length_t');
+
+      if(!(textId == "inherit" || textId == "none" || textId == this.textures[textId]))
+        this.onXMLMinorError("Doesn't exist any texture with the id " + textId + " .");
 
       //-----------------------CHILDREN------------------------------------//
 
@@ -957,8 +967,8 @@ class MySceneParser {
         componentsId.push(componentsChildren[j].getAttribute('id'));
          }
 
-
-      var newComponent = new Component(this.scene, this, componentId, identMatrix, this.textures[textID] ,  defaultMaterial, primitivesId,componentsId, materialsList);
+      //  console.log(this.textures[textId]);
+      var newComponent = new Component(this.scene, this, componentId, identMatrix, textId, length_s, length_t, defaultMaterial, primitivesId,componentsId, materialsList);
       this.components[componentId] = newComponent;
       }
 
@@ -998,7 +1008,7 @@ class MySceneParser {
 
         // entry point for graph rendering
         //TODO: Render loop starting at root of graph
-         this.components[this.rootName].display();
+         this.components[this.rootName].display(this.components[this.rootName].materialId,this.components[this.rootName].textId);
 
     }
 
