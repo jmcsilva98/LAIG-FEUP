@@ -48,17 +48,29 @@ class MyQuad extends CGFobject
 
 
 		this.texCoords = [
-			/*this.minS, this.maxT,
+			this.minS, this.maxT,
 			this.maxS, this.maxT,
 			this.minS, this.minT,
-			this.maxS, this.minT,*/
-			0,1,
-			1,1,
-			1,0,
-			0,0
+			this.maxS, this.minT,
 
 		];
 
 		this.initGLBuffers();
+	};
+
+	updateTexCoords(length_s,length_t){
+		 var minS = 0;
+     var minT = 0;
+     var maxS = (this.maxS - this.minS) / length_s;
+     var maxT = (this.maxT- this.minT) / length_t;
+
+     this.texCoords = [
+         minS, maxT,
+         maxS, maxT,
+         minS, minT,
+         maxS, minT
+     ];
+
+     this.updateTexCoordsGLBuffers();
 	};
 };

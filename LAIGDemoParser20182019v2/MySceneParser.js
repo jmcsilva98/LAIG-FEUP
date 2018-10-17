@@ -930,6 +930,7 @@ class MySceneParser {
         if(!this.materials[id] || id == null)
           return "Undefined material id: " + id;
 
+
         materialsList.push(id);
       }
       }
@@ -943,9 +944,13 @@ class MySceneParser {
         this.onXMLMinorError("You need one tag texture in the components block.");
       }
       var texture = component[i].getElementsByTagName('texture')[0];
-      var textID = this.reader.getString(texture, 'id');
-      if(!(textID == "inherit" || textID == "none" || textID == this.textures[textID]))
-        this.onXMLMinorError("Doesn't exist any texture with the id " + textID + " .");
+      var textId = this.reader.getString(texture, 'id');
+
+      var length_s = this.reader.getString(texture, 'length_s');
+      var length_t = this.reader.getString(texture, 'length_t');
+
+      if(!(textId == "inherit" || textId == "none" || textId == this.textures[textId]))
+        this.onXMLMinorError("Doesn't exist any texture with the id " + textId + " .");
 
       //-----------------------CHILDREN------------------------------------//
 
@@ -962,8 +967,8 @@ class MySceneParser {
         componentsId.push(componentsChildren[j].getAttribute('id'));
          }
 
-
-      var newComponent = new Component(this.scene, this, componentId, identMatrix, this.textures[textID] ,  defaultMaterial, primitivesId,componentsId, materialsList);
+      //  console.log(this.textures[textId]);
+      var newComponent = new Component(this.scene, this, componentId, identMatrix, textId, length_s, length_t, defaultMaterial, primitivesId,componentsId, materialsList);
       this.components[componentId] = newComponent;
       }
 
@@ -1003,7 +1008,7 @@ class MySceneParser {
 
         // entry point for graph rendering
         //TODO: Render loop starting at root of graph
-         this.components[this.rootName].display();
+         this.components[this.rootName].display(this.components[this.rootName].materialId,this.components[this.rootName].textId);
 
     }
 
