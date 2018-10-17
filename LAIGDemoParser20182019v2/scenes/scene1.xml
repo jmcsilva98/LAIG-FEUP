@@ -13,7 +13,7 @@
       <to x="0" y="0" z="0" />
     </perspective>
 
-    <ortho id="ortho1" near="0.1" far="500" left="-100.0" right="100.0" top="5.0" bottom="-5.0" up="5">
+    <ortho id="ortho1" near="0.1" far="500" left="-5.0" right="5.0" top="5.0" bottom="-5.0">
       <from x="30" y="30" z="30"/>
       <to x="0.0" y="0.0" z="0.0"/>
     </ortho>
@@ -179,7 +179,7 @@
     </primitive>
 
     <primitive id="torus">
-      <torus inner="1" outer="2" slices="40" loops="40" />
+      <torus inner="10" outer="20" slices="40" loops="40" />
     </primitive>
 
     </primitives>
@@ -198,12 +198,10 @@
 
       <children>
 
-        <componentref id="clockTower" />
+       <componentref id="clockTower" />
         <componentref id="floor" />
         <componentref id="sun"/>
         <componentref id="stairs"/>
-
-      <!--  <primitiveref id="torus"/> -->
 
 
       </children>

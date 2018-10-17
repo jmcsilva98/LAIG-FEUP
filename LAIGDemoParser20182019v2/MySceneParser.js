@@ -350,12 +350,8 @@ class MySceneParser {
                         var zto = this.reader.getFloat(perspectiveChildren[j], 'z');
                         }
                     }
-                    var up = this.reader.getFloat(view[i], 'up');
-                    if(up == null)
-                      return "There's no up values"; //mudar
-                    orthoComponent.push(up);
 
-                    this.newCamera = new CGFcameraOrtho(left, right, bottom, top, near, far, vec3.fromValues(xfrom,yfrom,zfrom), vec3.fromValues(xto,yto,zto),up);
+                    this.newCamera = new CGFcameraOrtho(left, right, bottom, top, near, far, vec3.fromValues(xfrom,yfrom,zfrom), vec3.fromValues(xto,yto,zto),vec3.fromValues(0,1,0));
                     //this.viewsOrtho[viewId] = this.newCamera; //the new camera view is added to the array
                    this.newView[i] = this.newCamera;
                     orthoComponent.push(vec3.fromValues(xfrom,yfrom,zfrom));
@@ -833,9 +829,8 @@ class MySceneParser {
                 this.primitives[id]= new MyQuad(this.scene,node.children[0].getAttribute('x1'),node.children[0].getAttribute('x2'),node.children[0].getAttribute('y1'),node.children[0].getAttribute('y2'));
               break;
               case "torus":
-                this.primitives[id]= new MyTorus(this.scene,node.children[0].getAttribute('inner'),node.children[0].getAttribute('outer'),node.children[0].getAttribute('slices'),node.children[0].getAttribute('loops'));
+              this.primitives[id]= new MyTorus(this.scene,this.reader.getFloat(node.children[0],'inner'),this.reader.getFloat(node.children[0],'outer'),this.reader.getInteger(node.children[0],'slices'),this.reader.getInteger(node.children[0],'loops'));
               break;
-
            default:
 
         }
