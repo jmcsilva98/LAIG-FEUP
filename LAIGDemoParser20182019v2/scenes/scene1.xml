@@ -203,9 +203,6 @@
         <componentref id="sun"/>
         <componentref id="stairs"/>
 
-
-
-
       </children>
     </component>
   <component id="clockTower">
@@ -651,10 +648,10 @@
       <texture id="brick" length_s="1" length_t="1" />
 
       <children>
-        <componentref id="faceCube1" />
-         <componentref id="faceCube2" />
-         <componentref id="faceCube3" />
-        <componentref id="faceCube4" />
+       <componentref id="faceCube1" />
+       <componentref id="faceCube2" />
+       <componentref id="faceCube3" />
+       <componentref id="faceCube4" />
        <componentref id="faceCube5" />
        <componentref id="faceCube6" />
 
@@ -698,6 +695,7 @@
     <component id="faceCube3">
       <transformation>
         <translate x="0.5" y="0.5" z="-0.5" />
+        <rotate axis="y" angle="180" />
       </transformation>
 
       <materials>
@@ -714,7 +712,7 @@
     <component id="faceCube4">
       <transformation>
         <translate x="0" y="0.5" z="0" />
-        <rotate axis="y" angle="90" />
+        <rotate axis="y" angle="-90" />
       </transformation>
 
       <materials>
@@ -731,7 +729,7 @@
     <component id="faceCube5">
       <transformation>
         <translate x="0.5" y="0.5" z="0.5" />
-        <rotate axis="y" angle="180" />
+        <rotate axis="z" angle="180" />
       </transformation>
 
       <materials>
@@ -748,7 +746,7 @@
     <component id="faceCube6">
       <transformation>
         <translate x="1" y="0.5" z="0" />
-        <rotate axis="y" angle="270" />
+        <rotate axis="y" angle="90" />
       </transformation>
 
       <materials>
