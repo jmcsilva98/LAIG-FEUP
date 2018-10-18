@@ -253,27 +253,33 @@ class MySceneParser {
 
           if(nodeName == "perspective"){
             var viewId = this.reader.getString(view[i], 'id');
-            if(viewId == null)
-              return "There's no perspective id";
-              //this.onXMLMinorError("There's no perspective id"); QUAL MELHOR
+            if(viewId==null)
+              return "The view number " + i +" doesn't have id.";
 
             var angle = this.reader.getFloat(view[i], 'angle');
             if (angle == null){
-               return "There's no angle value on " +view[i] + ". Please change it.";
+                this.onXMLMinorError( "The view number " + i +" doesn't have angle. Assuming that angle is 0");
+                angle=0;
             }
-            else angle*=DEGREE_TO_RAD;
+            angle*=DEGREE_TO_RAD;
 
             var near = this.reader.getFloat(view[i], 'near');
-            if(near == null)
-                return "There's no near values"; //mudar
+            if(near == null){
+            this.onXMLMinorError( "The view number " + i +" doesn't have near value.Assuming that near is 0");
+            near=0;
+            }
 
             var far = this.reader.getFloat(view[i], 'far');
-            if(far == null)
-                return "There's no far values"; //mudar
-
+            if(far == null){
+                this.onXMLMinorError( "The view number " + i +" doesn't have far value.Assuming assume that value is 10");
+                far=10;
+            }
 
             var perspectiveChildren = view[i].children;
-
+            if (perspectiveChildren.length<2)
+            {
+                return "Perspective view must have from and to values.";
+            }
 
             for(var j = 0; j < perspectiveChildren.length; j++){
               var nodeName = perspectiveChildren[j].nodeName;
@@ -292,36 +298,45 @@ class MySceneParser {
 
           }else if(nodeName == "ortho"){
                   var viewId = this.reader.getString(view[i], 'id');
-                  if(viewId == null)
-                   return "There's no ortho id";
+                  if(viewId == null){
+                    return "The view number " + i +" doesn't have id.";
 
+                  }
                   var left = this.reader.getFloat(view[i], 'left');
-                  if(left == null)
-                    return "There's no left values"; //mudar
-
+                  if(left == null){
+                  this.onXMLMinorError( "The view number " + i +" doesn't have left value. Assuming assume that left is -5");
+                  left=-5;
+                  }
                   var right = this.reader.getFloat(view[i], 'right');
-                  if(right == null)
-                    return "There's no right values"; //mudar
-
+                  if(right == null){
+                    this.onXMLMinorError( "The view number " + i +" doesn't have right value. Assuming assume that right is 5");
+                    right=5;
+                    }
                   var bottom = this.reader.getFloat(view[i], 'bottom');
-                  if(bottom == null)
-                      return "There's no bottom values"; //mudar
-
+                  if(bottom == null){
+                    this.onXMLMinorError( "The view number " + i +" doesn't have bottom value. Assuming assume that bottom is -5");
+                    bottom=-5;
+                    }
 
                   var top = this.reader.getFloat(view[i], 'top');
-                  if(top == null)
-                    return "There's no top values"; //mudar
-
+                  if(top == null){
+                    this.onXMLMinorError( "The view number " + i +" doesn't have top value. Assuming assume that top is 5");
+                    top=5;
+                    }
                   var near = this.reader.getFloat(view[i], 'near');
-                  if(near == null)
-                    return "There's no near values"; //mudar
-
+                  if(near == null){
+                    this.onXMLMinorError( "The view number " + i +" doesn't have near value. Assuming assume that left is 0");
+                    left=0;
+                    }
                   var far = this.reader.getFloat(view[i], 'far');
-                  if(far == null)
-                    return "There's no far values"; //mudar
-
+                  if(far == null){
+                    this.onXMLMinorError( "The view number " + i +" doesn't have far value. Assuming assume that far is 30");
+                    left=30;
+                    }
                   var orthoChildren = view[i].children;
-
+                    if (orthoChildren.length <2){
+                        this.onXMLError("Orthographic camera must have from and to positions.");
+                    }
                   for(var j = 0; j < orthoChildren.length; j++){
                     var nodeName = orthoChildren[j].nodeName;
                       if(nodeName == "from"){
@@ -339,7 +354,7 @@ class MySceneParser {
                    this.views[viewId] = new CGFcameraOrtho(left, right, bottom, top, near, far, vec3.fromValues(xfrom,yfrom,zfrom), vec3.fromValues(xto,yto,zto),vec3.fromValues(0,1,0));
                 }
                    else{
-            this.onXMLMinorError("The name of the view must be or ortho or perspective.");
+            this.onXMLMinorError( this.onXMLMinorError("unknown tag <" + nodeName + ">"));
           }
         }
             return null;
@@ -357,39 +372,57 @@ class MySceneParser {
         if (background.length>1)
             return "no more than one initial background may be defined";
 
-        var rAmbient = ambient[0].getAttribute('r');
+        var rAmbient = this.reader.getFloat(ambient[0],'r');
           if (!(rAmbient==null || rAmbient <0 || rAmbient>1)){
             this.ambientIlumination[0]=rAmbient;
         }
-        var gAmbient=ambient[0].getAttribute("g");
+        else
+            this.onXMLError("R ambient component must have a number between 0 and 1");
+        var gAmbient=this.reader.getFloat(ambient[0],'g');
         if (!(gAmbient==null || gAmbient <0 || gAmbient>1)){
            this.ambientIlumination[1]=gAmbient;
+           
         }
-        var bAmbient=ambient[0].getAttribute("b");
-        if (bAmbient==null || bAmbient <0 || bAmbient>1){
-            thisambientIlumination[2]=bAmbient;
+        else 
+            this.onXMLMinorError("G ambient component must have a number between 0 and 1");
+       
+        var bAmbient=this.reader.getFloat(ambient[0],'b');
+        if (!(bAmbient==null || bAmbient <0 || bAmbient>1)){
+            this.ambientIlumination[2]=bAmbient;
         }
-        var aAmbient=ambient[0].getAttribute("a");
-        if (aAmbient==null || aAmbient <0 || aAmbient>1){
+        else 
+        this.onXMLMinorError("B ambient component must have a number between 0 and 1");
+             
+        var aAmbient=this.reader.getFloat(ambient[0],'a');
+        if (!(aAmbient==null || aAmbient <0 || aAmbient>1)){
             this.ambientIlumination[3]=aAmbient;
         }
-
-        var rBackground=background[0].getAttribute("r");
+        else
+             this.onXMLError("A ambient component must have a number between 0 and 1");
+        var rBackground=this.reader.getFloat(background[0],'r');
         if (!(rBackground==null || rBackground <0 || rBackground>1)){
             this.backgroundIlumination[0]=rBackground;
         }
-        var gBackground=background[0].getAttribute("g");
+        else
+            this.onXMLError("R background component must have a number between 0 and 1");
+        var gBackground=this.reader.getFloat(background[0],'g');
         if (!(gBackground==null || gBackground <0 || gBackground>1)){
             this.backgroundIlumination[1]=gBackground;
         }
-        var bBackground=background[0].getAttribute("b");
+        else
+          this.onXMLError("G background component must have a number between 0 and 1");
+        var bBackground=this.reader.getFloat(background[0],'b');
         if (!(bBackground==null || bBackground <0 || bBackground>1)){
             this.backgroundIlumination[2]=bBackground;
         }
-        var aBackground=background[0].getAttribute("a");
+        else
+        this.onXMLError("B background component must have a number between 0 and 1");
+        var aBackground=this.reader.getFloat(background[0],'a');
         if (!(aBackground==null || aBackground <0 || aBackground>1)){
             this.backgroundIlumination[3]=aBackground;
         }
+        else
+             this.onXMLError("A background component must have a number between 0 and 1");
 
         return null;
     }
@@ -427,12 +460,22 @@ class MySceneParser {
           var enableLight = this.reader.getBoolean(children[i],'enabled');
           if(!(enableLight == 0 || enableLight == 1)){
               this.onXMLMinorError("The enable light must be 0 or 1 (false or true). Assuming value 1");
+              enableLight=1;
           }
 
 
           grandChildren = children[i].children;
           // Specifications for the current light.
-
+          if (children[i].nodeName =="omni"){
+              if (grandChildren.length !=4){
+                  this.onXMLError("The omni light should must 4 components");
+              }
+          }
+          else if (children[i].nodeName =="spot"){
+            if (grandChildren.length !=5){
+                this.onXMLError("The omni light should must 4 components");
+            }
+        }
           nodeNames = [];
           for (var j = 0; j < grandChildren.length; j++) {
               nodeNames.push(grandChildren[j].nodeName);
@@ -513,7 +556,6 @@ class MySceneParser {
           else
               return "ambient component undefined for ID = " + lightId;
 
-          // TODO: Retrieve the diffuse component
 
           var diffuseIllumination = [];
           if (diffuseIndex != -1) {
@@ -547,7 +589,6 @@ class MySceneParser {
           }  else
                 return "diffuse component undefined for ID = " + lightId;
 
-          // TODO: Retrieve the specular component
 
           var specularIllumination = [];
           if (specularIndex != -1) {
@@ -659,12 +700,14 @@ class MySceneParser {
         var shininess = this.reader.getFloat(materials[i],'shininess');
 
         if (matId==null)
-          this.onXMLMinorError("A material must have an id.");
+          this.onXMLError("A material must have an id.");
         if (this.materials[matId] != null)
-          this.onXMLMinorError("A material id must be unique, please change the id: " + matId + " .");
-        if(isNaN(shininess))
-            this.onXMLMinorError("shininess must be a valid float");
-
+          this.onXMLError("A material id must be unique, please change the id: " + matId + " .");
+        if(isNaN(shininess)){
+            this.onXMLMinorError("shininess must be a valid float.Assuming that shininess value is 10");
+            shininess=10;
+        }
+        
         var emission = this.parseRgba(materials[i].getElementsByTagName('emission')[0]);
         var ambient = this.parseRgba(materials[i].getElementsByTagName('ambient')[0]);
         var diffuse = this.parseRgba(materials[i].getElementsByTagName('diffuse')[0]);
@@ -724,9 +767,9 @@ class MySceneParser {
 
                   switch (transformations[j].nodeName) {
                   case "translate":
-                    x = transformations[j].getAttribute('x');
-                    y = transformations[j].getAttribute('y');
-                    z = transformations[j].getAttribute('z');
+                    x = this.reader.getFloat(transformations[j],'x');
+                    y = this.reader.getFloat(transformations[j],'y');
+                    z = this.reader.getFloat(transformations[j],'z');
                     vec3.set(vector,x,y,z);
 
                     mat4.translate(identMatrix,identMatrix,vector);
@@ -740,13 +783,19 @@ class MySceneParser {
                     else if (transformations[j].getAttribute('axis') == "z") {
                       mat4.rotateZ(identMatrix,identMatrix,transformations[j].getAttribute('angle')*DEGREE_TO_RAD);
                     }else {
-                      this.onXMLMinorError("The axis must be x,y or z. Please change");
+                      this.onXMLError("The axis must be x,y or z. Please change."+ j + " transformation doesn't have a valid axis on rotation.");
                     }
                     break;
                   case "scale":
-                  x = transformations[j].getAttribute('x');
-                  y = transformations[j].getAttribute('y');
-                  z = transformations[j].getAttribute('z');
+                 
+                  x = this.reader.getFloat(transformations[j],'x');
+                  y = this.reader.getFloat(transformations[j],'y');
+                  z = this.reader.getFloat(transformations[j],'z');
+                  if (x == 0 || y == 0 || z == 0){
+                      this.onXMLError("There's in a value on scale in tranformation "+i + "that is 0. Please change");
+        
+                }   
+
                   vec3.set(vector,x,y,z);
                   mat4.scale(identMatrix,identMatrix,vector);
                   break;
@@ -791,7 +840,7 @@ class MySceneParser {
         }
         if(this.primitives[id])
         {
-          this.onXMLMinorError("Can't have more than one primitive with the same id: " + id);
+          this.onXMLError("Can't have more than one primitive with the same id: " + id);
         }
         switch (node.children[0].nodeName){
             case "rectangle":
@@ -854,9 +903,9 @@ class MySceneParser {
 
                   switch (transformations[j].nodeName) {
                   case "translate":
-                    x = transformations[j].getAttribute('x');
-                    y = transformations[j].getAttribute('y');
-                    z = transformations[j].getAttribute('z');
+                    x = this.reader.getFloat(transformations[j],'x');
+                    y = this.reader.getFloat(transformations[j],'y');
+                    z = this.reader.getFloat(transformations[j],'z');
                     vec3.set(vector,x,y,z);
 
                     mat4.translate(identMatrix,identMatrix,vector);
@@ -870,15 +919,19 @@ class MySceneParser {
                     else if (transformations[j].getAttribute('axis') == "z") {
                       mat4.rotateZ(identMatrix,identMatrix,transformations[j].getAttribute('angle')*DEGREE_TO_RAD);
                     }else {
-                      this.onXMLMinorError("The axis must be x,y or z. Please change");
+                      this.onXMLError("The axis must be x,y or z. Please change");
                     }
                     break;
                   case "scale":
-                  x = transformations[j].getAttribute('x');
-                  y = transformations[j].getAttribute('y');
-                  z = transformations[j].getAttribute('z');
+                  x = this.reader.getFloat(transformations[j],'x');
+                  y = this.reader.getFloat(transformations[j],'y');
+                  z = this.reader.getFloat(transformations[j],'z');
                   vec3.set(vector,x,y,z);
                   mat4.scale(identMatrix,identMatrix,vector);
+                  if (x == 0 || y == 0 || z == 0){
+                    this.onXMLError("There's in a value on scale in tranformation "+i + "that is 0. Please change");
+      
+              }   
                   break;
                   case "transformationref":
                   identMatrix=this.transformations[transformations[j].getAttribute('id')];
