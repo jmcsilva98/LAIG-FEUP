@@ -546,8 +546,8 @@
     </component>
     <component id="buildingBase">
       <transformation>
-      <translate x="-0.25" y="-1.8" z="0"/>
-      <scale x="6" y="2" z ="3"/>
+      <translate x="-0.2" y="-1.8" z="0"/>
+      <scale x="5.7" y="2" z ="2.5"/>
       </transformation>
 
       <materials>
