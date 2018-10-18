@@ -15,8 +15,6 @@ class Component {
 		this.primitivesChildren = primitivesChildren;
 		this.componentsChildren = componentsChildren;
 
-	//	this.texture = texture;
-	//	this.oldTexture = texture;
 		this.materialsList = materialsList;
 		this.nextMaterialId = 0;
 		this.oldMaterial = materialId;
@@ -28,8 +26,7 @@ class Component {
 	}
 
 	analizeTexture(){
-		//this.texture = this.oldTexture;
-		console.log("TEXTURE: " +this.graph.textures[this.textId]);
+	
 
 		if(this.textId != "none"){
 
@@ -60,10 +57,10 @@ class Component {
 			currentTexture = this.textId;
 		if (this.length_s==null)
 			currentS=parentS;
-		
-		else 
+
+		else
 			currentS=this.length_s;
-		
+
 		if (this.length_t == null)
 			currentT= parentT;
 		else
