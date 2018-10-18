@@ -21,7 +21,7 @@ class MyInterface extends CGFinterface {
         this.gui = new dat.GUI();
 
         // add a group of controls (and open/expand by defult)
-
+        
         return true;
     }
 
@@ -68,6 +68,11 @@ class MyInterface extends CGFinterface {
 
          scene.camera=views[index];
         });
+    }
+    addAxisGroup(){
+        var group=this.gui.addFolder("Options");
+		group.open();
+        group.add(this.scene, 'axisOn');
     }
     processKeyboard (event) {
         // call CGFinterface default code (omit if you want to override)
