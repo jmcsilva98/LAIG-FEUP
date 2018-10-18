@@ -294,11 +294,11 @@ class MySceneParser {
                   var viewId = this.reader.getString(view[i], 'id');
                   if(viewId == null)
                    return "There's no ortho id";
-    
+
                   var left = this.reader.getFloat(view[i], 'left');
                   if(left == null)
                     return "There's no left values"; //mudar
-    
+
                   var right = this.reader.getFloat(view[i], 'right');
                   if(right == null)
                     return "There's no right values"; //mudar
@@ -789,6 +789,10 @@ class MySceneParser {
         if (id == null){
             this.onXMLMinorError("Primitive id is null.");
         }
+        if(this.primitives[id])
+        {
+          this.onXMLMinorError("Can't have more than one primitive with the same id: " + id);
+        }
         switch (node.children[0].nodeName){
             case "rectangle":
             this.primitives[id]= new MyQuad(this.scene,this.reader.getFloat(node.children[0],'x1'),this.reader.getFloat(node.children[0],'x2'),this.reader.getFloat(node.children[0],'y1'),this.reader.getFloat(node.children[0],'y2'));
@@ -801,9 +805,6 @@ class MySceneParser {
               break;
               case "sphere":
               this.primitives[id]=new MySphere(this.scene,this.reader.getFloat(node.children[0],'radius'),this.reader.getInteger(node.children[0],'slices'),this.reader.getInteger(node.children[0],'stacks'));
-              break;
-              case "square":
-                this.primitives[id]= new MyQuad(this.scene,this.reader.getFloat(node.children[0],'x1'),this.reader.getFloat(node.children[0],'x2'),this.reader.getFloat(node.children[0],'y1'),this.reader.getFloat(node.children[0],'y2'));
               break;
               case "torus":
                 this.primitives[id]= new MyTorus(this.scene,this.reader.getFloat(node.children[0],'inner'),this.reader.getFloat(node.children[0],'outer'),this.reader.getInteger(node.children[0],'slices'),this.reader.getInteger(node.children[0],'loops'));
@@ -845,7 +846,7 @@ class MySceneParser {
             this.onXMLMinorError("There can't have more than one transformation block!");
         }
         var transformations =component[i].getElementsByTagName('transformation')[0].children;
-        
+
               identMatrix=mat4.create();
               for(var j = 0;j < transformations.length; j++){
                 var vector = vec3.create();
@@ -927,20 +928,20 @@ class MySceneParser {
       if (textId =="inherit"){
             if (!texture.hasOwnProperty('length_s'))
                  inheritWithParameters= false;
-            else 
+            else
                 length_s = this.reader.getString(texture, 'length_s');
             if (!texture.hasOwnProperty('length_t'))
                 inheritWithParameters= false;
-           else 
+           else
                length_t = this.reader.getString(texture, 'length_t');
       }
       if (textId !="none" && inheritWithParameters)
-    {   
+    {
        length_s = this.reader.getString(texture, 'length_s');
        length_t = this.reader.getString(texture, 'length_t');
     }
 
-     
+
 
       //-----------------------CHILDREN------------------------------------//
 

@@ -64,7 +64,7 @@ class MyInterface extends CGFinterface {
         }
         let scene= this.scene;
         group.add(this.scene, "index", view).onChange(function(index){
-    
+
 
          scene.camera=views[index];
         });
