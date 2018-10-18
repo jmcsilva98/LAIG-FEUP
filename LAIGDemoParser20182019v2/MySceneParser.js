@@ -258,7 +258,10 @@ class MySceneParser {
               //this.onXMLMinorError("There's no perspective id"); QUAL MELHOR
 
             var angle = this.reader.getFloat(view[i], 'angle');
-            //testar o angle
+            if (angle == null){
+               return "There's no angle value on " +view[i] + ". Please change it.";
+            }
+            else angle*=DEGREE_TO_RAD;
 
             var near = this.reader.getFloat(view[i], 'near');
             if(near == null)
@@ -916,12 +919,28 @@ class MySceneParser {
       }
       var texture = component[i].getElementsByTagName('texture')[0];
       var textId = this.reader.getString(texture, 'id');
-
-      var length_s = this.reader.getString(texture, 'length_s');
-      var length_t = this.reader.getString(texture, 'length_t');
-
       if(!(textId == "inherit" || textId == "none" || textId == this.textures[textId]))
-        this.onXMLMinorError("Doesn't exist any texture with the id " + textId + " .");
+      this.onXMLMinorError("Doesn't exist any texture with the id " + textId + " .");
+      var inheritWithParameters=true;
+      var length_s=null;
+      var length_t=null;
+      if (textId =="inherit"){
+            if (!texture.hasOwnProperty('length_s'))
+                 inheritWithParameters= false;
+            else 
+                length_s = this.reader.getString(texture, 'length_s');
+            if (!texture.hasOwnProperty('length_t'))
+                inheritWithParameters= false;
+           else 
+               length_t = this.reader.getString(texture, 'length_t');
+      }
+      if (textId !="none" && inheritWithParameters)
+    {   
+       length_s = this.reader.getString(texture, 'length_s');
+       length_t = this.reader.getString(texture, 'length_t');
+    }
+
+     
 
       //-----------------------CHILDREN------------------------------------//
 
@@ -979,7 +998,7 @@ class MySceneParser {
 
         // entry point for graph rendering
         //TODO: Render loop starting at root of graph
-         this.components[this.rootName].display(this.components[this.rootName].materialId,this.components[this.rootName].textId);
+         this.components[this.rootName].display(this.components[this.rootName].materialId,this.components[this.rootName].textId,this.components[this.rootName].length_s,this.components[this.rootName].length_t);
 
     }
 

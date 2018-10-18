@@ -44,10 +44,10 @@ class Component {
 
 	}
 
-	display(parentMaterial, parentTexture) {
+	display(parentMaterial, parentTexture,parentS,parentT) {
 		this.scene.pushMatrix();
 		this.scene.multMatrix(this.transformationMatrix);
-		var currentMaterial, currentTexture;
+		var currentMaterial, currentTexture,currentS,currentT;
 
 		if(this.materialId == "inherit")
 			currentMaterial = parentMaterial;
@@ -58,16 +58,25 @@ class Component {
 			currentTexture = parentTexture;
 		else
 			currentTexture = this.textId;
+		if (this.length_s==null)
+			currentS=parentS;
+		
+		else 
+			currentS=this.length_s;
+		
+		if (this.length_t == null)
+			currentT= parentT;
+		else
+			currentT=this.length_t;
 
-
-		this.graph.materials[currentMaterial].setTexture(	this.graph.textures[currentTexture]);
+		this.graph.materials[currentMaterial].setTexture(this.graph.textures[currentTexture]);
 
 		this.graph.materials[currentMaterial].apply();
 
 
 		for (var i = 0; i < this.primitivesChildren.length; i++) {
 
-			this.graph.primitives[this.primitivesChildren[i]].updateTexCoords(this.length_s, this.length_t);
+			this.graph.primitives[this.primitivesChildren[i]].updateTexCoords(currentS,currentT);
 			this.graph.primitives[this.primitivesChildren[i]].display();
 
 		}
@@ -78,7 +87,7 @@ class Component {
 		this.graph.materials[currentMaterial].apply();
 
 		for (var i = 0; i < this.componentsChildren.length; i++) {
-			this.graph.components[this.componentsChildren[i]].display(currentMaterial,currentTexture);
+			this.graph.components[this.componentsChildren[i]].display(currentMaterial,currentTexture,currentS,currentT);
 		}
 		this.scene.popMatrix();
 
