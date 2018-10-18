@@ -9,15 +9,9 @@ class MyTriangle extends CGFobject
 	constructor(scene,x1,y1,z1,x2,y2,z2,x3,y3,z3)
 	{
 		super(scene);
-		this.x1=x1;
-		this.y1=y1;
-		this.z1=z1;
-		this.x2=x2;
-		this.y2=y2;
-		this.z2=z2;
-		this.x3=x3;
-		this.y3=y3;
-		this.z3=z3;
+		this.p1 = [x1, y1, z1];
+	  this.p2 = [x2, y2, z2];
+	  this.p3 = [x3, y3, z3];
 		this.initBuffers();
 	};
 
@@ -25,22 +19,25 @@ class MyTriangle extends CGFobject
 	{
 
 		this.vertices = [
-				this.x1,this.y1,this.z1,
-				this.x2, this.y2, this.z2,
-				this.x3, this.y3, this.z3
+				this.p1[0],this.p1[1],this.p1[2],
+				this.p2[0],this.p2[1],this.p2[2],
+				this.p3[0],this.p3[1],this.p3[2]
 				];
 
 		this.indices = [
 				0, 1, 2,
-                0, 2, 1
+
 			];
 
+		var x = ((this.p2[1] - this.p1[1])*(this.p3[2] - this.p1[2]) - (this.p2[2] - this.p1[2])*(this.p3[1] - this.p1[1]))/Math.sqrt(Math.pow((this.p2[1] - this.p1[1])*(this.p3[2] - this.p1[2]) - (this.p2[2] - this.p1[2])*(this.p3[1] - this.p1[1]),2) + Math.pow((this.p2[2] - this.p1[2])*(this.p3[0] - this.p1[0]) - (this.p2[0] - this.p1[0]) * (this.p3[2] - this.p1[2]),2) + Math.pow((this.p2[0] - this.p1[0])*(this.p3[1] - this.p1[1]) - (this.p2[1] - this.p1[1])*(this.p3[0] - this.p1[0]),2));
+		var y = ((this.p2[2] - this.p1[2])*(this.p3[0] - this.p1[0]) - (this.p2[0] - this.p1[0])*(this.p3[2] - this.p1[2]))/Math.sqrt(Math.pow((this.p2[1] - this.p1[1])*(this.p3[2] - this.p1[2]) - (this.p2[2] - this.p1[2])*(this.p3[1] - this.p1[1]), 2) + Math.pow((this.p2[2] - this.p1[2])*(this.p3[0] - this.p1[0]) - (this.p2[0] - this.p1[0])*(this.p3[2] - this.p1[2]),2) + Math.pow((this.p2[0] - this.p1[0])*(this.p3[1] - this.p1[1]) - (this.p2[1] - this.p1[1])*(this.p3[0] - this.p1[0]),2));
+		var z = ((this.p2[0] - this.p1[0])*(this.p3[1] - this.p1[1]) - (this.p2[1] - this.p1[1])*(this.p3[0] - this.p1[0]))/Math.sqrt(Math.pow((this.p2[1] - this.p1[1])*(this.p3[2] - this.p1[2])- (this.p2[2] - this.p1[2])*(this.p3[1] - this.p1[1]), 2) + Math.pow((this.p2[2] - this.p1[2])*(this.p3[0] - this.p1[0]) - (this.p2[0] - this.p1[0])*(this.p3[2] - this.p1[2]),2) + Math.pow((this.p2[0] - this.p1[0])*(this.p3[1] - this.p1[1]) - (this.p2[1] - this.p1[1])*(this.p3[0] - this.p1[0]), 2));
 
 		this.normals = [
-					1, 0, 0,
-					1, 0, 0,
-					1, 0, 0
-					];
+				x,y,z,
+				x,y,z,
+				x,y,z,
+		];
 
 
 		this.texCoords = [
@@ -62,5 +59,35 @@ class MyTriangle extends CGFobject
 	 this.updateTexCoordsGLBuffers();
 
  };*/
- updateTexCoords(length_s,length_t){}
+ updateTexCoords(length_s,length_t){
+	 this.length_s = length_s;
+	 this.length_t = length_t;
+
+	 this.b = Math.sqrt((this.p1[0] - this.p3[0]) * (this.p1[0] - this.p3[0]) +
+			 		   (this.p1[1] - this.p3[1]) * (this.p1[1] - this.p3[1]) +
+			 		   (this.p1[2] - this.p3[2]) * (this.p1[2] - this.p3[2]));
+
+	this.c = Math.sqrt((this.p2[0] - this.p1[0]) * (this.p2[0] - this.p1[0]) +
+			 		   (this.p2[1] - this.p1[1]) * (this.p2[1] - this.p1[1]) +
+			 		   (this.p2[2] - this.p1[2]) * (this.p2[2] - this.p1[2]));
+
+	this.a = Math.sqrt((this.p3[0] - this.p2[0]) * (this.p3[0] - this.p2[0]) +
+			 		   (this.p3[1] - this.p2[1]) * (this.p3[1] - this.p2[1]) +
+			 		   (this.p3[2] - this.p2[2]) * (this.p3[2] - this.p2[2]));
+
+
+this.cosB =  ( this.a*this.a - this.b*this.b + this.c * this.c) / (2 * this.a * this.c);
+this.beta = Math.acos(this.cosB);
+
+
+this.texCoords = [
+	  0, 0,
+	  this.c / this.length_s, 0,
+	  (this.c - this.a * Math.cos(this.beta)) / this.length_s, (this.a*Math.sin(this.beta)) / this.length_t,
+    ];
+
+
+this.updateTexCoordsGLBuffers();
+
+ };
 };

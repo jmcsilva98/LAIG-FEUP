@@ -76,11 +76,9 @@ class MyInterface extends CGFinterface {
       switch (event.keyCode) {
         case 109:
           this.scene.switchMaterials();
-          console.log("pressed M");
         break;
         case 77:
           this.scene.switchMaterials();
-          console.log("pressed M");
         break;
 
       }

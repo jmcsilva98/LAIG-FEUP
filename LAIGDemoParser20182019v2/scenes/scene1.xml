@@ -592,7 +592,7 @@
       </children>
     </component>
 
-    <component id="wallBack">
+    <component id="wallFront">
       <transformation>
         <translate x="0" y="0" z="0.5" />
       </transformation>
@@ -601,23 +601,24 @@
         <material id="inherit" />
       </materials>
 
-      <texture id="inherit" length_s="1" length_t="1" />
+      <texture id="inherit" length_s="1.5" length_t="1.5" />
 
       <children>
         <primitiveref id="triangle" />
       </children>
     </component>
 
-    <component id="wallFront">
+    <component id="wallBack">
       <transformation>
-        <translate x="0" y="0" z="-0.5" />
+        <translate x="4.5" y="0" z="-0.5" />
+        <rotate axis="y" angle="180" />
       </transformation>
 
       <materials>
         <material id="inherit" />
       </materials>
 
-      <texture id="inherit" length_s="1" length_t="1" />
+      <texture id="inherit" length_s="1.5" length_t="1.5" />
 
       <children>
         <primitiveref id="triangle" />
@@ -771,7 +772,7 @@
       </transformation>
 
       <materials>
-        <material id="defaultMaterial" />
+        <material id="inherit" />
       </materials>
 
       <texture id="none" length_s="1" length_t="1" />
@@ -788,7 +789,7 @@
       </transformation>
 
       <materials>
-        <material id="defaultMaterial" />
+        <material id="inherit" />
       </materials>
 
       <texture id="none" length_s="1" length_t="1" />
