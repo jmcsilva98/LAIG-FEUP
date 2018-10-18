@@ -223,6 +223,7 @@ class MySceneParser {
         }else
             this.referenceLength = axisLength;
 
+        console.log("Parsed Scene");
         return null;
     }
 
@@ -232,7 +233,7 @@ class MySceneParser {
 
         this.defaultView= viewsNode.getAttribute("default");
         if(this.defaultView==null)
-        this.onXMLMinorError("There's no views name.");
+        this.onXMLMinorError("There's no default view name.");
 
         if(view.length == 0)
           return "You need to have at least one type of view defined.";
@@ -357,6 +358,7 @@ class MySceneParser {
             this.onXMLMinorError( this.onXMLMinorError("unknown tag <" + nodeName + ">"));
           }
         }
+            console.log("Parsed Views");
             return null;
     }
 
@@ -381,18 +383,18 @@ class MySceneParser {
         var gAmbient=this.reader.getFloat(ambient[0],'g');
         if (!(gAmbient==null || gAmbient <0 || gAmbient>1)){
            this.ambientIlumination[1]=gAmbient;
-           
+
         }
-        else 
+        else
             this.onXMLMinorError("G ambient component must have a number between 0 and 1");
-       
+
         var bAmbient=this.reader.getFloat(ambient[0],'b');
         if (!(bAmbient==null || bAmbient <0 || bAmbient>1)){
             this.ambientIlumination[2]=bAmbient;
         }
-        else 
+        else
         this.onXMLMinorError("B ambient component must have a number between 0 and 1");
-             
+
         var aAmbient=this.reader.getFloat(ambient[0],'a');
         if (!(aAmbient==null || aAmbient <0 || aAmbient>1)){
             this.ambientIlumination[3]=aAmbient;
@@ -424,6 +426,7 @@ class MySceneParser {
         else
              this.onXMLError("A background component must have a number between 0 and 1");
 
+        console.log("Parsed Ambient");
         return null;
     }
     parseLights(lightsNode){
@@ -707,7 +710,7 @@ class MySceneParser {
             this.onXMLMinorError("shininess must be a valid float.Assuming that shininess value is 10");
             shininess=10;
         }
-        
+
         var emission = this.parseRgba(materials[i].getElementsByTagName('emission')[0]);
         var ambient = this.parseRgba(materials[i].getElementsByTagName('ambient')[0]);
         var diffuse = this.parseRgba(materials[i].getElementsByTagName('diffuse')[0]);
@@ -722,6 +725,7 @@ class MySceneParser {
 
         this.materials[matId] = newMaterial;
       }
+      console.log("Parsed Materials");
       return null;
       }
 
@@ -758,9 +762,15 @@ class MySceneParser {
     parseTransformations(transformationsNode){
 
       var identMatrix=mat4.create();
+      if(transformationsNode.children.length == 0){
+          this.onXMLError( "There must be at least one or more transformation block.");
+      }
       for (var i =0;i<transformationsNode.children.length;i++){
         var transformations=transformationsNode.children[i].children;
         identMatrix=mat4.create();
+        if(transformations.length == 0){
+          this.onXMLError( "There must be at least one transformation");
+        }
               for(var j = 0;j < transformations.length; j++){
                 var vector = vec3.create();
                 var x,y,z;
@@ -787,14 +797,14 @@ class MySceneParser {
                     }
                     break;
                   case "scale":
-                 
+
                   x = this.reader.getFloat(transformations[j],'x');
                   y = this.reader.getFloat(transformations[j],'y');
                   z = this.reader.getFloat(transformations[j],'z');
                   if (x == 0 || y == 0 || z == 0){
                       this.onXMLError("There's in a value on scale in tranformation "+i + "that is 0. Please change");
-        
-                }   
+
+                }
 
                   vec3.set(vector,x,y,z);
                   mat4.scale(identMatrix,identMatrix,vector);
@@ -805,7 +815,7 @@ class MySceneParser {
             }
             this.transformations[transformationsNode.children[i].getAttribute('id')]=identMatrix;
         }
-
+      console.log("Parsed Transformations");
       return null;
     }
 
@@ -863,6 +873,7 @@ class MySceneParser {
 
         }
       }
+      console.log("Parsed Primitives");
       return null;
       }
     }
@@ -891,6 +902,9 @@ class MySceneParser {
 
         //-----------------------TRANSFORMATIONS------------------------------------//
         //verificar se há mais que um bloco de transformações
+        if(component[i].getElementsByTagName('transformation').length == 0){
+            this.onXMLMinorError("There must be a transformation block!");
+        }
         if (component[i].getElementsByTagName('transformation').length>1){
             this.onXMLMinorError("There can't have more than one transformation block!");
         }
@@ -930,12 +944,11 @@ class MySceneParser {
                   mat4.scale(identMatrix,identMatrix,vector);
                   if (x == 0 || y == 0 || z == 0){
                     this.onXMLError("There's in a value on scale in tranformation "+i + "that is 0. Please change");
-      
-              }   
+
+              }
                   break;
                   case "transformationref":
                   identMatrix=this.transformations[transformations[j].getAttribute('id')];
-                  console.log(this.transformations);
                   break;
                   default:
 
@@ -973,8 +986,10 @@ class MySceneParser {
       }
       var texture = component[i].getElementsByTagName('texture')[0];
       var textId = this.reader.getString(texture, 'id');
-      if(!(textId == "inherit" || textId == "none" || textId == this.textures[textId]))
-      this.onXMLMinorError("Doesn't exist any texture with the id " + textId + " .");
+
+      if(textId != "inherit" && textId != "none" &&  !this.textures[textId])
+      this.onXMLMinorError("Not a valid texture. Id " + textId + " .");
+
       var inheritWithParameters=true;
       var length_s=null;
       var length_t=null;
@@ -1001,6 +1016,10 @@ class MySceneParser {
       var childrenArray = component[i].getElementsByTagName('children')[0];
       var primitivesChildren = childrenArray.getElementsByTagName('primitiveref');
       var componentsChildren=childrenArray.getElementsByTagName('componentref');
+
+      if(childrenArray.children.length == 0){
+        return "A component must have children! Component: " + componentId;
+      }
       var primitivesId=[];
       var componentsId=[];
       for (var j =0;j<primitivesChildren.length;j++){
@@ -1011,11 +1030,12 @@ class MySceneParser {
         componentsId.push(componentsChildren[j].getAttribute('id'));
          }
 
-      //  console.log(this.textures[textId]);
+
       var newComponent = new Component(this.scene, this, componentId, identMatrix, textId, length_s, length_t, defaultMaterial, primitivesId,componentsId, materialsList);
       this.components[componentId] = newComponent;
       }
 
+      console.log("Parsed Components");
       return null;
     }
     /*
