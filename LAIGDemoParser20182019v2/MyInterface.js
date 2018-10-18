@@ -64,8 +64,7 @@ class MyInterface extends CGFinterface {
         }
         let scene= this.scene;
         group.add(this.scene, "index", view).onChange(function(index){
-            console.log("change");
-            console.log("vvvv",views[1]);
+    
 
          scene.camera=views[index];
         });
@@ -75,12 +74,6 @@ class MyInterface extends CGFinterface {
         CGFinterface.prototype.processKeyboard.call(this,event);
 
       switch (event.keyCode) {
-        case 86:
-          this.scene.changingToNextCamera();
-          break;
-        case 118:
-          this.scene.changingToNextCamera();
-          break;
         case 109:
           this.scene.switchMaterials();
           console.log("pressed M");

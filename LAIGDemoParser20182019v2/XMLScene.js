@@ -47,8 +47,6 @@ class XMLscene extends CGFscene {
      */
     initCameras() {
         this.camera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(15, 15, 15), vec3.fromValues(0, 0, 0));
-        this.orthoCamera= new CGFcameraOrtho(-100, 100, -5, 5, 0.1, 500, vec3.fromValues(30,5,2), vec3.fromValues(0,0,0),1);
-
 
     }
     /**
@@ -114,8 +112,8 @@ class XMLscene extends CGFscene {
         this.interface.addLightsGroup(this.graph.lights);
 
         //Adds views group.
-        this.interface.addViewsGroup(this.graph.newView);
-        this.interface.setActiveCamera(this.graph.newView[0]);
+        this.interface.addViewsGroup(this.graph.views);
+        this.interface.setActiveCamera(this.graph.views[0]);
 
         this.sceneInited = true;
     }
@@ -134,35 +132,6 @@ class XMLscene extends CGFscene {
         }
 
       }
-
-    }
-    changingToNextCamera(){
-        console.log(this.i);
-        if (this.i == this.graph.newView.length - 1) {
-            this.i = 0;
-        } else this.i++;
-
-        //this.camera = this.graph.newView[this.i];
-        if (this.graph.newView[this.i][0]=="perspective"){
-        this.camera.fov = this.graph.newView[this.i][1];
-        this.camera.near = this.graph.newView[this.i][2];
-        this.camera.far = this.graph.newView[this.i][3];
-        this.camera.setPosition(this.graph.newView[this.i][4]);
-        this.camera.setTarget(this.graph.newView[this.i][5]);
-        }
-        else if (this.graph.newView[this.i][0]=="ortho"){
-            console.log("ortho");
-            this.orthoCamera.left = this.graph.newView[this.i][1];
-             this.orthoCamera.right = this.graph.newView[this.i][2];
-            this.orthoCamera.bottom = this.graph.newView[this.i][3];
-            this.orthoCamera.top = this.graph.newView[this.i][4];
-            this.orthoCamera.near = this.graph.newView[this.i][5];
-            this.orthoCamera.far = this.graph.newView[this.i][6];
-            this.orthoCamera.setPosition(this.graph.newView[this.i][7]);
-           this.orthoCamera.setTarget(this.graph.newView[this.i][8]);
-            this.orthoCamera.setUp(this.graph.newView[this.i][9]);
-            this.interface.setActiveCamera(this.orthoCamera);
-            }
 
     }
 

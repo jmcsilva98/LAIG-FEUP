@@ -41,5 +41,8 @@ class MyCylinder extends CGFobject
 
 
 };
-
+updateTexCoords(length_s,length_t)
+{
+	
+}
 };

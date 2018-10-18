@@ -67,7 +67,7 @@ class Component {
 
 		for (var i = 0; i < this.primitivesChildren.length; i++) {
 
-			//this.graph.primitives[this.primitivesChildren[i]].updateTexCoords(this.length_s, this.length_t);
+			this.graph.primitives[this.primitivesChildren[i]].updateTexCoords(this.length_s, this.length_t);
 			this.graph.primitives[this.primitivesChildren[i]].display();
 
 		}

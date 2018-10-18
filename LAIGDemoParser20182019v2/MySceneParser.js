@@ -30,7 +30,7 @@ class MySceneParser {
         this.textures = [];
         this.transformations=[];
         this.components=[];
-        this.newView = [];
+        this.views = [];
 
 
 
@@ -248,9 +248,6 @@ class MySceneParser {
         for(var i  = 0; i < view.length;i++)
         {
           var nodeName = view[i].nodeName;
-          var perspectiveComponent = [];
-          var orthoComponent = [];
-
 
 
           if(nodeName == "perspective"){
@@ -258,21 +255,17 @@ class MySceneParser {
             if(viewId == null)
               return "There's no perspective id";
               //this.onXMLMinorError("There's no perspective id"); QUAL MELHOR
-              perspectiveComponent.push("perspective");
 
             var angle = this.reader.getFloat(view[i], 'angle');
             //testar o angle
-            perspectiveComponent.push(angle);
 
             var near = this.reader.getFloat(view[i], 'near');
             if(near == null)
                 return "There's no near values"; //mudar
-                perspectiveComponent.push(near);
 
             var far = this.reader.getFloat(view[i], 'far');
             if(far == null)
                 return "There's no far values"; //mudar
-                perspectiveComponent.push(far);
 
 
             var perspectiveChildren = view[i].children;
@@ -291,50 +284,37 @@ class MySceneParser {
                   }
               }
 
-              this.newCamera = new CGFcamera(angle, near, far, vec3.fromValues(xfrom,yfrom,zfrom), vec3.fromValues(xto,yto,zto));
-              this.newView[i] = this.newCamera; //the new camera view is added to the array
-
-            perspectiveComponent.push(vec3.fromValues(xfrom,yfrom,zfrom));
-            perspectiveComponent.push( vec3.fromValues(xto,yto,zto));
-
-           // this.newView[i] = perspectiveComponent;
+              this.views[viewId] =  new CGFcamera(angle, near, far, vec3.fromValues(xfrom,yfrom,zfrom), vec3.fromValues(xto,yto,zto)); //the new camera view is added to the array
 
           }else if(nodeName == "ortho"){
                   var viewId = this.reader.getString(view[i], 'id');
                   if(viewId == null)
                    return "There's no ortho id";
-                  orthoComponent.push("ortho");
-
+    
                   var left = this.reader.getFloat(view[i], 'left');
                   if(left == null)
                     return "There's no left values"; //mudar
-                  orthoComponent.push(left);
-
+    
                   var right = this.reader.getFloat(view[i], 'right');
                   if(right == null)
                     return "There's no right values"; //mudar
-                  orthoComponent.push(right);
 
                   var bottom = this.reader.getFloat(view[i], 'bottom');
                   if(bottom == null)
                       return "There's no bottom values"; //mudar
-                  orthoComponent.push(bottom);
 
 
                   var top = this.reader.getFloat(view[i], 'top');
                   if(top == null)
                     return "There's no top values"; //mudar
-                  orthoComponent.push(top);
 
                   var near = this.reader.getFloat(view[i], 'near');
                   if(near == null)
                     return "There's no near values"; //mudar
-                  orthoComponent.push(near);
 
                   var far = this.reader.getFloat(view[i], 'far');
                   if(far == null)
                     return "There's no far values"; //mudar
-                  orthoComponent.push(far);
 
                   var orthoChildren = view[i].children;
 
@@ -351,20 +331,13 @@ class MySceneParser {
                         }
                     }
 
-                    this.newCamera = new CGFcameraOrtho(left, right, bottom, top, near, far, vec3.fromValues(xfrom,yfrom,zfrom), vec3.fromValues(xto,yto,zto),vec3.fromValues(0,1,0));
-                    //this.viewsOrtho[viewId] = this.newCamera; //the new camera view is added to the array
-                   this.newView[i] = this.newCamera;
-                    orthoComponent.push(vec3.fromValues(xfrom,yfrom,zfrom));
-                    orthoComponent.push(vec3.fromValues(xto,yto,zto));
 
-                    //this.newView[i] = orthoComponent;
-
-          }
-          else{
+                   this.views[viewId] = new CGFcameraOrtho(left, right, bottom, top, near, far, vec3.fromValues(xfrom,yfrom,zfrom), vec3.fromValues(xto,yto,zto),vec3.fromValues(0,1,0));
+                }
+                   else{
             this.onXMLMinorError("The name of the view must be or ortho or perspective.");
           }
         }
-        console.log(".......",this.newView);
             return null;
     }
 
@@ -863,6 +836,9 @@ class MySceneParser {
           return ("There can't be components with the same id: " + componentId + ".");
 
         //-----------------------TRANSFORMATIONS------------------------------------//
+        if (component[i].getElementsByTagName('transformation').length>1){
+            this.onXMLMinorError("There can't have more than one transformation block!");
+        }
         var transformations =component[i].getElementsByTagName('transformation')[0].children;
         //verificar se há mais que uma transformação
         if (transformations.length>1){
