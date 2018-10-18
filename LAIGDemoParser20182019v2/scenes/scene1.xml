@@ -818,7 +818,6 @@
 
       <children>
         <primitiveref id="rectangle" />
-        <!--  <primitiveref id="rectangle"/> -->
       </children>
     </component>
 

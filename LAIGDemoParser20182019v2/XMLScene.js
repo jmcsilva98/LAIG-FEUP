@@ -15,7 +15,7 @@ class XMLscene extends CGFscene {
         this.lightValues = {};
         this.index = "view1";
         this.oldIndex = this.index;
-        this.i=0;
+        this.axisOn=false;
     }
 
     /**
@@ -160,7 +160,8 @@ class XMLscene extends CGFscene {
 
       if (this.sceneInited) {
           // Draw axis
-          this.axis.display();
+          if (this.axisOn)
+             this.axis.display();
 
           var i = 0;
           for (var key in this.lightValues) {
