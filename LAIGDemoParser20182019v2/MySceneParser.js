@@ -31,6 +31,7 @@ class MySceneParser {
         this.transformations=[];
         this.components=[];
         this.views = [];
+        this.defaultView;
 
 
 
@@ -229,8 +230,8 @@ class MySceneParser {
     parseViews(viewsNode){
         var view = viewsNode.children;
 
-        var defaultView= viewsNode.getAttribute("default");
-        if(defaultView==null)
+        this.defaultView= viewsNode.getAttribute("default");
+        if(this.defaultView==null)
         this.onXMLMinorError("There's no views name.");
 
         if(view.length == 0)
@@ -836,14 +837,12 @@ class MySceneParser {
           return ("There can't be components with the same id: " + componentId + ".");
 
         //-----------------------TRANSFORMATIONS------------------------------------//
+        //verificar se há mais que um bloco de transformações
         if (component[i].getElementsByTagName('transformation').length>1){
             this.onXMLMinorError("There can't have more than one transformation block!");
         }
         var transformations =component[i].getElementsByTagName('transformation')[0].children;
-        //verificar se há mais que uma transformação
-        if (transformations.length>1){
-            this.onXMLMinorError("There can't have more than one transformation block!");
-        }
+        
               identMatrix=mat4.create();
               for(var j = 0;j < transformations.length; j++){
                 var vector = vec3.create();
