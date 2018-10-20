@@ -79,8 +79,8 @@
     <texture id="marmore" file="../images/marmore.jpg"/>
     <texture id="sun" file="../images/sun.jpg"/>
     <texture id="window" file="../images/window.jpg"/>
-    <textures id="brick" file="../images/brick.jpg"/>
-    <textures id="clock" file="../images/clock.png"/>
+    <texture id="brick" file="../images/brick.jpg"/>
+    <texture id="clock" file="../images/clock.png"/>
   </textures>
 
   <materials>
