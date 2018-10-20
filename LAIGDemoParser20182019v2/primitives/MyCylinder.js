@@ -14,7 +14,7 @@ class MyCylinder extends CGFobject
 		this.stacks = stacks;
 		this.height = height;
 
-		this.tube =  new MyOpenCylinder(scene, slices, stacks);
+		this.tube =  new MyOpenCylinder(scene, base, top, height, slices, stacks);
 		this.base = new MyPolygon(scene, slices, base);
 		this.top = new MyPolygon(scene, slices, top);
 
@@ -23,9 +23,8 @@ class MyCylinder extends CGFobject
 	};
 	display()
 	{
-
-
 		this.scene.pushMatrix();
+		this.scene.scale(1,1,this.height);
     	this.tube.display();
         this.scene.popMatrix();
 
