@@ -13,8 +13,7 @@ class XMLscene extends CGFscene {
 
     this.interface = myinterface;
     this.lightValues = {};
-    this.index = "view1";
-    this.oldIndex = this.index;
+    this.index;
     this.axisOn = false;
   }
 
@@ -112,6 +111,7 @@ class XMLscene extends CGFscene {
     this.interface.addLightsGroup(this.graph.lights);
 
     //Adds views group.
+    this.index = this.graph.defaultView;
     this.interface.addViewsGroup(this.graph.views);
     this.interface.addAxisGroup();
     this.camera = this.graph.views[this.graph.defaultView];
