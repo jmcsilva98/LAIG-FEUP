@@ -65,11 +65,9 @@ class Component {
 			currentT= parentT;
 		else
 			currentT=this.length_t;
-
+		
 		this.graph.materials[currentMaterial].setTexture(this.graph.textures[currentTexture]);
-
 		this.graph.materials[currentMaterial].apply();
-
 
 		for (var i = 0; i < this.primitivesChildren.length; i++) {
 
@@ -80,9 +78,10 @@ class Component {
 		this.scene.popMatrix();
 		this.scene.pushMatrix();
 		this.scene.multMatrix(this.transformationMatrix);
+		
 		this.graph.materials[currentMaterial].setTexture(this.texture);
 		this.graph.materials[currentMaterial].apply();
-
+		
 		for (var i = 0; i < this.componentsChildren.length; i++) {
 			this.graph.components[this.componentsChildren[i]].display(currentMaterial,currentTexture,currentS,currentT);
 		}

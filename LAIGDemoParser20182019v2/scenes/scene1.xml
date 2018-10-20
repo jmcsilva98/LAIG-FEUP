@@ -106,7 +106,7 @@
       <specular r="0.1" g="0.1" b="0.1" a="1"/>
     </material>
 
-    <material id="columns" shininess="10">
+    <material id="columns" shininess="1">
       <emission a="0" b="0" g="0" r="0"/>
       <ambient a="1" b="0.5" g="0.5" r="0.5"/>
       <diffuse a="1" b="0.85" g="0.86" r="0.95"/>
@@ -159,7 +159,7 @@
 
   <primitives>
     <primitive id="cylinder">
-      <cylinder base="1" top="1" height="6" slices="20" stacks="8"/>
+      <cylinder base="1" top="1" height="1" slices="20" stacks="8"/>
     </primitive>
     <primitive id="rectangle">
       <rectangle x1="-0.5" y1="-0.5" x2="0.5" y2="0.5"/>
@@ -204,7 +204,7 @@
         <translate x="0" y="2.7" z="0"/>
       </transformation>
       <materials>
-        <material id="yellow"/>
+        <material id="roof"/>
       </materials>
 
       <texture id="brick" length_s="1" length_t="1"/>
@@ -224,7 +224,7 @@
         <material id="columns"/>
       </materials>
 
-      <texture id="marmore" length_s="1" length_t="1"/>
+      <texture id="none" length_s="1" length_t="1"/>
 
       <children>
         <componentref id="column1"/>
@@ -253,10 +253,10 @@
       </transformation>
 
       <materials>
-        <material id="inherit"/>
+        <material id="roof"/>
       </materials>
 
-      <texture id="inherit" length_s="1" length_t="1"/>
+      <texture id="brick" length_s="1" length_t="1"/>
 
       <children>
         <componentref id="parallelepiped"/>
@@ -269,10 +269,10 @@
       </transformation>
 
       <materials>
-        <material id="inherit"/>
+        <material id="columns"/>
       </materials>
 
-      <texture id="inherit" length_s="1" length_t="1"/>
+      <texture id="marmore" length_s="1" length_t="1"/>
 
       <children>
         <primitiveref id="cylinder"/>
@@ -588,7 +588,7 @@
         <material id="roof"/>
       </materials>
 
-      <texture id="brick" length_s="1" length_t="1"/>
+      <texture id="brick" length_s="0.5" length_t="0.5"/>
 
       <children>
 
@@ -641,7 +641,7 @@
         <material id="inherit"/>
       </materials>
 
-      <texture id="brick" length_s="1" length_t="1"/>
+      <texture id="inherit" length_s="1" length_t="1"/>
 
       <children>
         <componentref id="faceCube1"/>
@@ -760,10 +760,10 @@
       <transformation></transformation>
 
       <materials>
-        <material id="defaultMaterial"/>
+        <material id="inherit"/>
       </materials>
 
-      <texture id="brick" length_s="1" length_t="1"/>
+      <texture id="brick" length_s="0.25" length_t="0.25"/>
 
       <children>
         <componentref id="wallBase1"/>
@@ -782,7 +782,7 @@
         <material id="inherit"/>
       </materials>
 
-      <texture id="inherit" length_s="1" length_t="1"/>
+      <texture id="inherit" />
 
       <children>
         <componentref id="parallelepiped"/>
@@ -799,7 +799,7 @@
         <material id="inherit"/>
       </materials>
 
-      <texture id="inherit" length_s="1" length_t="1"/>
+      <texture id="inherit" length_s="0.5" length_t="0.5"/>
 
       <children>
         <componentref id="parallelepiped"/>

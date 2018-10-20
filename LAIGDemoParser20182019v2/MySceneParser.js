@@ -33,10 +33,6 @@ class MySceneParser {
     this.views = [];
     this.defaultView;
 
-
-
-    this.idRoot = null; // The id of the root element.
-
     this.axisCoords = [];
     this.axisCoords['x'] = [1, 0, 0];
     this.axisCoords['y'] = [0, 1, 0];
@@ -215,6 +211,7 @@ class MySceneParser {
       this.onXMLMinorError("There's no scene name.");
     else
       this.rootName = rootName;
+     
 
     var axisLength = sceneNode.getAttribute("axis_length");
     if (isNaN(axisLength)) {
@@ -952,7 +949,7 @@ class MySceneParser {
         for (var j = 0; j < materials.length; j++) {
           var id = this.reader.getString(materials[j], 'id');
 
-          if (!this.materials[id] || id == null)
+          if ((!this.materials[id] || id == null) && id !="inherit")
             return "Undefined material id: " + id;
 
 
@@ -981,16 +978,17 @@ class MySceneParser {
         if (!texture.hasOwnProperty('length_s'))
           inheritWithParameters = false;
         else
-          length_s = this.reader.getString(texture, 'length_s');
+          length_s = this.reader.getFloat(texture, 'length_s');
         if (!texture.hasOwnProperty('length_t'))
           inheritWithParameters = false;
         else
-          length_t = this.reader.getString(texture, 'length_t');
+          length_t = this.reader.getFloat(texture, 'length_t');
       }
       if (textId != "none" && inheritWithParameters) {
-        length_s = this.reader.getString(texture, 'length_s');
-        length_t = this.reader.getString(texture, 'length_t');
+        length_s = this.reader.getFloat(texture, 'length_s');
+        length_t = this.reader.getFloat(texture, 'length_t');
       }
+      console.log(textId+" length_s::::"+length_s + " length_t:::::"+length_t);
 
 
 

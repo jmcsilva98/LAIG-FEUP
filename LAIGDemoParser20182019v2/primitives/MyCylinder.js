@@ -35,7 +35,7 @@ class MyCylinder extends CGFobject
      	this.scene.popMatrix();
 
      this.scene.pushMatrix();
-         this.scene.translate(0, 0,1);
+         this.scene.translate(0, 0,this.height);
          this.top.display();
 	 this.scene.popMatrix();
 
