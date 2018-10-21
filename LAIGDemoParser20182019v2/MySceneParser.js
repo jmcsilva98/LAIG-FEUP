@@ -937,6 +937,7 @@ class MySceneParser {
       for (var j = 0; j < transformations.length; j++) {
         var vector = vec3.create();
         var x, y, z;
+    
 
         switch (transformations[j].nodeName) {
           case "translate":
