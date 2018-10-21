@@ -21,7 +21,7 @@ class MyInterface extends CGFinterface {
         this.gui = new dat.GUI();
 
         // add a group of controls (and open/expand by defult)
-        
+
         return true;
     }
 
@@ -79,10 +79,10 @@ class MyInterface extends CGFinterface {
         CGFinterface.prototype.processKeyboard.call(this,event);
 
       switch (event.keyCode) {
-        case 109:
+        case 109://m
           this.scene.switchMaterials();
         break;
-        case 77:
+        case 77://M
           this.scene.switchMaterials();
         break;
 

@@ -26,12 +26,13 @@ class MySceneParser {
     this.scene = scene;
     scene.graph = this;
 
+    //Arrays that will save the information parsed (data structure)
     this.nodes = [];
     this.textures = [];
     this.transformations = [];
     this.components = [];
     this.views = [];
-    this.defaultView;
+    this.defaultView; //Default view of the camera
 
     this.axisCoords = [];
     this.axisCoords['x'] = [1, 0, 0];
@@ -205,15 +206,17 @@ class MySceneParser {
     return null;
   }
 
+  //--------------------------------PARSE SCENE ------------------------------------------//
   parseScene(sceneNode) {
+    //gets the root attribute of the node and tests if it's valid
     var rootName = sceneNode.getAttribute("root");
     if (rootName == null)
       this.onXMLMinorError("There's no scene name.");
     else
       this.rootName = rootName;
-     
 
     var axisLength = sceneNode.getAttribute("axis_length");
+    //If the number in the attribute 'axis_length' isn't a valid number, we assume the value as 1
     if (isNaN(axisLength)) {
       this.onXMLMinorError("Not a valid axis length; assuming value=1");
       this.referenceLength = 1;
@@ -224,14 +227,16 @@ class MySceneParser {
     return null;
   }
 
-
+  //--------------------------------PARSE VIEWS ------------------------------------------//
   parseViews(viewsNode) {
     var view = viewsNode.children;
 
+    //gets the default view id and saves it in the global variable defaultView
     this.defaultView = viewsNode.getAttribute("default");
     if (this.defaultView == null)
       this.onXMLMinorError("There's no default view name.");
 
+    //error if the views tag doesn't have any children
     if (view.length == 0)
       return "You need to have at least one type of view defined.";
 
@@ -243,11 +248,11 @@ class MySceneParser {
     if (ortho.length == 0)
       this.onXMLMinorError("There isn't any block ortho.");
 
-
+    //Goes through all of the children of views and saves the data according to the type of view
     for (var i = 0; i < view.length; i++) {
       var nodeName = view[i].nodeName;
 
-
+        //Analyses the perspective tag
       if (nodeName == "perspective") {
         var viewId = this.reader.getString(view[i], 'id');
         if (viewId == null)
@@ -258,6 +263,7 @@ class MySceneParser {
           this.onXMLMinorError("The view number " + i + " doesn't have angle. Assuming that angle is 0");
           angle = 0;
         }
+        //passes the angle from degrees to rad
         angle *= DEGREE_TO_RAD;
 
         var near = this.reader.getFloat(view[i], 'near');
@@ -290,13 +296,14 @@ class MySceneParser {
           }
         }
 
+        //Creates a new CGFcamera and adds it to the views global array
         this.views[viewId] = new CGFcamera(angle, near, far, vec3.fromValues(xfrom, yfrom, zfrom), vec3.fromValues(xto, yto, zto)); //the new camera view is added to the array
 
+      //Analyses the ortho tag
       } else if (nodeName == "ortho") {
         var viewId = this.reader.getString(view[i], 'id');
         if (viewId == null) {
           return "The view number " + i + " doesn't have id.";
-
         }
         var left = this.reader.getFloat(view[i], 'left');
         if (left == null) {
@@ -346,9 +353,11 @@ class MySceneParser {
           }
         }
 
-
+        //Creates a new CGFcameraOrtho and adds it to the views global array
         this.views[viewId] = new CGFcameraOrtho(left, right, bottom, top, near, far, vec3.fromValues(xfrom, yfrom, zfrom), vec3.fromValues(xto, yto, zto), vec3.fromValues(0, 1, 0));
-      } else {
+      }
+      //If the tag name isn't either perspective or ortho, there's an error
+       else {
         this.onXMLMinorError(this.onXMLMinorError("unknown tag <" + nodeName + ">"));
       }
     }
@@ -356,6 +365,7 @@ class MySceneParser {
     return null;
   }
 
+  //--------------------------------PARSE AMBIENT ----------------------------------------//
   parseAmbient(ambientNode) {
     var ambient = ambientNode.getElementsByTagName('ambient');
     var background = ambientNode.getElementsByTagName('background');
@@ -367,45 +377,52 @@ class MySceneParser {
 
     if (background.length > 1)
       return "no more than one initial background may be defined";
-
+    //analyses rgba elements for the ambient
+    //R
     var rAmbient = this.reader.getFloat(ambient[0], 'r');
     if (!(rAmbient == null || rAmbient < 0 || rAmbient > 1)) {
       this.ambientIlumination[0] = rAmbient;
     } else
       this.onXMLError("R ambient component must have a number between 0 and 1");
+    //G
     var gAmbient = this.reader.getFloat(ambient[0], 'g');
     if (!(gAmbient == null || gAmbient < 0 || gAmbient > 1)) {
       this.ambientIlumination[1] = gAmbient;
-
     } else
       this.onXMLMinorError("G ambient component must have a number between 0 and 1");
-
+    //B
     var bAmbient = this.reader.getFloat(ambient[0], 'b');
     if (!(bAmbient == null || bAmbient < 0 || bAmbient > 1)) {
       this.ambientIlumination[2] = bAmbient;
     } else
       this.onXMLMinorError("B ambient component must have a number between 0 and 1");
-
+    //A
     var aAmbient = this.reader.getFloat(ambient[0], 'a');
     if (!(aAmbient == null || aAmbient < 0 || aAmbient > 1)) {
       this.ambientIlumination[3] = aAmbient;
     } else
       this.onXMLError("A ambient component must have a number between 0 and 1");
+
+    //analyses rgba elements for the background
+    //R
     var rBackground = this.reader.getFloat(background[0], 'r');
     if (!(rBackground == null || rBackground < 0 || rBackground > 1)) {
       this.backgroundIlumination[0] = rBackground;
     } else
       this.onXMLError("R background component must have a number between 0 and 1");
+    //G
     var gBackground = this.reader.getFloat(background[0], 'g');
     if (!(gBackground == null || gBackground < 0 || gBackground > 1)) {
       this.backgroundIlumination[1] = gBackground;
     } else
       this.onXMLError("G background component must have a number between 0 and 1");
+    //B
     var bBackground = this.reader.getFloat(background[0], 'b');
     if (!(bBackground == null || bBackground < 0 || bBackground > 1)) {
       this.backgroundIlumination[2] = bBackground;
     } else
       this.onXMLError("B background component must have a number between 0 and 1");
+    //A
     var aBackground = this.reader.getFloat(background[0], 'a');
     if (!(aBackground == null || aBackground < 0 || aBackground > 1)) {
       this.backgroundIlumination[3] = aBackground;
@@ -415,6 +432,8 @@ class MySceneParser {
     console.log("Parsed Ambient");
     return null;
   }
+
+  //--------------------------------PARSE LIGHTS -----------------------------------------//
   parseLights(lightsNode) {
     var children = lightsNode.children;
 
@@ -424,6 +443,7 @@ class MySceneParser {
     var grandChildren = [];
     var nodeNames = [];
 
+    //Error if there is no light defined
     if (children.length == 0)
       return "You have to have at least one light.";
 
@@ -626,6 +646,7 @@ class MySceneParser {
         else
           targetIllumination.push(z);
 
+        //saves the light information in a array of lights, with the current light id
         var angleLight = this.reader.getFloat(children[i], 'angle') * DEGREE_TO_RAD;
         var exponentLight = this.reader.getFloat(children[i], 'exponent');
         this.lights[lightId] = [type, enableLight, angleLight, exponentLight, locationLight, targetIllumination, ambientIllumination, diffuseIllumination, specularIllumination, type];
@@ -644,19 +665,22 @@ class MySceneParser {
     this.log("Parsed lights");
     return null;
   }
-  /**
-   * Parses the <TEXTURES> block.
-   * @param {textures block element} texturesNode
-   */
+//--------------------------------PARSE TEXTURES -----------------------------------------------//
   parseTextures(texturesNode) {
 
     var textures = texturesNode.children;
+    //Error if there isn't any texture defined
     if (textures.length == 0)
       this.onXMLMinorError("You must have at least one texture.");
 
+    //Goes through all of the textures tag children
     for (var i = 0; i < textures.length; i++) {
+      if (textures[i].nodeName != "texture") {
+        this.onXMLMinorError("The tag texture isn't 'texture' but " + textures[i].nodeName);
+      }
       var textID = this.reader.getString(textures[i], 'id');
 
+      //checks for errors in the id and file (already existing id, null values)
       if (textID == null)
         return "A texture must have an id.";
       if (this.textures[textID] != null)
@@ -665,14 +689,14 @@ class MySceneParser {
       if (file == null)
         return "There isn't a file path, please enter one.";
 
-
+      //creates a new texture according to the data acquired and saves it into the textures array
       var newTexture = new CGFtexture(this.scene, file);
       this.textures[textID] = newTexture;
     }
     console.log("Parsed textures");
     return null;
   }
-
+  //--------------------------------PARSE MATERIALS -------------------------------------------//
   parseMaterials(materialsNode) {
     this.materials = [];
 
@@ -680,10 +704,17 @@ class MySceneParser {
     if (materials.length == 0)
       this.onXMLMinorError("You must have at least one material.");
 
+    //Goes through all of the materials block children
     for (var i = 0; i < materials.length; i++) {
+      //checks the tag name
+      if (materials[i].nodeName != "material")
+        this.onXMLMinorError("The tag material isn't 'material' but " + materials[i].nodeName);
+
+      //retrieves the id and shininess of the current material
       var matId = this.reader.getString(materials[i], 'id');
       var shininess = this.reader.getFloat(materials[i], 'shininess');
 
+      //checks for errors (existing id, null and not valid number)
       if (matId == null)
         this.onXMLError("A material must have an id.");
       if (this.materials[matId] != null)
@@ -693,11 +724,13 @@ class MySceneParser {
         shininess = 10;
       }
 
+      //saves the parsed information of rgba to the arrays listed
       var emission = this.parseRgba(materials[i].getElementsByTagName('emission')[0]);
       var ambient = this.parseRgba(materials[i].getElementsByTagName('ambient')[0]);
       var diffuse = this.parseRgba(materials[i].getElementsByTagName('diffuse')[0]);
       var specular = this.parseRgba(materials[i].getElementsByTagName('specular')[0]);
 
+      //creates a new material, sets the components and saves it to the materials array
       var newMaterial = new CGFappearance(this.scene);
       newMaterial.setEmission(emission[0], emission[1], emission[2], emission[3]);
       newMaterial.setAmbient(ambient[0], ambient[1], ambient[2], ambient[3]);
@@ -710,7 +743,8 @@ class MySceneParser {
     console.log("Parsed Materials");
     return null;
   }
-
+  //--------------------------------PARSE RGBA ---------------------------------------------//
+  //Function that parses the rgba elements, checks if they are valid and puts them in an array
   parseRgba(element) {
     var rgba = [];
 
@@ -735,19 +769,22 @@ class MySceneParser {
     else
       rgba.push(a);
 
-
+    //returns the array created with the rgba elements parsed
     return rgba;
   }
 
-
+//--------------------------------PARSE TRANSFORMATIONS -----------------------------------//
 
   parseTransformations(transformationsNode) {
-
+    //creates an identity matrix
     var identMatrix = mat4.create();
     if (transformationsNode.children.length == 0) {
       this.onXMLError("There must be at least one or more transformation block.");
     }
     for (var i = 0; i < transformationsNode.children.length; i++) {
+      if (transformationsNode.children[i].nodeName != "transformation") {
+        this.onXMLMinorError("The tag transformation isn't 'transformation' but " + transformationsNode.children.nodeName);
+      }
       var transformations = transformationsNode.children[i].children;
       identMatrix = mat4.create();
       if (transformations.length == 0) {
@@ -757,17 +794,19 @@ class MySceneParser {
         var vector = vec3.create();
         var x, y, z;
 
+        //analyses the transformation according to the type, can be in any order
         switch (transformations[j].nodeName) {
           case "translate":
             x = this.reader.getFloat(transformations[j], 'x');
             y = this.reader.getFloat(transformations[j], 'y');
             z = this.reader.getFloat(transformations[j], 'z');
             vec3.set(vector, x, y, z);
-
+            //applies the transformation to the matrix
             mat4.translate(identMatrix, identMatrix, vector);
 
             break;
           case "rotate":
+          //applies the transformation to the matrix according to the axis of rotation
             if (transformations[j].getAttribute('axis') == "x")
               mat4.rotateX(identMatrix, identMatrix, transformations[j].getAttribute('angle') * DEGREE_TO_RAD);
             else if (transformations[j].getAttribute('axis') == "y")
@@ -779,49 +818,50 @@ class MySceneParser {
             }
             break;
           case "scale":
-
             x = this.reader.getFloat(transformations[j], 'x');
             y = this.reader.getFloat(transformations[j], 'y');
             z = this.reader.getFloat(transformations[j], 'z');
             if (x == 0 || y == 0 || z == 0) {
               this.onXMLError("There's in a value on scale in tranformation " + i + "that is 0. Please change");
-
             }
-
             vec3.set(vector, x, y, z);
+            //applies the transformation to the matrix
             mat4.scale(identMatrix, identMatrix, vector);
             break;
           default:
 
         }
       }
+      //adds the transformation matrix to the trasnformations array (by the id of the node)
       this.transformations[transformationsNode.children[i].getAttribute('id')] = identMatrix;
     }
     console.log("Parsed Transformations");
     return null;
   }
 
+  //--------------------------------PARSE PRIMITIVES -----------------------------------//
   parsePrimitives(primitivesNode) {
 
     if (primitivesNode == null) {
       this.onXMLError("primitives node doesn't exist!");
     }
-
     if (primitivesNode.children.length == 0) {
       this.onXMLError("primitives node is empty!");
     }
 
-
+    //Goes through all of the primitives block children
     for (var i = 0; i < primitivesNode.children.length; i++) {
       this.primitives = [];
+      //checks for errors
+      if (primitivesNode.children[i].nodeName != "primitive") {
+        this.onXMLMinorError("The tag primitive isn't 'primitive' but " + primitivesNode.children.nodeName);
+      }
       if (primitivesNode == null) {
         this.onXMLError("primitives node doesn't exist!");
       }
-
       if (primitivesNode.children.length == 0) {
         this.onXMLError("primitives node is empty!");
       }
-
 
       for (var i = 0; i < primitivesNode.children.length; i++) {
         var node = primitivesNode.children[i];
@@ -833,6 +873,7 @@ class MySceneParser {
         if (this.primitives[id]) {
           this.onXMLError("Can't have more than one primitive with the same id: " + id);
         }
+        //creates new primitive according to the node name
         switch (node.children[0].nodeName) {
           case "rectangle":
             this.primitives[id] = new MyQuad(this.scene, this.reader.getFloat(node.children[0], 'x1'), this.reader.getFloat(node.children[0], 'x2'), this.reader.getFloat(node.children[0], 'y1'), this.reader.getFloat(node.children[0], 'y2'));
@@ -859,14 +900,13 @@ class MySceneParser {
     }
   }
 
-
+  //--------------------------------PARSE COMPONENTS -----------------------------------//
   parseComponents(componentsNode) {
     var component = componentsNode.children;
+    //creates an identity matrix
     var identMatrix = mat4.create();
-
-
+    //default material of the component
     var defaultMaterial;
-
 
     if (component.length == 0)
       return "Must have at least one component";
@@ -875,14 +915,16 @@ class MySceneParser {
     //Goes through all component blocks
     for (var i = 0; i < component.length; i++) {
       var componentId = this.reader.getString(component[i], 'id');
-
+      if (component[i].nodeName != "component") {
+        this.onXMLMinorError("The tag component isn't 'component' but " + component[i].nodeName);
+      }
       if (componentId == null)
         return "There is no id for the component, please enter one.";
       if (!(this.components[componentId] == null))
         return ("There can't be components with the same id: " + componentId + ".");
 
       //-----------------------TRANSFORMATIONS------------------------------------//
-      //verificar se há mais que um bloco de transformações
+
       if (component[i].getElementsByTagName('transformation').length == 0) {
         this.onXMLMinorError("There must be a transformation block!");
       }
@@ -928,6 +970,7 @@ class MySceneParser {
 
             }
             break;
+          //if it is an existing transformation, goes to the transformations array and gets the transformation with the same id
           case "transformationref":
             identMatrix = this.transformations[transformations[j].getAttribute('id')];
             break;
@@ -939,19 +982,20 @@ class MySceneParser {
       //-----------------------MATERIALS------------------------------------//
 
       var materials = component[i].getElementsByTagName('material');
+      //materials list that will contain the ids of the materials listed in the tag
       var materialsList = [];
       if (materials.length < 1)
         this.onXMLMinorError("You need to have at least one material, please input one.");
 
+      //the default material is always the first one
       defaultMaterial = this.reader.getString(materials[0], 'id');
-
+      //if we have more than one material listed and the it's a valid one, the id is pushed to the materialsList array
       if (materials.length > 1) {
         for (var j = 0; j < materials.length; j++) {
           var id = this.reader.getString(materials[j], 'id');
 
-          if ((!this.materials[id] || id == null) && id !="inherit")
+          if ((!this.materials[id] || id == null) && id != "inherit")
             return "Undefined material id: " + id;
-
 
           materialsList.push(id);
         }
@@ -965,12 +1009,15 @@ class MySceneParser {
       } else if (textures.length == 0) {
         this.onXMLMinorError("You need one tag texture in the components block.");
       }
+      //gets the first element with the tag texture
       var texture = component[i].getElementsByTagName('texture')[0];
       var textId = this.reader.getString(texture, 'id');
 
+      //checks if the texture id is valid
       if (textId != "inherit" && textId != "none" && !this.textures[textId])
         this.onXMLMinorError("Not a valid texture. Id " + textId + " .");
 
+      //analyses length_s and length_t (if the texture is inherit, if we don't have values the value is of the parent)
       var inheritWithParameters = true;
       var length_s = null;
       var length_t = null;
@@ -987,17 +1034,17 @@ class MySceneParser {
       if (textId != "none" && inheritWithParameters) {
         length_s = this.reader.getFloat(texture, 'length_s');
         length_t = this.reader.getFloat(texture, 'length_t');
+        if (isNaN(length_s) || isNaN(length_t)) {
+          this.scene.onXMLMinorError("length_s and length_t must be a valid number.");
+        }
       }
-      console.log(textId+" length_s::::"+length_s + " length_t:::::"+length_t);
-
-
 
       //-----------------------CHILDREN------------------------------------//
 
       var childrenArray = component[i].getElementsByTagName('children')[0];
       var primitivesChildren = childrenArray.getElementsByTagName('primitiveref');
       var componentsChildren = childrenArray.getElementsByTagName('componentref');
-
+      //checks if the component has children
       if (childrenArray.children.length == 0) {
         return "A component must have children! Component: " + componentId;
       }
@@ -1011,8 +1058,9 @@ class MySceneParser {
         componentsId.push(componentsChildren[j].getAttribute('id'));
       }
 
-
+      //creates a new component(from the class Component)
       var newComponent = new Component(this.scene, this, componentId, identMatrix, textId, length_s, length_t, defaultMaterial, primitivesId, componentsId, materialsList);
+      //adds the new component to the global components array, with the id of the component
       this.components[componentId] = newComponent;
     }
 
@@ -1051,8 +1099,7 @@ class MySceneParser {
   displayScene() {
 
 
-    // entry point for graph rendering
-    //TODO: Render loop starting at root of graph
+    // entry point for graph rendering (calls the display of the first component)
     this.components[this.rootName].display(this.components[this.rootName].materialId, this.components[this.rootName].textId, this.components[this.rootName].length_s, this.components[this.rootName].length_t);
 
   }
