@@ -14,9 +14,9 @@ class MyQuad extends CGFobject
 		this.y2=y2;
 		this.y1=y1;
 		this.minS = minS;
-		this.maxS = maxS;
+		this.maxS = this.x2-this.x1;
 		this.minT = minT;
-		this.maxT = maxT;
+		this.maxT =this.y2-this.y1;
 		this.initBuffers();
 	};
 

@@ -17,6 +17,22 @@
       <from x="20" y="5" z="20"/>
       <to x="1" y="1" z="2"/>
     </perspective>
+     <perspective id="view4" near="0.1" far="500" angle="20">
+      <from x="0" y="30" z="60"/>
+      <to x="0" y="0" z="0"/>
+    </perspective>
+     <perspective id="view5" near="0.1" far="500" angle="20">
+      <from x="60" y="10" z="0"/>
+      <to x="0" y="0" z="0"/>
+    </perspective>
+     <perspective id="view6" near="0.1" far="500" angle="20">
+      <from x="0" y="20" z="-60"/>
+      <to x="0" y="0" z="0"/>
+    </perspective>
+    <perspective id="view7" near="0.1" far="500" angle="20">
+      <from x="-60" y="10" z="0"/>
+      <to x="0" y="0" z="0"/>
+    </perspective>
 
     <ortho id="ortho1" near="0.1" far="500" left="-5.0" right="5.0" top="5.0" bottom="-5.0">
       <from x="30" y="30" z="30"/>
@@ -27,7 +43,6 @@
       <from x="0" y="15" z="10"/>
       <to x="0" y="0" z="0"/>
     </ortho>
-
   </views>
 
   <ambient>
