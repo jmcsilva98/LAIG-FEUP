@@ -172,6 +172,8 @@
 
   </transformations>
 
+<animations>
+</animations>
   <primitives>
     <primitive id="cylinder">
       <cylinder base="1" top="1" height="1" slices="20" stacks="8"/>
@@ -191,6 +193,14 @@
     <primitive id="torus">
       <torus inner="0.3" outer="1" slices="40" loops="40"/>
     </primitive>
+    <!-- acrescentar plane -->
+    <!-- acrescentar patch -->
+    <!-- acrescentar vehicle -->
+    <!-- acrescentar cylinder2 -->
+    <!-- acrescentar terrain -->
+    <!-- acrescentar water -->
+
+
 
   </primitives>
 

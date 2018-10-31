@@ -5,10 +5,10 @@
  */
 
 class LinearAnimation extends Animation{
-  constructor(scene, animationId, animationTime, cPoints) {
+  constructor(scene, animationId, animationTime, controlPoints) {
 
   super(scene, animationId, animationTime);
-  this.cPoints = cPoints;
+  this.controlPoints = controlPoints;
 
 
 

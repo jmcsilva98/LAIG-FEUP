@@ -8,8 +8,9 @@ var LIGHTS_INDEX = 3;
 var TEXTURES_INDEX = 4;
 var MATERIALS_INDEX = 5;
 var TRANSFORMATIONS_INDEX = 6;
-var PRIMITIVES_INDEX = 7;
-var COMPONENTS_INDEX = 8;
+var ANIMATIONS_INDEX = 7;
+var PRIMITIVES_INDEX = 8;
+var COMPONENTS_INDEX = 9;
 
 
 /**
@@ -32,6 +33,7 @@ class MySceneParser {
     this.transformations = [];
     this.components = [];
     this.views = [];
+    this.animations=[];
     this.defaultView; //Default view of the camera
 
     this.axisCoords = [];
@@ -176,6 +178,19 @@ class MySceneParser {
       if ((error = this.parseTransformations(nodes[index])) != null)
         return error;
     }
+    //<ANIMATIONS>
+    if ((index = nodeNames.indexOf("animations")) == -1)
+    return "tag <animations> missing";
+  else {
+    if (index != ANIMATIONS_INDEX)
+      this.onXMLMinorError("tag <animations> out of order");
+
+    //Parse ANIMATIONS block
+    if ((error = this.parseAnimations(nodes[index])) != null) {
+      return error;
+
+    }
+  }
     // <PRIMITIVES>
     if ((index = nodeNames.indexOf("primitives")) == -1)
       return "tag <primitives> missing";
@@ -838,6 +853,56 @@ class MySceneParser {
     console.log("Parsed Transformations");
     return null;
   }
+   //--------------------------------PARSE ANIMATIONS -----------------------------------//
+   parseAnimations(animationsNode){
+     if (animationsNode==null)
+     this.onXMLError("animations node doesn't exist!");
+   
+   if (animationsNode.children.length == 0) {
+    this.onXMLMinorError ("animations node is empty!");//ALTERAR PARA onXMLError!!
+  }
+else{
+  var linearAnimations=animationsNode.getElementsByTagName('linear');
+  var circularAnimations=circularAnimations.getElementsByTagName('circular');
+  var i, j, animation,id,span;
+  for ( i = 0; i < linearAnimations.length;i++){
+         id = this.reader.getString(linearAnimations[i],'id');
+        if (this.animations[id]!=null) this.onXMLError("There can't have more than one animation with same id");
+         span = this.reader.getFloat(linearAnimations[i],'span');
+        var controlPoints = linearAnimations[i].getElementsByTagName('controlpoint');
+        if (controlPoints.length < 2)
+          this.onXMLError("there must have at least 2 control points!");
+       else{ var cPoints = [];
+        for ( j = 0; j< controlPoints.length;j++){
+            var vector = vec3.create();
+            var x , y , z;
+            x = this.reader.getFloat(controlPoints[j],'xx');
+            y = this.reader.getFloat(controlPoints[j],'yy');
+            z = this.reader.getFloat(controlPoints[j],'zz');
+            vec3.set(vector,x,y,z);
+            cPoints[j]=vector;
+        }
+        animation = new LinearAnimation(this.scene,id,span,cPoints);
+        this.animations[id]=animation;
+      }
+      
+    }
+    var center, radius, startang,rotang;
+    for ( i = 0 ; i< circularAnimations.length;i++){
+      id = this.reader.getString(circularAnimations[i],'id');
+      if (this.animations[id]!=null) this.onXMLError("There can't have more than one animation with same id");
+      span = this.reader.getFloat(circularAnimations[i],'span');
+      center = this.reader.getString(circularAnimations[i],'center');
+      radius = this.reader.getFloat(circularAnimations[i],'radius');
+      startang = this.reader.getFloat(circularAnimations[i],'startang');
+      rotang = this.reader.getFloat(circularAnimations[i],'rotang');
+      animation = new CircularAnimation(id,span,center,radius,startang,rotang);
+      this.animations[id]=animation;
+    }
+
+
+}
+   }
 
   //--------------------------------PARSE PRIMITIVES -----------------------------------//
   parsePrimitives(primitivesNode) {
