@@ -857,7 +857,7 @@ class MySceneParser {
    parseAnimations(animationsNode){
      if (animationsNode==null)
      this.onXMLError("animations node doesn't exist!");
-   
+
    if (animationsNode.children.length == 0) {
     this.onXMLMinorError ("animations node is empty!");//ALTERAR PARA onXMLError!!
   }
@@ -885,14 +885,14 @@ else{
         animation = new LinearAnimation(this.scene,id,span,cPoints);
         this.animations[id]=animation;
       }
-      
+
     }
     var center, radius, startang,rotang;
     for ( i = 0 ; i< circularAnimations.length;i++){
       id = this.reader.getString(circularAnimations[i],'id');
       if (this.animations[id]!=null) this.onXMLError("There can't have more than one animation with same id");
       span = this.reader.getFloat(circularAnimations[i],'span');
-      center = this.reader.getString(circularAnimations[i],'center');
+      center = this.reader.getVector3(circularAnimations[i],'center');
       radius = this.reader.getFloat(circularAnimations[i],'radius');
       startang = this.reader.getFloat(circularAnimations[i],'startang');
       rotang = this.reader.getFloat(circularAnimations[i],'rotang');
@@ -1002,7 +1002,7 @@ else{
       for (var j = 0; j < transformations.length; j++) {
         var vector = vec3.create();
         var x, y, z;
-    
+
 
         switch (transformations[j].nodeName) {
           case "translate":
