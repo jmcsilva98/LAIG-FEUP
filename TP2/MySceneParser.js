@@ -1047,13 +1047,11 @@ else{
         }
       }
       var animations= component[i].getElementsByTagName('animations')[0].children;
-      var animationID;
+      var animationsID=[];
      
-      if (animations.length > 0)
-      animationID  = this.reader.getString(animations[0],'id');
-      else  {
-        animationID=null;  
-      }
+     for (var j = 0; j<animations.length;j++)
+        animationsID.push(this.reader.getString(animations[0],'id'));
+    
       //-----------------------MATERIALS------------------------------------//
 
       var materials = component[i].getElementsByTagName('material');
@@ -1134,7 +1132,7 @@ else{
       }
 
       //creates a new component(from the class Component)
-      var newComponent = new Component(this.scene, this, componentId, identMatrix, textId, length_s, length_t, defaultMaterial, primitivesId, componentsId, materialsList,animationID);
+      var newComponent = new Component(this.scene, this, componentId, identMatrix, textId, length_s, length_t, defaultMaterial, primitivesId, componentsId, materialsList,animationsID);
       //adds the new component to the global components array, with the id of the component
       this.components[componentId] = newComponent;
     }

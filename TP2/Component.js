@@ -5,7 +5,7 @@
  */
 
 class Component {
-  constructor(scene, graph, id, transformationMatrix, textId, length_s, length_t, materialId, primitivesChildren, componentsChildren, materialsList,animationID) {
+  constructor(scene, graph, id, transformationMatrix, textId, length_s, length_t, materialId, primitivesChildren, componentsChildren, materialsList,animationsID) {
     this.scene = scene;
     this.graph = graph;
     this.id = id;
@@ -22,7 +22,7 @@ class Component {
     this.materialsList = materialsList; //list of the materials id
     this.nextMaterialId = 0; //index of the next material of the list
     this.oldMaterial = materialId;
-    this.animationID=animationID;
+    this.animationsID=animationsID;
 
   }
 
@@ -30,8 +30,8 @@ class Component {
   display(parentMaterial, parentTexture, parentS, parentT) {
     var matrix= mat4.create();
     mat4.identity(matrix);
-    if (this.animationID != null){
-    matrix = this.graph.animations[this.animationID].updateMatrix(this.i);
+ for (var j = 0;j<this.animationsID.length;j++){
+    mat4.multiply(matrix,matrix, this.graph.animations[this.animationsID[j]].updateMatrix(this.i));
     this.i= this.i+0.0001;
     console.log(matrix);
     }
