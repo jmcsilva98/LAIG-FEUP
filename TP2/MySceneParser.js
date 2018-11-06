@@ -863,7 +863,7 @@ class MySceneParser {
   }
 else{
   var linearAnimations=animationsNode.getElementsByTagName('linear');
-  var circularAnimations=circularAnimations.getElementsByTagName('circular');
+  var circularAnimations=animationsNode.getElementsByTagName('circular');
   var i, j, animation,id,span;
   for ( i = 0; i < linearAnimations.length;i++){
          id = this.reader.getString(linearAnimations[i],'id');
@@ -896,10 +896,12 @@ else{
       radius = this.reader.getFloat(circularAnimations[i],'radius');
       startang = this.reader.getFloat(circularAnimations[i],'startang');
       rotang = this.reader.getFloat(circularAnimations[i],'rotang');
-      animation = new CircularAnimation(id,span,center,radius,startang,rotang);
+      animation = new CircularAnimation(this.scene,id,span,center,radius,startang,rotang);
       this.animations[id]=animation;
+      console.log("ANIMATION",this.animations[id]);
     }
 
+    console.log(id);
 
 }
 }
@@ -1070,7 +1072,12 @@ else{
 
         }
       }
-
+      var animations= component[i].getElementsByTagName('animations')[0].children;
+      var animationsID=[];
+     
+     for (var j = 0; j<animations.length;j++)
+        animationsID.push(this.reader.getString(animations[0],'id'));
+    
       //-----------------------MATERIALS------------------------------------//
 
       var materials = component[i].getElementsByTagName('material');
@@ -1151,7 +1158,7 @@ else{
       }
 
       //creates a new component(from the class Component)
-      var newComponent = new Component(this.scene, this, componentId, identMatrix, textId, length_s, length_t, defaultMaterial, primitivesId, componentsId, materialsList);
+      var newComponent = new Component(this.scene, this, componentId, identMatrix, textId, length_s, length_t, defaultMaterial, primitivesId, componentsId, materialsList,animationsID);
       //adds the new component to the global components array, with the id of the component
       this.components[componentId] = newComponent;
     }
