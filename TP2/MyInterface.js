@@ -74,6 +74,7 @@ class MyInterface extends CGFinterface {
 		group.open();
         group.add(this.scene, 'axisOn');
     }
+    
     processKeyboard (event) {
         // call CGFinterface default code (omit if you want to override)
         CGFinterface.prototype.processKeyboard.call(this,event);
