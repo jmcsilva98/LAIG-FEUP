@@ -194,7 +194,18 @@
       <torus inner="0.3" outer="1" slices="40" loops="40"/>
     </primitive>
     <!-- acrescentar plane -->
-    <!-- acrescentar patch -->
+    <primitive id="plane">
+      <plane npartsU="5" npartsV="8"/>
+    </primitive>
+    <!-- acrescentar patch- numero de controlPoints igual a npU*npV-->
+    <primitive id="patch">
+      <patch npointsU="2" npointsV="2" npartsU="5" npartsV="8">
+          <controlpoint xx="2.0" yy="3.0" zz="2.0"/>
+          <controlpoint xx="3.0" yy="2.0" zz="2.0"/>
+          <controlpoint xx="1.0" yy="1.0" zz="1.0"/>
+          <controlpoint xx="2.0" yy="2.0" zz="3.0"/>
+      </patch>
+    </primitive>
     <!-- acrescentar vehicle -->
     <!-- acrescentar cylinder2 -->
     <!-- acrescentar terrain -->

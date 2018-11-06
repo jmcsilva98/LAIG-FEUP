@@ -902,7 +902,27 @@ else{
 
 
 }
-   }
+}
+
+  //--------------------------------PARSE CONTROLPOINTS ----------------------------------//
+  
+  parseControlPoints(controlPoints){
+    var cPoints = [];
+
+    for(var i = 0; i < controlPoints.length; i++){
+
+      var point = vec3.create();
+      var x , y , z;
+      x = this.reader.getFloat(controlPoints[i],'xx');
+      y = this.reader.getFloat(controlPoints[i],'yy');
+      z = this.reader.getFloat(controlPoints[i],'zz');
+      vec3.set(point,x,y,z);
+      cPoints.push(point);
+  
+    }
+
+    return cPoints;
+  }
 
   //--------------------------------PARSE PRIMITIVES -----------------------------------//
   parsePrimitives(primitivesNode) {
@@ -955,7 +975,12 @@ else{
           case "torus":
             this.primitives[id] = new MyTorus(this.scene, this.reader.getFloat(node.children[0], 'inner'), this.reader.getFloat(node.children[0], 'outer'), this.reader.getInteger(node.children[0], 'slices'), this.reader.getInteger(node.children[0], 'loops'));
             break;
-
+          case "plane":
+            this.primitives[id] = new MyPlane(this.scene,this.reader.getInteger(node.children[0], 'npartsU'),this.reader.getInteger(node.children[0], 'npartsV'));
+            break;
+          case "patch":
+            this.primitives[id] = new MyPatch(this.scene, this.reader.getInteger(node.children[0], 'npointsU'), this.reader.getInteger(node.children[0], 'npointsV'),this.reader.getInteger(node.children[0], 'npartsU'),this.reader.getInteger(node.children[0], 'npartsV'), this.parseControlPoints(node.children[0].children));
+            break;
           default:
 
         }
@@ -964,6 +989,7 @@ else{
       return null;
     }
   }
+
 
   //--------------------------------PARSE COMPONENTS -----------------------------------//
   parseComponents(componentsNode) {
