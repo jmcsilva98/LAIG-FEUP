@@ -1,5 +1,5 @@
 # LAIG-FEUP
-##TODO LIST
+## ODO LIST
 
 - [ ] Acabar animacao linear
 - [ ] Acabar a primitiva patch
