@@ -907,8 +907,14 @@ else{
 }
 
   //--------------------------------PARSE CONTROLPOINTS ----------------------------------//
-  
-  parseControlPoints(controlPoints){
+
+  parseControlPoints(controlPoints, npointsU, npointsV){
+    var nPoints = npointsU * npointsV;
+
+    if(nPoints != controlPoints.length){
+      return "The number of control Points isn't the same as npointsU * npointsV";
+    }
+
     var cPoints = [];
 
     for(var i = 0; i < controlPoints.length; i++){
@@ -920,7 +926,7 @@ else{
       z = this.reader.getFloat(controlPoints[i],'zz');
       vec3.set(point,x,y,z);
       cPoints.push(point);
-  
+
     }
 
     return cPoints;
@@ -981,7 +987,7 @@ else{
             this.primitives[id] = new MyPlane(this.scene,this.reader.getInteger(node.children[0], 'npartsU'),this.reader.getInteger(node.children[0], 'npartsV'));
             break;
           case "patch":
-            this.primitives[id] = new MyPatch(this.scene, this.reader.getInteger(node.children[0], 'npointsU'), this.reader.getInteger(node.children[0], 'npointsV'),this.reader.getInteger(node.children[0], 'npartsU'),this.reader.getInteger(node.children[0], 'npartsV'), this.parseControlPoints(node.children[0].children));
+            this.primitives[id] = new MyPatch(this.scene, this.reader.getInteger(node.children[0], 'npointsU'), this.reader.getInteger(node.children[0], 'npointsV'),this.reader.getInteger(node.children[0], 'npartsU'),this.reader.getInteger(node.children[0], 'npartsV'), this.parseControlPoints(node.children[0].children,this.reader.getInteger(node.children[0], 'npointsU'),this.reader.getInteger(node.children[0], 'npointsV')));
             break;
           default:
 
@@ -1074,10 +1080,10 @@ else{
       }
       var animations= component[i].getElementsByTagName('animations')[0].children;
       var animationsID=[];
-     
+
      for (var j = 0; j<animations.length;j++)
         animationsID.push(this.reader.getString(animations[0],'id'));
-    
+
       //-----------------------MATERIALS------------------------------------//
 
       var materials = component[i].getElementsByTagName('material');
@@ -1197,7 +1203,7 @@ else{
    */
   displayScene() {
 
-
+    //this.primitives["plane"].display();
     // entry point for graph rendering (calls the display of the first component)
     this.components[this.rootName].display(this.components[this.rootName].materialId, this.components[this.rootName].textId, this.components[this.rootName].length_s, this.components[this.rootName].length_t);
 
