@@ -173,7 +173,12 @@
   </transformations>
 
 <animations>
-<circular id="1" span="10" center="0 0 0" radius="2" startang="0" rotang="180"/>
+<circular id="1" span="10" center="0 0 0" radius="2" startang="0" rotang="540"/>
+<linear id="2" span="3" >
+    <controlpoint xx="1" yy="1" zz="1"/>
+    <controlpoint xx="5" yy="3" zz="1"/>
+     <controlpoint xx="5" yy="3" zz="8"/>
+    </linear>
 </animations>
   <primitives>
     <primitive id="cylinder">
@@ -1030,7 +1035,7 @@
       </animations>
       <materials>
         <material id="inherit"/>
-      </materials>
+      </materials>  
 
       <texture id="inherit"/>
 
@@ -1045,7 +1050,7 @@
         <scale x="1.2" y="1.2" z="1.2"/>
       </transformation>
        <animations>
-       <animationref id ="1"/>
+       <animationref id ="2"/>
       </animations>
       <materials>
         <material id="yellow"/>
