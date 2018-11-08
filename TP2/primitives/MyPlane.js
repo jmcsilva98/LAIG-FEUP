@@ -18,7 +18,12 @@ class MyPlane extends CGFobject{
 
     makePlane(){
 
-      var controlvertexes = 	[[-0.5,0,-0.5], [0.5,0,-0.5], [0.5,0,0.5],[-0.5,0,0.5]];
+      var controlvertexes = 	[ [
+                                  [-0.5,0,0.5,1],
+                                  [-0.5,0,-0.5,1]],
+                                [
+                                  [0.5,0,0.5,1],
+                                  [0.5,0,-0.5,1]]];
 
       var nurbsSurface = new CGFnurbsSurface(1, 1, controlvertexes);
       var nurbsObject =  new CGFnurbsObject(this.scene, this.npartsU, this.npartsV, nurbsSurface );
@@ -30,6 +35,9 @@ class MyPlane extends CGFobject{
       this.scene.pushMatrix();
       this.plane.display();
       this.scene.popMatrix();
+    }
+
+    updateTexCoords(length_s,length_t){
     }
 
   };

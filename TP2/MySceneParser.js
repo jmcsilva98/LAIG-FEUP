@@ -916,19 +916,25 @@ else{
     }
 
     var cPoints = [];
+    var loop = controlPoints.length / npointsV;
+    var counter= 1;
+    var j = 0;
+    while(counter <= loop){
+      var aux = [];
+      for(var i = j; i < (npointsV*counter); i++){
 
-    for(var i = 0; i < controlPoints.length; i++){
-
-      var point = vec3.create();
-      var x , y , z;
-      x = this.reader.getFloat(controlPoints[i],'xx');
-      y = this.reader.getFloat(controlPoints[i],'yy');
-      z = this.reader.getFloat(controlPoints[i],'zz');
-      vec3.set(point,x,y,z);
-      cPoints.push(point);
-
+          var point = vec4.create();
+          var x , y , z;
+          x = this.reader.getFloat(controlPoints[i],'xx');
+          y = this.reader.getFloat(controlPoints[i],'yy');
+          z = this.reader.getFloat(controlPoints[i],'zz');
+          vec4.set(point,x,y,z,1);
+          aux.push(point);
+          j++;
+      }
+      cPoints.push(aux);
+      counter++;
     }
-
     return cPoints;
   }
 

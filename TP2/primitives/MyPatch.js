@@ -17,17 +17,18 @@ class MyPatch extends CGFobject
   this.degree1 = npointsU-1;
   this.degree2 = npointsV-1;
 
-  this.surface = this.makeSurface();
+  this.nurbsSurface = new CGFnurbsSurface(this.degree1,this.degree2, this.controlPoints);
+  this.nurbsObject = new CGFnurbsObject(this.scene, this.npartsU, this.npartsV, this.nurbsSurface);
+
 };
 
 
-makeSurface(){
-  var nurbsSurface = new CGFnurbsSurface(this.degree1,this.degree2, this.controlPoints);
+display(){
+  this.nurbsObject.display();
+}
 
-  var nurbsObject = new CGFnurbsObject(this.scene, this.npartsU, this.npartsV, nurbsSurface);
-
-  return nurbsObject;
-};
+updateTexCoords(length_s,length_t){
+}
 
 
 };
