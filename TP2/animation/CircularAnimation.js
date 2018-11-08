@@ -31,8 +31,6 @@ class CircularAnimation extends Animation{
     deltaTime = this.animationTime; 
 
   var deltaAngle = this.initialAngle + this.rotAngle / this.animationTime * deltaTime;
-  console.log("delta"+deltaTime);
-
   mat4.translate(identMatrix,identMatrix, this.center);
   mat4.rotate(identMatrix,identMatrix,deltaAngle,[0,1,0]);
   mat4.translate(identMatrix,identMatrix, [this.radius,0,0]);
@@ -48,6 +46,4 @@ class CircularAnimation extends Animation{
       return this.matrix;
      
   }
-
-
 };

@@ -29,11 +29,9 @@ class Component {
 	//function that displays the component, having as paremeters the parents material, texture, length_s and length_t
   display(parentMaterial, parentTexture, parentS, parentT) {
     var matrix= mat4.create();
-    mat4.identity(matrix);
  for (var j = 0;j<this.animationsID.length;j++){
     mat4.multiply(matrix,matrix, this.graph.animations[this.animationsID[j]].updateMatrix(this.i));
     this.i= this.i+0.0001;
-    console.log(matrix);
     }
     this.scene.pushMatrix();
     this.scene.multMatrix(this.transformationMatrix);
@@ -74,7 +72,7 @@ class Component {
     this.scene.popMatrix();
     this.scene.pushMatrix();
     this.scene.multMatrix(this.transformationMatrix);
-    this.scene.multMatrix(matrix);
+    //this.scene.multMatrix(matrix);
 
     this.graph.materials[currentMaterial].setTexture(this.texture);
     this.graph.materials[currentMaterial].apply();
