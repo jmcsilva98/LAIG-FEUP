@@ -3,7 +3,7 @@
 
 - [ ] Acabar animacao linear
 - [X] Acabar a primitiva patch
-- [ ] Acabar a primitiva plane
+- [X] Acabar a primitiva plane
 - [ ] Acrescentar o cilindro2
 - [ ] Fazer veículo
 - [ ] Shaders
