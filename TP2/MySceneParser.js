@@ -898,10 +898,7 @@ else{
       rotang = this.reader.getFloat(circularAnimations[i],'rotang');
       animation = new CircularAnimation(this.scene,id,span,center,radius,startang,rotang);
       this.animations[id]=animation;
-      console.log("ANIMATION",this.animations[id]);
     }
-
-    console.log(id);
 
 }
 }
@@ -1088,7 +1085,7 @@ else{
       var animationsID=[];
 
      for (var j = 0; j<animations.length;j++)
-        animationsID.push(this.reader.getString(animations[0],'id'));
+        animationsID.push(this.reader.getString(animations[j],'id'));
 
       //-----------------------MATERIALS------------------------------------//
 

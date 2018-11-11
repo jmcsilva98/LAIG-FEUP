@@ -23,16 +23,31 @@ class Component {
     this.nextMaterialId = 0; //index of the next material of the list
     this.oldMaterial = materialId;
     this.animationsID=animationsID;
+    this.currentAnimation=0;
 
   }
 
 	//function that displays the component, having as paremeters the parents material, texture, length_s and length_t
   display(parentMaterial, parentTexture, parentS, parentT) {
     var matrix= mat4.create();
- for (var j = 0;j<this.animationsID.length;j++){
-    mat4.multiply(matrix,matrix, this.graph.animations[this.animationsID[j]].updateMatrix(this.i));
-    this.i= this.i+0.0001;
+    if (this.animationsID.length >this.currentAnimation){
+      console.log(this.animationsID.length,"---",this.id);
+      if (!this.graph.animations[this.animationsID[this.currentAnimation]].endOfAnimation){
+        this.graph.animations[this.animationsID[this.currentAnimation]].updateMatrix(this.i);
+        mat4.multiply(matrix,matrix, this.graph.animations[this.animationsID[this.currentAnimation]].updateMatrix(this.i));
+        this.i= this.i+0.0001;
+        }
+        else {
+          this.graph.animations[this.animationsID[this.currentAnimation]].endOfAnimation=false;
+          this.graph.animations[this.animationsID[this.currentAnimation]].currentTime=0;
+          this.currentAnimation++;
+          this.i = 0;
+        }
+      }
+    else  if(this.animationsID.length == this.currentAnimation){
+          this.currentAnimation=0;
     }
+
     this.scene.pushMatrix();
     this.scene.multMatrix(this.transformationMatrix);
     this.scene.multMatrix(matrix);
@@ -72,7 +87,7 @@ class Component {
     this.scene.popMatrix();
     this.scene.pushMatrix();
     this.scene.multMatrix(this.transformationMatrix);
-    //this.scene.multMatrix(matrix);
+    this.scene.multMatrix(matrix);
 
     this.graph.materials[currentMaterial].setTexture(this.texture);
     this.graph.materials[currentMaterial].apply();

@@ -14,6 +14,7 @@ class CircularAnimation extends Animation{
   this.rotAngle = rotAngle* Math.PI/180;
   this.matrix=mat4.create();
   this.currentTime=0;
+  this.endOfAnimation=false;
 
   }
 
@@ -34,8 +35,9 @@ class CircularAnimation extends Animation{
   mat4.translate(identMatrix,identMatrix, this.center);
   mat4.rotate(identMatrix,identMatrix,deltaAngle,[0,1,0]);
   mat4.translate(identMatrix,identMatrix, [this.radius,0,0]);
-  if (this.rotang > 0) mat4.rotate(matrix, matrix, Math.PI, [0, 1, 0]);
+  if (this.rotAngle > 0) mat4.rotate(identMatrix, identMatrix, Math.PI, [0, 1, 0]);
   this.currentTime+=currentTime;
+
   return identMatrix;
   };
 
@@ -43,7 +45,9 @@ class CircularAnimation extends Animation{
 
     if (this.currentTime<this.animationTime)
       this.matrix=this.calculateAnimation(deltaTime);
-      return this.matrix;
-     
+  else {
+    this.endOfAnimation=true;
   }
+  return this.matrix;
+}
 };
