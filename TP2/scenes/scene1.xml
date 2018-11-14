@@ -96,6 +96,8 @@
     <texture id="window" file="../images/window.jpg"/>
     <texture id="brick" file="../images/brick.jpg"/>
     <texture id="clock" file="../images/clock.png"/>
+    <texture id="texture1" file="../images/texture.jpg"/>
+    <texture id="heightmap1" file="../images/heightmap.jpg"/>
   </textures>
 
   <materials>
@@ -227,6 +229,11 @@
           <controlpoint xx="1.5" yy="1.5" zz="0.0"/>
       </patch>
     </primitive>
+    <primitive id="terrain">
+      <terrain idtexture="texture1" idheightmap="heightmap1" parts="20"
+  heightscale="10"/>
+    </primitive>
+
     <!-- acrescentar vehicle -->
     <!-- acrescentar cylinder2 -->
     <!-- acrescentar terrain -->
@@ -251,13 +258,14 @@
 
       <children>
 
-        <!-- <componentref id="clockTower"/> -->
-        <!--<componentref id="floor"/>-->
+      <!--  <componentref id="clockTower"/>-->
+      <!--  <componentref id="floor"/>-->
        <!-- <componentref id="sun"/> -->
-       <componentref id="parallelepiped"/>
+       <!--<componentref id="parallelepiped"/>-->
       <!--<componentref id="stairs"/>-->
-      <!--<primitiveref id="patch"/>-->
-      <!--<primitiveref id="plane"/>-->
+  <!--  <primitiveref id="patch"/>
+      <primitiveref id="plane"/>-->
+      <primitiveref id="terrain"/>
 
 
       </children>
@@ -1055,7 +1063,7 @@
       </animations>
       <materials>
         <material id="inherit"/>
-      </materials>  
+      </materials>
 
       <texture id="inherit"/>
 

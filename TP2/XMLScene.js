@@ -138,6 +138,9 @@ class XMLscene extends CGFscene {
   }
 
 
+
+
+
   /**
    * Displays the scene.
    */

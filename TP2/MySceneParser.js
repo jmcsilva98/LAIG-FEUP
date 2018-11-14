@@ -36,6 +36,7 @@ class MySceneParser {
     this.animations=[];
     this.defaultView; //Default view of the camera
 
+
     this.axisCoords = [];
     this.axisCoords['x'] = [1, 0, 0];
     this.axisCoords['y'] = [0, 1, 0];
@@ -992,6 +993,9 @@ else{
           case "patch":
             this.primitives[id] = new MyPatch(this.scene, this.reader.getInteger(node.children[0], 'npointsU'), this.reader.getInteger(node.children[0], 'npointsV'),this.reader.getInteger(node.children[0], 'npartsU'),this.reader.getInteger(node.children[0], 'npartsV'), this.parseControlPoints(node.children[0].children,this.reader.getInteger(node.children[0], 'npointsU'),this.reader.getInteger(node.children[0], 'npointsV')));
             break;
+          case "terrain":
+            this.primitives[id] = new MyTerrain(this.scene, this, this.reader.getString(node.children[0], 'idtexture'), this.reader.getString(node.children[0], 'idheightmap'),this.reader.getInteger(node.children[0], 'parts'),this.reader.getFloat(node.children[0], 'heightscale'));
+            break;
           default:
 
         }
@@ -1208,8 +1212,10 @@ else{
 
     //this.primitives["plane"].display();
     // entry point for graph rendering (calls the display of the first component)
-    this.components[this.rootName].display(this.components[this.rootName].materialId, this.components[this.rootName].textId, this.components[this.rootName].length_s, this.components[this.rootName].length_t);
+  this.components[this.rootName].display(this.components[this.rootName].materialId, this.components[this.rootName].textId, this.components[this.rootName].length_s, this.components[this.rootName].length_t);
 
+  /*this.textures['texture1'].bind(1);
+    this.primitives["terrain"].display();*/
   }
 
 }
