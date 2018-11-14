@@ -31,10 +31,9 @@ class Component {
   display(parentMaterial, parentTexture, parentS, parentT) {
     var matrix= mat4.create();
     if (this.animationsID.length >this.currentAnimation){
-      console.log(this.animationsID.length,"---",this.id);
       if (!this.graph.animations[this.animationsID[this.currentAnimation]].endOfAnimation){
-        this.graph.animations[this.animationsID[this.currentAnimation]].updateMatrix(this.i);
-        mat4.multiply(matrix,matrix, this.graph.animations[this.animationsID[this.currentAnimation]].updateMatrix(this.i));
+        this.graph.animations[this.animationsID[this.currentAnimation]].update(this.i);
+        matrix =  this.graph.animations[this.animationsID[this.currentAnimation]].apply();
         this.i= this.i+0.0001;
         }
         else {
@@ -51,6 +50,8 @@ class Component {
     this.scene.pushMatrix();
     this.scene.multMatrix(this.transformationMatrix);
     this.scene.multMatrix(matrix);
+
+    
     var currentMaterial, currentTexture, currentS, currentT;
 
 		//if the id of the material is inherit the current material is the material of the parent

@@ -19,11 +19,11 @@ class CircularAnimation extends Animation{
   }
 
   calculateAnimation(currentTime){
-  var identMatrix = mat4.create();
+  
   if(this.currentTime <= 0)
   {
     this.currentTime = currentTime;
-    return identMatrix;
+    return;
   }
 
   //calculates the time passed in seconds (time given in milliseconds)
@@ -31,23 +31,32 @@ class CircularAnimation extends Animation{
   if(this.animationTime < deltaTime)
     deltaTime = this.animationTime; 
 
-  var deltaAngle = this.initialAngle + this.rotAngle / this.animationTime * deltaTime;
-  mat4.translate(identMatrix,identMatrix, this.center);
-  mat4.rotate(identMatrix,identMatrix,deltaAngle,[0,1,0]);
-  mat4.translate(identMatrix,identMatrix, [this.radius,0,0]);
-  if (this.rotAngle > 0) mat4.rotate(identMatrix, identMatrix, Math.PI, [0, 1, 0]);
+  this.deltaAngle = this.initialAngle + this.rotAngle / this.animationTime * deltaTime;
   this.currentTime+=currentTime;
+  
 
-  return identMatrix;
   };
 
-  updateMatrix(deltaTime){
+  update(deltaTime){
 
-    if (this.currentTime<this.animationTime)
-      this.matrix=this.calculateAnimation(deltaTime);
+    if (this.currentTime<this.animationTime){
+      this.calculateAnimation(deltaTime);
+      this.matrix=this.apply();
+    }
   else {
     this.endOfAnimation=true;
   }
-  return this.matrix;
+}
+
+apply(){
+  var identMatrix = mat4.create();
+  mat4.translate(identMatrix,identMatrix, this.center);
+  mat4.rotate(identMatrix,identMatrix,this.deltaAngle,[0,1,0]);
+  mat4.translate(identMatrix,identMatrix, [this.radius,0,0]);
+  if (this.rotAngle > 0) mat4.rotate(identMatrix, identMatrix, Math.PI, [0, 1, 0]);
+  
+  this.matrix=identMatrix;
+  return identMatrix;
+
 }
 };

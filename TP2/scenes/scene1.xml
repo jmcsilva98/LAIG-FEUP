@@ -266,12 +266,12 @@
       <!--  <componentref id="clockTower"/>-->
       <!--  <componentref id="floor"/>-->
        <!-- <componentref id="sun"/> -->
-       <!--<componentref id="parallelepiped"/>-->
+       <componentref id="parallelepiped"/>
       <!--<componentref id="stairs"/>-->
   <!--  <primitiveref id="patch"/>
       <primitiveref id="plane"/>-->
-      <primitiveref id="terrain"/>
-      <primitiveref id="water"/>
+     <!--  <primitiveref id="terrain"/>
+      <primitiveref id="water"/> -->
 
 
       </children>
@@ -743,7 +743,7 @@
     <component id="parallelepiped">
       <transformation></transformation>
        <animations>
-     <animationref id ="2"/>
+     <animationref id ="1"/>
       </animations>
       <materials>
         <material id="inherit"/>
