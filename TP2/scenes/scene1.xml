@@ -98,6 +98,7 @@
     <texture id="clock" file="../images/clock.png"/>
     <texture id="texture1" file="../images/texture.jpg"/>
     <texture id="heightmap1" file="../images/heightmap.jpg"/>
+    <texture id="water" file="../images/water.jpg"/>
   </textures>
 
   <materials>
@@ -231,7 +232,11 @@
     </primitive>
     <primitive id="terrain">
       <terrain idtexture="texture1" idheightmap="heightmap1" parts="20"
-  heightscale="10"/>
+  heightscale="3"/>
+    </primitive>
+    <primitive id="water">
+      <water idtexture="water" idheightmap="heightmap1" parts="20"
+  heightscale="2" texscale="2"/>
     </primitive>
 
     <!-- acrescentar vehicle -->
@@ -266,6 +271,7 @@
   <!--  <primitiveref id="patch"/>
       <primitiveref id="plane"/>-->
       <primitiveref id="terrain"/>
+      <primitiveref id="water"/>
 
 
       </children>

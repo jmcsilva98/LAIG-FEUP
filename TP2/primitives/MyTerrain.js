@@ -34,7 +34,7 @@ class MyTerrain extends CGFobject{
 
      this.shader.setUniformsValues({uSampler3: 2});
      this.shader.setUniformsValues({uSampler2: 0});
-     this.shader.setUniformsValues({normScale: 1});
+     this.shader.setUniformsValues({normScale: this.heightscale});
 
 
 

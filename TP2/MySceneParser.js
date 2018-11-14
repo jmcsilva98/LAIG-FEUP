@@ -996,6 +996,9 @@ else{
           case "terrain":
             this.primitives[id] = new MyTerrain(this.scene, this, this.reader.getString(node.children[0], 'idtexture'), this.reader.getString(node.children[0], 'idheightmap'),this.reader.getInteger(node.children[0], 'parts'),this.reader.getFloat(node.children[0], 'heightscale'));
             break;
+            case "water":
+            this.primitives[id] = new MyWater(this.scene, this, this.reader.getString(node.children[0], 'idtexture'), this.reader.getString(node.children[0], 'idheightmap'),this.reader.getInteger(node.children[0], 'parts'),this.reader.getFloat(node.children[0], 'heightscale'),this.reader.getFloat(node.children[0], 'texscale'));
+            break;
           default:
 
         }

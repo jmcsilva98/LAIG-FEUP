@@ -25,7 +25,7 @@ vTextureCoord = aTextureCoord;
 
 vec4 aux = texture2D(uSampler3, vTextureCoord);
 
-offset.y = 0.2126 * aux.r + 0.7152 * aux.g + 0.0722*aux.b;
+offset.y = (0.2126 * aux.r + 0.7152 * aux.g + 0.0722*aux.b)*normScale;
 
 gl_Position = uPMatrix * uMVMatrix * vec4(aVertexPosition+offset, 1.0);
 }
