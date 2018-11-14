@@ -238,11 +238,9 @@
       <water idtexture="water" idheightmap="heightmap1" parts="20"
   heightscale="2" texscale="2"/>
     </primitive>
-
-    <!-- acrescentar vehicle -->
-    <!-- acrescentar cylinder2 -->
-    <!-- acrescentar terrain -->
-    <!-- acrescentar water -->
+      <primitive id="cylinder2">
+      <cylinder2 base="10" top="4" height="4" slices="2" stacks="2"/>
+    </primitive>
 
 
 
@@ -266,12 +264,12 @@
       <!--  <componentref id="clockTower"/>-->
       <!--  <componentref id="floor"/>-->
        <!-- <componentref id="sun"/> -->
-       <componentref id="parallelepiped"/>
+       <!-- <componentref id="parallelepiped"/> -->
       <!--<componentref id="stairs"/>-->
   <!--  <primitiveref id="patch"/>
-      <primitiveref id="plane"/>-->
-     <!--  <primitiveref id="terrain"/>
-      <primitiveref id="water"/> -->
+      <primitiveref id="water"/>-->
+     <!--  <primitiveref id="terrain"/>-->
+      <primitiveref id="cylinder2"/> 
 
 
       </children>
@@ -743,7 +741,7 @@
     <component id="parallelepiped">
       <transformation></transformation>
        <animations>
-     <animationref id ="1"/>
+     <animationref id ="2"/>
       </animations>
       <materials>
         <material id="inherit"/>

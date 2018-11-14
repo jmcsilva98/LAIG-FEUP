@@ -999,6 +999,9 @@ else{
             case "water":
             this.primitives[id] = new MyWater(this.scene, this, this.reader.getString(node.children[0], 'idtexture'), this.reader.getString(node.children[0], 'idheightmap'),this.reader.getInteger(node.children[0], 'parts'),this.reader.getFloat(node.children[0], 'heightscale'),this.reader.getFloat(node.children[0], 'texscale'));
             break;
+            case "cylinder2":
+            this.primitives[id] = new Cylinder2(this.scene,this, this.reader.getFloat(node.children[0], 'base'), this.reader.getFloat(node.children[0], 'top'), this.reader.getFloat(node.children[0], 'height'), this.reader.getInteger(node.children[0], 'slices'), this.reader.getInteger(node.children[0], 'stacks'));
+            break;
           default:
 
         }

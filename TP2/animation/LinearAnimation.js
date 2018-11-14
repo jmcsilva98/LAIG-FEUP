@@ -25,6 +25,7 @@ class LinearAnimation extends Animation{
   this.endOfAnimation=false;
 
 
+
   this.calculateDistance();
 
   this.velocity = this.totalDistance / this.animationTime;
