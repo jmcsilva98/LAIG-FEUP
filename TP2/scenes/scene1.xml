@@ -239,7 +239,7 @@
   heightscale="2" texscale="2"/>
     </primitive>
       <primitive id="cylinder2">
-      <cylinder2 base="10" top="4" height="4" slices="2" stacks="2"/>
+      <cylinder2 base="1" top="1" height="4" slices="20" stacks="8"/>
     </primitive>
 
 
@@ -266,10 +266,10 @@
        <!-- <componentref id="sun"/> -->
        <!-- <componentref id="parallelepiped"/> -->
       <!--<componentref id="stairs"/>-->
-  <!--  <primitiveref id="patch"/>
-      <primitiveref id="water"/>-->
+  <!--  <primitiveref id="patch"/>-->
+      <!--  <primitiveref id="water"/>  -->
      <!--  <primitiveref id="terrain"/>-->
-      <primitiveref id="cylinder2"/> 
+       <primitiveref id="cylinder2"/> 
 
 
       </children>

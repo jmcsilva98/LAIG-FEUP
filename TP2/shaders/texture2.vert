@@ -21,13 +21,13 @@ uniform float timeFactor;
 
 void main() {
 vec3 offset=vec3(0.0,0.0,0.0);
-
+vec2 animate = vec2(timeFactor,timeFactor);
 vTextureCoord = aTextureCoord;
 
-vec4 aux = texture2D(uSampler3, vTextureCoord);
+vec4 aux = texture2D(uSampler3, vTextureCoord+animate);
 
-offset.x = timeFactor;
+
 offset.y = (0.2126 * aux.r + 0.7152 * aux.g + 0.0722*aux.b)*normScale;
-offset.z = timeFactor;
+
 gl_Position = uPMatrix * uMVMatrix * vec4(aVertexPosition+offset, 1.0);
 }

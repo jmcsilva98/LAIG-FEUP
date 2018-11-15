@@ -71,7 +71,6 @@ class MyWater extends CGFobject{
         var factor = (Math.sin((this.i * 3.0) % 3141 * 0.002)+1.0)*.5;
         factor *=this.texscale;
         factor-=1;
-         console.log(factor);
          this.i +=0.3;
          //this.updateTexCoords(0,1);
          if (this.i >=5)
