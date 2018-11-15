@@ -232,7 +232,7 @@
     </primitive>
     <primitive id="terrain">
       <terrain idtexture="texture1" idheightmap="heightmap1" parts="20"
-  heightscale="3"/>
+  heightscale="20"/>
     </primitive>
     <primitive id="water">
       <water idtexture="water" idheightmap="heightmap1" parts="20"
@@ -261,16 +261,11 @@
 
       <children>
 
-      <!--  <componentref id="clockTower"/>-->
-      <!--  <componentref id="floor"/>-->
-       <!-- <componentref id="sun"/> -->
-       <!-- <componentref id="parallelepiped"/> -->
-      <!--<componentref id="stairs"/>-->
-  <!--  <primitiveref id="patch"/>-->
-      <!--  <primitiveref id="water"/>  -->
-     <!--  <primitiveref id="terrain"/>-->
-       <primitiveref id="cylinder2"/> 
-
+      <componentref id="clockTower"/>
+      <componentref id="floor"/>
+      <componentref id="sun"/> 
+      <componentref id="stairs"/>
+      <componentref id="terrains"/>
 
       </children>
     </component>
@@ -741,7 +736,6 @@
     <component id="parallelepiped">
       <transformation></transformation>
        <animations>
-     <animationref id ="2"/>
       </animations>
       <materials>
         <material id="inherit"/>
@@ -1078,13 +1072,10 @@
 
     <component id="sun">
       <transformation>
-        <translate x="0" y="2" z="0"/>
+        <translate x="-2" y="12" z="-2"/>
         <scale x="1.2" y="1.2" z="1.2"/>
       </transformation>
        <animations>
-      <!--  <animationref id ="2"/>
-       <animationref id ="3"/>
-       <animationref id ="1"/> -->
       </animations>
       <materials>
         <material id="yellow"/>
@@ -1097,7 +1088,78 @@
 
       </children>
     </component>
+    <component id="terrains">
+      <transformation>
+      </transformation>
+       <animations>
+      </animations>
+      <materials>
+        <material id="defaultMaterial"/>
+      </materials>
 
+      <texture id="sun" length_s="1" length_t="1"/>
+
+      <children>
+        <componentref id="terrain1"/>
+        <componentref id="terrain2"/>
+        <componentref id="terrain3"/>
+
+      </children>
+    </component>
+    <component id="terrain1">
+      <transformation>
+      <translate x="-9" y="-3" z="-12"/>
+      <scale x="0.7" y="0.5" z="0.7"/>
+      </transformation>
+       <animations>
+      </animations>
+      <materials>
+        <material id="defaultMaterial"/>
+      </materials>
+
+      <texture id="sun" length_s="1" length_t="1"/>
+
+      <children>
+        <primitiveref id="terrain"/>
+
+      </children>
+    </component>
+     <component id="terrain2">
+      <transformation>
+      <translate x="0" y="-3" z="-12"/>
+      <scale x="0.7" y="0.5" z="0.7"/>
+      </transformation>
+       <animations>
+      </animations>
+      <materials>
+        <material id="defaultMaterial"/>
+      </materials>
+
+      <texture id="sun" length_s="1" length_t="1"/>
+
+      <children>
+        <primitiveref id="terrain"/>
+
+      </children>
+    </component>
+       <component id="terrain3">
+      <transformation>
+      <translate x="12" y="-3" z="-12"/>
+      <scale x="0.7" y="0.5" z="0.7"/>
+      </transformation>
+       <animations>
+      </animations>
+      <materials>
+        <material id="defaultMaterial"/>
+      </materials>
+
+      <texture id="sun" length_s="1" length_t="1"/>
+
+      <children>
+        <primitiveref id="terrain"/>
+
+      </children>
+    </component>
     <component id="stairs">
       <transformation>
         <translate x="-1.15" y="0" z="0"/>
