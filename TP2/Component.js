@@ -17,7 +17,7 @@ class Component {
     this.primitivesChildren = primitivesChildren;
     this.componentsChildren = componentsChildren;
     this.i=0;
-  
+
 
     this.materialsList = materialsList; //list of the materials id
     this.nextMaterialId = 0; //index of the next material of the list
@@ -33,25 +33,24 @@ class Component {
     if (this.animationsID.length >this.currentAnimation){
       if (!this.graph.animations[this.animationsID[this.currentAnimation]].endOfAnimation){
         this.graph.animations[this.animationsID[this.currentAnimation]].update(this.i);
-        matrix =  this.graph.animations[this.animationsID[this.currentAnimation]].apply();
-        this.i= this.i+0.0001;
+        this.i= this.i+0.1;
         }
         else {
           this.graph.animations[this.animationsID[this.currentAnimation]].endOfAnimation=false;
-          this.graph.animations[this.animationsID[this.currentAnimation]].currentTime=0;
           this.currentAnimation++;
+          console.log(matrix);
           this.i = 0;
         }
+
       }
-    else  if(this.animationsID.length == this.currentAnimation){
-          this.currentAnimation=0;
-    }
+      if(this.animationsID.length > 0)
+        matrix =  this.graph.animations[this.animationsID[0]].apply();
 
     this.scene.pushMatrix();
     this.scene.multMatrix(this.transformationMatrix);
     this.scene.multMatrix(matrix);
 
-    
+
     var currentMaterial, currentTexture, currentS, currentT;
 
 		//if the id of the material is inherit the current material is the material of the parent

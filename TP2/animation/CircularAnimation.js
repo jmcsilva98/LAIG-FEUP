@@ -19,21 +19,24 @@ class CircularAnimation extends Animation{
   }
 
   calculateAnimation(currentTime){
-  
+
   if(this.currentTime <= 0)
   {
     this.currentTime = currentTime;
-    return;
+    return this.matrix;
   }
 
   //calculates the time passed in seconds (time given in milliseconds)
   var deltaTime = (currentTime - this.currentTime);
   if(this.animationTime < deltaTime)
-    deltaTime = this.animationTime; 
+    deltaTime = this.animationTime;
 
-  this.deltaAngle = this.initialAngle + this.rotAngle / this.animationTime * deltaTime;
-  this.currentTime+=currentTime;
-  
+
+
+
+  this.deltaAngle = this.initialAngle + this.rotAngle / this.animationTime * this.currentTime;
+  this.currentTime+=deltaTime;
+
 
   };
 
@@ -49,14 +52,19 @@ class CircularAnimation extends Animation{
 }
 
 apply(){
+
   var identMatrix = mat4.create();
+  if(this.currentTime <= 0)
+  {
+    console.log('aaa');
+    return identMatrix;
+  }
   mat4.translate(identMatrix,identMatrix, this.center);
   mat4.rotate(identMatrix,identMatrix,this.deltaAngle,[0,1,0]);
   mat4.translate(identMatrix,identMatrix, [this.radius,0,0]);
   if (this.rotAngle > 0) mat4.rotate(identMatrix, identMatrix, Math.PI, [0, 1, 0]);
-  
-  this.matrix=identMatrix;
-  return identMatrix;
+
+    return identMatrix;
 
 }
 };
