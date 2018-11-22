@@ -43,8 +43,8 @@ class Component {
         }
 
       }
-      if(this.animationsID.length > 0)
-        matrix =  this.graph.animations[this.animationsID[0]].apply();
+     else if(this.animationsID.length > 0)
+        matrix =  this.graph.animations[this.animationsID[this.animationsID.length-1]].apply();
 
     this.scene.pushMatrix();
     this.scene.multMatrix(this.transformationMatrix);
