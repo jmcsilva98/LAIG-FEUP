@@ -33,7 +33,6 @@ class CircularAnimation extends Animation{
 
 
 
-
   this.deltaAngle = this.initialAngle + this.rotAngle / this.animationTime * this.currentTime;
   this.currentTime+=deltaTime;
 

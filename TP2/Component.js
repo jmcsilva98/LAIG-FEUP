@@ -18,7 +18,6 @@ class Component {
     this.componentsChildren = componentsChildren;
     this.i=0;
 
-
     this.materialsList = materialsList; //list of the materials id
     this.nextMaterialId = 0; //index of the next material of the list
     this.oldMaterial = materialId;
