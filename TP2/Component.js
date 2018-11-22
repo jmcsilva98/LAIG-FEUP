@@ -32,18 +32,18 @@ class Component {
     if (this.animationsID.length >this.currentAnimation){
       if (!this.graph.animations[this.animationsID[this.currentAnimation]].endOfAnimation){
         this.graph.animations[this.animationsID[this.currentAnimation]].update(this.i);
-        this.i= this.i+0.1;
+        this.i= this.i+0.01;
         }
         else {
-          this.graph.animations[this.animationsID[this.currentAnimation]].endOfAnimation=false;
           this.currentAnimation++;
-          console.log(matrix);
+          if (this.currentAnimation == this.animationsID.length)
+          this.currentAnimation-=1;
           this.i = 0;
         }
-
       }
-     else if(this.animationsID.length > 0)
-        matrix =  this.graph.animations[this.animationsID[this.animationsID.length-1]].apply();
+     if(this.animationsID.length > 0){
+        matrix =  this.graph.animations[this.animationsID[this.currentAnimation]].apply();
+     }
 
     this.scene.pushMatrix();
     this.scene.multMatrix(this.transformationMatrix);

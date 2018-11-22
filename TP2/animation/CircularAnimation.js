@@ -43,7 +43,7 @@ class CircularAnimation extends Animation{
 
     if (this.currentTime<this.animationTime){
       this.calculateAnimation(deltaTime);
-      this.matrix=this.apply();
+
     }
   else {
     this.endOfAnimation=true;
@@ -55,7 +55,6 @@ apply(){
   var identMatrix = mat4.create();
   if(this.currentTime <= 0)
   {
-    console.log('aaa');
     return identMatrix;
   }
   mat4.translate(identMatrix,identMatrix, this.center);

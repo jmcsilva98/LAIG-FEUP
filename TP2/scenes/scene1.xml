@@ -177,12 +177,13 @@
   </transformations>
 
 <animations>
-<circular id="1" span="5" center="0 0 0" radius="2" startang="0" rotang="-90"/>
-<linear id="2" span="3" >
-    <controlpoint xx="1" yy="1" zz="1"/>
-    <controlpoint xx="5" yy="3" zz="1"/>
-    <controlpoint xx="5" yy="3" zz="8"/>
-    <controlpoint xx="3" yy="3" zz="8"/>
+<circular id="1" span="2" center="0 0 0" radius="2" startang="0" rotang="-90"/>
+<circular id="4" span="2" center="0 0 0" radius="2" startang="0" rotang="90"/>
+<linear id="2" span="10" >
+    <controlpoint xx="0" yy="0" zz="0"/>
+    <controlpoint xx="5" yy="0" zz="0"/>
+    <controlpoint xx="1" yy="0" zz="7"/>
+    <controlpoint xx="-3" yy="0" zz="7"/>
     </linear>
     <linear id="3" span="3" >
     <controlpoint xx="2" yy="1" zz="1"/>
@@ -1073,11 +1074,13 @@
 
     <component id="sun">
       <transformation>
-        <translate x="-2" y="5" z="-2"/>
+        <!-- <translate x="-2" y="5" z="-2"/> -->
         <scale x="1.2" y="1.2" z="1.2"/>
       </transformation>
        <animations>
-         <animationref id="1"/>
+         
+        <animationref id="1"/>
+         <animationref id="2"/>
       </animations>
       <materials>
         <material id="yellow"/>
