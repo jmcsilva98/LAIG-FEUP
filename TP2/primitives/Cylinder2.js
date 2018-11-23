@@ -18,20 +18,20 @@ class Cylinder2 extends  CGFobject {
         this.degree2 = 1;
 
     this.controlPoints= [
-        
-        
+
+
         [[-this.base,0.0,this.height/2, 1],
         [-this.top,0.0,-this.height/2,1]],
-        
-        [[-this.base,this.base+0.5,this.height/2,0.707],
-        [-this.top,this.top+0.5,-this.height/2,0.707]],
-        
-        [[this.base,this.base+0.5,this.height/2, 0.707],
-        [this.top,this.top+0.5,-this.height/2,0.707]],
-        
+
+        [[-this.base,this.base+0.8,this.height/2,0.707],
+        [-this.top,this.top+0.8,-this.height/2,0.707]],
+
+        [[this.base,this.base+0.8,this.height/2, 0.707],
+        [this.top,this.top+0.8,-this.height/2,0.707]],
+
         [[this.base,0,this.height/2, 1],
-        [this.top,0,-this.height/2,1]]  
-                                                                         
+        [this.top,0,-this.height/2,1]]
+
     ];
 
     this.nurbsSurface = new CGFnurbsSurface(this.degree1,this.degree2, this.controlPoints);
