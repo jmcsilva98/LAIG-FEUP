@@ -1002,6 +1002,9 @@ else{
             case "cylinder2":
             this.primitives[id] = new Cylinder2(this.scene,this, this.reader.getFloat(node.children[0], 'base'), this.reader.getFloat(node.children[0], 'top'), this.reader.getFloat(node.children[0], 'height'), this.reader.getInteger(node.children[0], 'slices'), this.reader.getInteger(node.children[0], 'stacks'));
             break;
+            case "vehicle":
+            this.primitives[id] = new MyVehicle(this.scene,this);
+            break;
           default:
 
         }
@@ -1216,7 +1219,7 @@ else{
    */
   displayScene() {
 
-    //this.primitives["plane"].display();
+    //this.primitives["vehicle"].display();
     // entry point for graph rendering (calls the display of the first component)
   this.components[this.rootName].display(this.components[this.rootName].materialId, this.components[this.rootName].textId, this.components[this.rootName].length_s, this.components[this.rootName].length_t);
 

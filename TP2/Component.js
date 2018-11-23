@@ -32,7 +32,7 @@ class Component {
     if (this.animationsID.length >this.currentAnimation){
       if (!this.graph.animations[this.animationsID[this.currentAnimation]].endOfAnimation){
         this.graph.animations[this.animationsID[this.currentAnimation]].update(this.i);
-        this.i= this.i+0.01;
+        this.i= this.i+0.2;
         }
         else {
           this.currentAnimation++;
