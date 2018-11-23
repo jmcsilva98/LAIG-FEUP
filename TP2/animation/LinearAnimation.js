@@ -13,7 +13,7 @@ class LinearAnimation extends Animation{
   this.distanceBetween2Points=0;
   this.initialPoint=0;
   this.direction =vec3.create(); // direção do movimento atual
-  vec3.sub(this.direction,this.controlPoints[1],this.controlPoints[0]); 
+  vec3.sub(this.direction,this.controlPoints[1],this.controlPoints[0]);
 
   this.currentPosition=vec3.create(); //vetor para guardar a posição atual
   this.currentSegmentLength = vec3.length(this.direction); //comprimento do segmento atual
@@ -44,32 +44,32 @@ class LinearAnimation extends Animation{
 
     this.angle = Math.atan(finalPoint[2] - initialPoint[2],finalPoint[0]-initialPoint[0]);
   };
-  
+
   updateIndex(){
 
       this.actualIndex++;
       if (this.actualIndex == this.controlPoints.length){
 
         this.endOfAnimation=true;
-  
-      } 
-      else{  
+
+      }
+      else{
       vec3.sub(this.direction,this.controlPoints[this.actualIndex],this.controlPoints[this.actualIndex-1]);
       this.currentSegmentLength = vec3.length(this.direction);
       this.calculateAngle(this.controlPoints[this.actualIndex-1],this.controlPoints[this.actualIndex]);
       }
   }
   calculateMatrix(currentTime){
-
-    var distance = currentTime * this.velocity;
+    var deltaTime = currentTime - this.currentTime;
+    var distance = deltaTime * this.velocity;
     this.distanceBetween2Points+=distance;
-    
+
     if (this.distanceBetween2Points> this.currentSegmentLength){
       this.distanceBetween2Points-=this.currentSegmentLength;
       this.updateIndex();
     }
     this.currentTime = currentTime;
-  
+
 
   }
   update(currentTime){
@@ -79,14 +79,14 @@ class LinearAnimation extends Animation{
   }
 
 apply(){
-  
+
   var identMatrix=mat4.create();
   if(this.currentTime <= 0)
   {
     return identMatrix;
   }
   var scaleFactor =this.distanceBetween2Points / this.currentSegmentLength; // calcula o factor pelo qual a posição inicial tem que ser multiplicada para obter a nova
-                                                                          // é sempre calculado a partir da posição inicial                                                                    // consoante o tempo que passa, calcula-se a percentagem que foi percorrida                                                                       
+                                                                          // é sempre calculado a partir da posição inicial                                                                    // consoante o tempo que passa, calcula-se a percentagem que foi percorrida
 vec3.scale(this.currentPosition,this.direction,scaleFactor);
 mat4.translate(identMatrix,identMatrix,this.controlPoints[this.actualIndex-1]);
 mat4.translate(identMatrix,identMatrix,this.currentPosition);

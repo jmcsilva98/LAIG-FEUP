@@ -58,7 +58,7 @@ apply(){
     return identMatrix;
   }
   mat4.translate(identMatrix,identMatrix, this.center);
-  mat4.rotate(identMatrix,identMatrix,this.deltaAngle,[0,1,0]);
+  mat4.rotate(identMatrix,identMatrix,-this.deltaAngle,[0,1,0]);
   mat4.translate(identMatrix,identMatrix, [this.radius,0,0]);
   if (this.rotAngle > 0) mat4.rotate(identMatrix, identMatrix, Math.PI, [0, 1, 0]);
 
