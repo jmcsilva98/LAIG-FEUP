@@ -176,7 +176,7 @@
   </transformations>
 
   <animations>
-    <circular id="1" span="2" center="0 0 0" radius="7" startang="0" rotang="-90"/>
+    <circular id="1" span="60" center="0 0 0" radius="7" startang="0" rotang="-360"/>
     <circular id="4" span="2" center="0 0 0" radius="0" startang="0" rotang="-90"/>
     <circular id="5" span="55" center="0 0 0" radius="70" startang="0" rotang="-360"/>
     <linear id="2" span="20">
@@ -269,6 +269,7 @@
         <componentref id="floor"/>
         <componentref id="sun"/>
         <componentref id="dragonfly"/>
+        <componentref id="dragonflies"/>
         <componentref id="stairs"/>
         <componentref id="terrains"/>
 
@@ -298,6 +299,105 @@
         <primitiveref id="vehicle"/>
       </children>
     </component>
+    <component id="dragonflies">
+      <transformation>
+
+      </transformation>
+      <animations>
+      </animations>
+      <materials>
+        <material id="defaultMaterial"/>
+      </materials>
+
+      <texture id="none" length_s="1" length_t="1"/>
+
+      <children>
+        <componentref id="dragonfly1"/>
+        <componentref id="dragonfly2"/>
+        <componentref id="dragonfly3"/>
+        <componentref id="dragonfly4"/>
+      </children>
+    </component>
+    <component id="dragonfly1">
+      <transformation>
+      <translate x="10" y="5" z="10"/>
+        <scale x="0.1" y="0.10" z="0.10"/>
+        <rotate axis="y" angle ="150"/>
+
+      </transformation>
+      <animations>
+      </animations>
+      <materials>
+        <material id="defaultMaterial"/>
+      </materials>
+
+      <texture id="none" length_s="1" length_t="1"/>
+
+      <children>
+        <primitiveref id="vehicle"/>
+      </children>
+    </component>
+    <component id="dragonfly2">
+      <transformation>
+      <translate x="-10" y="5" z="10"/>
+        <scale x="0.1" y="0.10" z="0.10"/>
+        <rotate axis="y" angle ="210"/>
+
+      </transformation>
+      <animations>
+      </animations>
+      <materials>
+        <material id="defaultMaterial"/>
+      </materials>
+
+      <texture id="none" length_s="1" length_t="1"/>
+
+      <children>
+        <primitiveref id="vehicle"/>
+      </children>
+    </component>
+    
+    <component id="dragonfly3">
+      <transformation>
+      <translate x="0" y="10" z="10"/>
+        <scale x="0.1" y="0.10" z="0.10"/>
+        <rotate axis="y" angle ="230"/>
+
+      </transformation>
+      <animations>
+      </animations>
+      <materials>
+        <material id="defaultMaterial"/>
+      </materials>
+
+      <texture id="none" length_s="1" length_t="1"/>
+
+      <children>
+        <primitiveref id="vehicle"/>
+      </children>
+    </component>
+      
+    <component id="dragonfly4">
+      <transformation>
+      <translate x="10" y="2" z="15"/>
+      <scale x="0.1" y="0.10" z="0.10"/>
+      <rotate axis="y" angle ="230"/>
+
+      </transformation>
+      <animations>
+      </animations>
+      <materials>
+        <material id="defaultMaterial"/>
+      </materials>
+
+      <texture id="none" length_s="1" length_t="1"/>
+
+      <children>
+        <primitiveref id="vehicle"/>
+      </children>
+    </component>
+    
+    
 
     <component id="clockTower">
       <transformation>

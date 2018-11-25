@@ -83,11 +83,11 @@ class LinearAnimation extends Animation{
 
 apply(){
   
-  var identMatrix=mat4.create();
   if (this.endOfAnimation){
     return this.matrix;
  }
 
+var identMatrix=mat4.create();
 var scaleFactor =this.distanceBetween2Points / this.currentSegmentLength; // calcula o factor pelo qual a posição inicial tem que ser multiplicada para obter a nova
                                                                           // é sempre calculado a partir da posição inicial                  
                                                                           // consoante o tempo que passa, calcula-se a percentagem que foi percorrida
