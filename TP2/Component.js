@@ -16,6 +16,7 @@ class Component {
     this.materialId = materialId;
     this.primitivesChildren = primitivesChildren;
     this.componentsChildren = componentsChildren;
+    this.animationMatrix=[];
     this.i=0;
 
     this.materialsList = materialsList; //list of the materials id
@@ -29,13 +30,16 @@ class Component {
 	//function that displays the component, having as paremeters the parents material, texture, length_s and length_t
   display(parentMaterial, parentTexture, parentS, parentT) {
     var matrix= mat4.create();
+    var aux =0;
     if (this.animationsID.length >this.currentAnimation){
       if (!this.graph.animations[this.animationsID[this.currentAnimation]].endOfAnimation){
         this.graph.animations[this.animationsID[this.currentAnimation]].update(this.i);
-        this.i= this.i+0.2;
+        this.i= this.i+0.5;
+        aux = 0;
         }
         else {
           this.currentAnimation++;
+          aux = 1;
           if (this.currentAnimation == this.animationsID.length)
           this.currentAnimation-=1;
           this.i = 0;
@@ -43,6 +47,10 @@ class Component {
       }
      if(this.animationsID.length > 0){
         matrix =  this.graph.animations[this.animationsID[this.currentAnimation]].apply();
+        if (aux==1) console.log(matrix);
+        /*if (this.currentAnimation > 0)
+              mat4.multiply(matrix,matrix,this.graph.animations[this.animationsID[this.currentAnimation-1]].apply());*/
+        
      }
 
     this.scene.pushMatrix();
