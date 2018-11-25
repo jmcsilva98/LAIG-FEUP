@@ -170,8 +170,7 @@
   <transformations>
     <transformation id="floorTransf">
       <translate x="2" y="-0.5" z="0"/>
-      <scale x="80" y="1" z="80"/>
-      <rotate axis="x" angle="-90"/>
+      <scale x="40" y="1" z="40"/>
     </transformation>
 
   </transformations>
@@ -185,15 +184,15 @@
       <controlpoint xx="-20" yy="10" zz="0"/>
     </linear>
     <linear id="3" span="70">
-    <controlpoint xx="-20" yy="10" zz="0"/>
-    <controlpoint xx="-50" yy="30" zz="0"/>
+      <controlpoint xx="-20" yy="10" zz="0"/>
+      <controlpoint xx="-50" yy="30" zz="0"/>
       <controlpoint xx="-70" yy="30" zz="0"/>
     </linear>
     <linear id="6" span="70">
-    <controlpoint xx="-70" yy="30" zz="0"/>
-    <controlpoint xx="-90" yy="30" zz="0"/>
-    <controlpoint xx="-110" yy="0" zz="0"/>
-    <controlpoint xx="-150" yy="0" zz="0"/>
+      <controlpoint xx="-70" yy="30" zz="0"/>
+      <controlpoint xx="-90" yy="30" zz="0"/>
+      <controlpoint xx="-110" yy="0" zz="0"/>
+      <controlpoint xx="-150" yy="0" zz="0"/>
     </linear>
 
   </animations>
@@ -271,9 +270,7 @@
         <componentref id="sun"/>
         <componentref id="dragonfly"/>
         <componentref id="stairs"/>
-       <componentref id="terrains"/>
-        <componentref id="dragonfly"/>
-
+        <componentref id="terrains"/>
 
       </children>
     </component>
@@ -283,12 +280,12 @@
         <translate x="10" y="10" z="0"/>
         <scale x="0.1" y="0.10" z="0.10"/>
 
-       </transformation>
+      </transformation>
       <animations>
-  <!--     <animationref id="5"/>-->
-      <animationref id="5"/>
-       <animationref id="2"/>
-       <animationref id="3"/>
+        <!-- <animationref id="5"/>-->
+        <animationref id="5"/>
+        <animationref id="2"/>
+        <animationref id="3"/>
         <animationref id="6"/>
 
       </animations>
@@ -681,7 +678,7 @@
       <texture id="floor" length_s="0.5" length_t="0.5"/>
 
       <children>
-        <primitiveref id="rectangle"/>
+        <primitiveref id="plane"/>
       </children>
     </component>
 
@@ -1061,11 +1058,10 @@
 
     <component id="sun">
       <transformation>
-        <translate x="-10" y="20" z="-10"/>
+        <translate x="-10" y="14" z="-10"/>
         <scale x="1.2" y="1.2" z="1.2"/>
       </transformation>
-      <animations>
-      </animations>
+      <animations></animations>
       <materials>
         <material id="yellow"/>
       </materials>
@@ -1073,7 +1069,7 @@
       <texture id="sun" length_s="1" length_t="1"/>
 
       <children>
-        <componentref id="parallelepiped"/>
+        <primitiveref id="sphere"/>
 
       </children>
     </component>
@@ -1089,8 +1085,6 @@
       <children>
         <componentref id="terrain1"/>
         <componentref id="terrain2"/>
-        <componentref id="terrain3"/>
-        <componentref id="terrain4"/>
       </children>
     </component>
 
@@ -1124,9 +1118,10 @@
         <primitiveref id="water"/>
       </children>
     </component>
+
     <component id="terrain1">
       <transformation>
-        <translate x="-28" y="-1" z="-30"/>
+        <translate x="-8" y="-1" z="-28"/>
       </transformation>
       <animations></animations>
       <materials>
@@ -1142,39 +1137,7 @@
     </component>
     <component id="terrain2">
       <transformation>
-        <translate x="-8" y="-1" z="-30"/>
-      </transformation>
-      <animations></animations>
-      <materials>
-        <material id="defaultMaterial"/>
-      </materials>
-
-      <texture id="sun" length_s="1" length_t="1"/>
-
-      <children>
-        <componentref id="terrain"/>
-        <componentref id="water"/>
-      </children>
-    </component>
-    <component id="terrain3">
-      <transformation>
-        <translate x="12" y="-1" z="-30"/>
-      </transformation>
-      <animations></animations>
-      <materials>
-        <material id="defaultMaterial"/>
-      </materials>
-
-      <texture id="sun" length_s="1" length_t="1"/>
-
-      <children>
-        <componentref id="terrain"/>
-        <componentref id="water"/>
-      </children>
-    </component>
-    <component id="terrain4">
-      <transformation>
-        <translate x="32" y="-1" z="-30"/>
+        <translate x="12" y="-1" z="-28"/>
       </transformation>
       <animations></animations>
       <materials>
