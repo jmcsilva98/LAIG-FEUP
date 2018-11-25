@@ -90,7 +90,6 @@
   </lights>
 
   <textures>
-    <!--<texture id="grass" file="../images/grass.jpg"/>-->
     <texture id="floor" file="../images/floor.jpg"/>
     <texture id="marmore" file="../images/marmore.jpg"/>
     <texture id="sun" file="../images/sun.jpg"/>
@@ -176,7 +175,7 @@
   </transformations>
 
   <animations>
-    <circular id="1" span="60" center="0 0 0" radius="7" startang="0" rotang="-360"/>
+    <circular id="1" span="60" center="0 0 0" radius="20" startang="0" rotang="-360"/>
     <circular id="4" span="2" center="0 0 0" radius="0" startang="0" rotang="-90"/>
     <circular id="5" span="55" center="0 0 0" radius="70" startang="0" rotang="-360"/>
     <linear id="2" span="20">
@@ -215,11 +214,11 @@
     <primitive id="torus">
       <torus inner="0.3" outer="1" slices="40" loops="40"/>
     </primitive>
-    <!-- acrescentar plane -->
+
     <primitive id="plane">
       <plane npartsU="5" npartsV="8"/>
+
     </primitive>
-    <!-- acrescentar patch- numero de controlPoints igual a npU*npV-->
     <primitive id="patch">
       <patch npointsU="3" npointsV="4" npartsU="5" npartsV="8">
         <controlpoint xx="-1.5" yy="-1.5" zz="0.0"/>
@@ -235,16 +234,20 @@
         <controlpoint xx="2.0" yy="2.0" zz="2.0"/>
         <controlpoint xx="1.5" yy="1.5" zz="0.0"/>
       </patch>
+
     </primitive>
     <primitive id="terrain">
       <terrain idtexture="texture1" idheightmap="heightmap1" parts="20" heightscale="12"/>
     </primitive>
+
     <primitive id="water">
       <water idtexture="water" idheightmap="heightmap1" parts="20" heightscale="2" texscale="2"/>
     </primitive>
+
     <primitive id="cylinder2">
       <cylinder2 base="1" top="1" height="4" slices="20" stacks="8"/>
     </primitive>
+
     <primitive id="vehicle">
       <vehicle/>
     </primitive>
@@ -326,6 +329,7 @@
 
       </transformation>
       <animations>
+        <animationref id="5"/>
       </animations>
       <materials>
         <material id="defaultMaterial"/>
@@ -345,6 +349,7 @@
 
       </transformation>
       <animations>
+        <animationref id="5"/>
       </animations>
       <materials>
         <material id="defaultMaterial"/>
@@ -365,6 +370,7 @@
 
       </transformation>
       <animations>
+        <animationref id="1"/>
       </animations>
       <materials>
         <material id="defaultMaterial"/>
@@ -385,6 +391,7 @@
 
       </transformation>
       <animations>
+        <animationref id="1"/>
       </animations>
       <materials>
         <material id="defaultMaterial"/>
