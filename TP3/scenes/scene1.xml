@@ -235,6 +235,9 @@
     <primitive id="vehicle">
       <vehicle/>
     </primitive>
+    <primitive id="board">
+      <board dimX="8" dimZ="8"/>
+    </primitive>
 
   </primitives>
 
@@ -251,12 +254,11 @@
       <texture id="none" length_s="1" length_t="1"/>
 
       <children>
-      <componentref id="floor"/>
+       <componentref id="floor"/>
       <componentref id="leftWall"/>
       <componentref id="backWall"/>
       <componentref id="table"/>
       <componentref id="board"/>
-      <componentref id="blackPiece"/>
       <componentref id="leftPainting"/>
        <componentref id="backPainting"/>
       <componentref id="puff"/>
@@ -516,10 +518,8 @@
 
     <component id="boardTop">
       <transformation>
-      <translate x="1.5" y="0.25" z="0"/> 
-       <rotate axis="x" angle="-90"/>
-        <scale x="3" y="3" z="1"/>
-     
+        <translate x="0" y="0.25" z="-1.35"/>
+        <scale x="0.32" y="0.3" z="0.32"/>
       </transformation>
       <animations></animations>
       <materials>
@@ -527,48 +527,7 @@
       </materials>
       <texture id="inherit" length_s="1" length_t="1"/>
       <children>
-        <primitiveref id="rectangle"/>
-      </children>
-    </component>
-
-  <component id="piece">
-      <transformation>
-      <translate x="0.17" y="1.8" z="-1.2"/>
-      <scale x="0.15" y="0.10" z="0.15"/>
-      <rotate axis="x" angle="90"/>
-
-      </transformation>
-      <animations></animations>
-      <materials>
-        <material id="defaultMaterial"/>
-      </materials>
-      <texture id="inherit" length_s="1" length_t="1"/>
-      <children>
-        <primitiveref id="cylinder"/>
-      </children>
-    </component>
-    <component id="blackPiece">
-      <transformation>
-      </transformation>
-      <animations></animations>
-      <materials>
-        <material id="defaultMaterial"/>
-      </materials>
-      <texture id="black" length_s="1" length_t="1"/>
-      <children>
-        <componentref id="piece"/>
-      </children>
-    </component>
-     <component id="whitePiece">
-      <transformation>
-      </transformation>
-      <animations></animations>
-      <materials>
-        <material id="defaultMaterial"/>
-      </materials>
-      <texture id="white" length_s="1" length_t="1"/>
-      <children>
-        <componentref id="piece"/>
+        <primitiveref id="board"/>
       </children>
     </component>
 

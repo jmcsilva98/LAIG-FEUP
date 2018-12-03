@@ -1005,6 +1005,9 @@ else{
             case "vehicle":
             this.primitives[id] = new MyVehicle(this.scene,this);
             break;
+            case "board":
+            this.primitives[id] = new Board(this.scene,this.reader.getInteger(node.children[0], 'dimX'),this.reader.getInteger(node.children[0], 'dimZ'));
+            break;
           default:
 
         }
