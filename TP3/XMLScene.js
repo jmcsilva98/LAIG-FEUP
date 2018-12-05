@@ -38,6 +38,7 @@ class XMLscene extends CGFscene {
 
     this.axis = new CGFaxis(this);
     this.view = [];
+    this.setPickEnabled(true); 
 
   }
 
@@ -137,6 +138,28 @@ class XMLscene extends CGFscene {
 
   }
 
+  logPicking(){
+let column,row;
+	if (this.pickMode == false) {
+		if (this.pickResults != null && this.pickResults.length > 0) {
+			for (var i=0; i< this.pickResults.length; i++) {
+				var obj = this.pickResults[i][0];
+				if (obj)
+				{
+          var id = this.pickResults[i][1]-1;	
+          column= id % 8;
+          row = Math.floor(id / 8);
+          obj.setTex
+          console.log("Picked object: " + obj + ", with ROW " + row + " AND COLUMN "+column);
+          console.log(obj);
+          obj.isSelected=true;
+				}
+			}
+			this.pickResults.splice(0,this.pickResults.length);
+		}		
+	}
+  }
+
 
 
 
@@ -155,6 +178,8 @@ class XMLscene extends CGFscene {
     // Initialize Model-View matrix as identity (no transformation
     this.updateProjectionMatrix();
     this.loadIdentity();
+    this.logPicking();
+    this.clearPickRegistration();
 
     // Apply transformations corresponding to the camera position relative to the origin
     this.applyViewMatrix();

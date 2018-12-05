@@ -5,6 +5,7 @@ class Board extends  CGFobject {
     this.dimZ=dimZ;
     this.cells=[];
     this.pieces=[];
+
     
     this.white = new CGFappearance(this.scene);
     this.white.setAmbient(1.0,1,1,1);
@@ -18,6 +19,20 @@ class Board extends  CGFobject {
     this.black.setSpecular(1.0,1,1,1);
     this.black.setShininess(0);
     this.black.loadTexture("images/black.jpg");
+    
+    this.selectedMaterialWhite = new CGFappearance(this.scene);
+    this.selectedMaterialWhite.setAmbient(1,0.71,0.76,1);
+    this.selectedMaterialWhite.setDiffuse(1,0,0,1);
+    this.selectedMaterialWhite.setSpecular(1,0,0,1);
+    this.selectedMaterialWhite.setShininess(0);
+    this.selectedMaterialWhite.loadTexture("images/white.jpg");
+
+    this.selectedMaterialBlack = new CGFappearance(this.scene);
+    this.selectedMaterialBlack.setAmbient(1,0.13,0.13,1);
+    this.selectedMaterialBlack.setDiffuse(1,0,0,1);
+    this.selectedMaterialBlack.setSpecular(1,0,0,1);
+    this.selectedMaterialBlack.setShininess(0);
+    this.selectedMaterialBlack.loadTexture("images/white.jpg");
     this.distanceBetweenCells=1.2;
 
     this.createBoard();
@@ -43,6 +58,8 @@ createBoard(){
 display(){
 let i,j;
 let zDistance=0;
+let id =1;
+let material;
  for ( i = 0;i < this.dimZ;i++){
     for (j = 0; j < this.dimX;j++){
         this.scene.pushMatrix();
@@ -56,15 +73,29 @@ let zDistance=0;
         this.scene.popMatrix();
         this.scene.pushMatrix();
         this.scene.translate(j*this.distanceBetweenCells,0,i+zDistance);
+
+        this.scene.registerForPick(id, this.pieces[j][i]);
+        
+        id+=1;
+        if(!this.pieces[j][i].isSelected){
         if ((j+i)%2==0){
-            this.white.apply();
+            material=this.white;
         }
-        else this.black.apply();
-        this.pieces[j][i].display();
+        else material=this.black;
+    }
+    else if((j+i)%2==0)
+        material=this.selectedMaterialWhite;
+    else
+    material=this.selectedMaterialBlack;
+
+        this.pieces[j][i].display(material);
+        this.scene.clearPickRegistration();
         this.scene.popMatrix();
     }
     zDistance+=0.2;
+    
 }
+
 };
 
 updateTexCoords(length_s,length_t)

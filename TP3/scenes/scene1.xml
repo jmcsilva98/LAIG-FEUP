@@ -258,7 +258,6 @@
       <componentref id="leftWall"/>
       <componentref id="backWall"/>
       <componentref id="table"/>
-      <componentref id="board"/>
       <componentref id="leftPainting"/>
        <componentref id="backPainting"/>
       <componentref id="puff"/>
@@ -326,7 +325,7 @@
 
     <component id="table">
       <transformation>
-      
+      <scale x="1.5" y="1" z="1.5"/>
       </transformation>
       <animations></animations>
       <materials>
@@ -337,6 +336,7 @@
 
       <children>
         <componentref id="tableTop"/>
+        <componentref id="board"/>
         <componentref id="tableLeg1"/>
         <componentref id="tableLeg2"/>
         <componentref id="tableLeg3"/>
@@ -428,7 +428,7 @@
 
     <component id="puff">
       <transformation>
-        <translate x="0" y="0" z="5"/>
+        <translate x="0" y="0" z="7"/>
        <rotate axis="x" angle="-90"/>
       </transformation>
       <animations></animations>
@@ -443,7 +443,7 @@
 
     <component id="puff1">
       <transformation>
-       <translate x="0" y="0" z="-5"/>
+       <translate x="0" y="0" z="-7"/>
        <rotate axis="x" angle="-90"/>
       </transformation>
       <animations></animations>

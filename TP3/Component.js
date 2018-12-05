@@ -29,6 +29,7 @@ class Component {
 
 	//function that displays the component, having as paremeters the parents material, texture, length_s and length_t
   display(parentMaterial, parentTexture, parentS, parentT) {
+    
     var matrix= mat4.create();
     if (this.animationsID.length >this.currentAnimation){
       if (!this.graph.animations[this.animationsID[this.currentAnimation]].endOfAnimation){
@@ -82,6 +83,7 @@ class Component {
 
       this.graph.primitives[this.primitivesChildren[i]].updateTexCoords(currentS, currentT);
       this.graph.primitives[this.primitivesChildren[i]].display();
+      this.scene.clearPickRegistration();
 
     }
     this.scene.popMatrix();
@@ -95,6 +97,7 @@ class Component {
 		//Goes through all the children of the component that are components
     for (var i = 0; i < this.componentsChildren.length; i++) {
       this.graph.components[this.componentsChildren[i]].display(currentMaterial, currentTexture, currentS, currentT);
+      this.scene.clearPickRegistration();
     }
     this.scene.popMatrix();
 
