@@ -1,11 +1,11 @@
 class PieceAnimation {
-  constructor(scene, center, direction) {
+  constructor(scene, center, rotAngle,direction) {
     this.scene=scene;
     this.center=center;
     this.direction=direction;
     this.initialAngle=0;
-    this.rotAngle= Math.PI;
-    this.radius=2;
+    this.rotAngle= rotAngle * Math.PI/180;
+    this.radius=3;
     this.currentTime=0;
     this.matrix=mat4.create();
     this.endOfAnimation=false;
@@ -49,9 +49,9 @@ class PieceAnimation {
     return this.matrix;
     
     var identMatrix = mat4.create();
-    mat4.translate(identMatrix,identMatrix, this.center);
+    //mat4.translate(identMatrix,identMatrix, this.center);
     mat4.rotate(identMatrix,identMatrix,-this.deltaAngle,[1,0,0]);
-    mat4.translate(identMatrix,identMatrix, [0,this.radius,0]);
+    mat4.translate(identMatrix,identMatrix, [this.center[0],this.radius,this.center[2]]);
     if (this.rotAngle > 0) mat4.rotate(identMatrix, identMatrix, Math.PI, [0, 1, 0]);
     this.matrix = identMatrix;
       return identMatrix;

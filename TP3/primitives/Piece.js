@@ -10,7 +10,7 @@ constructor(scene, xPosition,zPosition){
     this.center= vec3.create(xPosition,0,zPosition);
     this.direction=0;
     this.time=0;
-    this.animation= new PieceAnimation(this.scene,this.center,this.direction);
+    this.animation= new PieceAnimation(this.scene,this.center,180,this.direction);
 
 }
 display(material){
@@ -19,7 +19,6 @@ display(material){
         this.animation.update(this.time);
         this.time+=0.5;
         this.animationMatrix=this.animation.apply();
-        console.log(this.animation);
     }
     this.scene.pushMatrix();
     this.scene.translate(0.4,0.5,0);
