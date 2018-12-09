@@ -1,4 +1,4 @@
-class Player extends CGFObject{
+class Player extends CGFobject{
   constructor(scene, playerId){
     super(scene);
     this.playerId=playerId;

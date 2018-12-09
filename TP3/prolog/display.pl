@@ -20,6 +20,24 @@ translate(empty,'.').
 translate(black,'O').
 translate(white,'W').
 
+translateToNumber(empty,0).
+translateToNumber(white,1).
+translateToNumber(black,2).
+
+
+boardToNumbers([],[]).
+
+boardToNumbers([H|T],[NumberH|NumberT]):- 
+  lineToNumbers(H,NumberH),
+  boardToNumbers(T,NumberT).
+
+lineToNumbers([],[]).
+
+lineToNumbers([H|T],[NumberH|NumberT]):-
+translateToNumber(H,NumberH),
+lineToNumbers(T,NumberT).
+
+
 /* Incrementa o valor de X em um, usado para colocar os indices das linhas do tabuleiro */
 incr(X, X1) :-
                 X1 is X+1.

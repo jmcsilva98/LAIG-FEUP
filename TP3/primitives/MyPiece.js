@@ -1,4 +1,4 @@
-class Piece extends  CGFobject {
+class MyPiece extends  CGFobject {
 
 constructor(scene, xPosition,zPosition){
     super(scene);

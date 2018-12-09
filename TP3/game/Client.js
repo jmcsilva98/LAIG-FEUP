@@ -1,6 +1,13 @@
-function getPrologRequest(requestString, onSuccess, onError, port)
+class Client{
+	constructor (port){
+	this.defaultPort=8081;
+	this.port = port || this.defaultPort;
+}
+
+
+getPrologRequest(requestString, onSuccess, onError)
 			{
-				var requestPort = port || 8081
+				var requestPort = this.port
 				var request = new XMLHttpRequest();
 				request.open('GET', 'http://localhost:'+requestPort+'/'+requestString, true);
 
@@ -11,7 +18,7 @@ function getPrologRequest(requestString, onSuccess, onError, port)
 				request.send();
 			}
 		
-			function makeRequest()
+		 makeRequest()
 			{
 				// Get Parameter Values
 				var requestString = document.querySelector("#query_field").value;				
@@ -21,6 +28,8 @@ function getPrologRequest(requestString, onSuccess, onError, port)
 			}
 			
 			//Handle the Reply
-			function handleReply(data){
+			handleReply(data){
 				document.querySelector("#query_result").innerHTML=data.target.response;
 			}
+
+		}

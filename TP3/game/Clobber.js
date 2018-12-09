@@ -67,9 +67,38 @@ class Clobber {
         this.previousPlayer=this.player;
       }
   
+    getInitialBoard(){
+      let game=this;
+      this.scene.client.getPrologRequest('initialBoard',function(data){
+        game.board=game.parseBoard(data.target.response);
+        console.log(game.board);
+      },function(data){
+        console.log('connection error');
+      });
+      }
+
+      parseBoard(board){
+
+        let parsedBoard=[];
+        let row,column,i;
+        let line;
+        i=0;
+    
+        for (column = 0;column < 8;column++){
+            line=[];
+            row=0;
+            while(row !=8){
+              if (!(board[i] =='[' || board[i] ==',' || board[i] == ']')){
+              line.push(board[i]);
+              row++;
+            }
+            i++; 
+            }
+            parsedBoard.push(line);
+        }
+        return parsedBoard;
+      }
     }
 
 
 
-
-}

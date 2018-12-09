@@ -38,8 +38,12 @@ class XMLscene extends CGFscene {
 
     this.axis = new CGFaxis(this);
     this.view = [];
+    this.client = new Client();
+    this.client.getPrologRequest("handshake");
+    this.game= new Clobber(this);
+    this.game.getInitialBoard();
     this.setPickEnabled(true); 
-
+  
   }
 
   /**

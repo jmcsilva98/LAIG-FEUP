@@ -46,7 +46,7 @@ createBoard(){
     for(i = 0; i < this.dimZ ; i++){
         for(j = 0; j < this.dimX; j++){
             line[j]=new Cube(this.scene,j,i);
-            pieceLine[j]=new Piece(this.scene,j,i);
+            pieceLine[j]=new MyPiece(this.scene,j,i);
         }
         this.cells[i]=line;
         this.pieces[i]=pieceLine;
@@ -65,9 +65,9 @@ let material;
         this.scene.pushMatrix();
         this.scene.translate(j*this.distanceBetweenCells,0,i+zDistance);
         if ((j+i)%2==0){
-            this.black.apply();
+            this.white.apply();
         }
-        else this.white.apply();
+        else this.black.apply();
         this.scene.scale(1, 0.25, 1);
        this.cells[j][i].display();
         this.scene.popMatrix();
@@ -79,14 +79,14 @@ let material;
         id+=1;
         if(!this.pieces[j][i].isSelected){
         if ((j+i)%2==0){
-            material=this.white;
+            material=this.black;
         }
-        else material=this.black;
+        else material=this.white;
     }
     else if((j+i)%2==0)
-        material=this.selectedMaterialWhite;
+        material=this.selectedMaterialBlack;
     else
-    material=this.selectedMaterialBlack;
+    material=this.selectedMaterialWhite;
 
         this.pieces[j][i].display(material);
         this.scene.clearPickRegistration();
