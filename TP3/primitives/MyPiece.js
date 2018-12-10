@@ -1,6 +1,6 @@
 class MyPiece extends  CGFobject {
 
-constructor(scene, xPosition,zPosition){
+constructor(scene, xPosition,zPosition,type){
     super(scene);
     this.xPosition=xPosition;
     this.zPosition=zPosition;
@@ -10,6 +10,7 @@ constructor(scene, xPosition,zPosition){
     this.center= vec3.create(xPosition,0,zPosition);
     this.direction=0;
     this.time=0;
+    this.type=type;
     this.animation= new PieceAnimation(this.scene,this.center,180,this.direction);
 
 }

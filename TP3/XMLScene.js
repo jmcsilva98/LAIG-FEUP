@@ -42,6 +42,8 @@ class XMLscene extends CGFscene {
     this.client.getPrologRequest("handshake");
     this.game= new Clobber(this);
     this.game.getInitialBoard();
+    this.board=new Board(this,8,8);
+    //this.board.createBoard();
     this.setPickEnabled(true); 
   
   }

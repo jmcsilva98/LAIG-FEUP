@@ -24,6 +24,7 @@ class Clobber {
     };
     this.currentState = this.state.WAITING;
     this.previousState=this.state.WAITING;
+    this.board;
   }
 
   startGame(mode,level){
@@ -97,6 +98,10 @@ class Clobber {
             parsedBoard.push(line);
         }
         return parsedBoard;
+      }
+
+      getBoard(){
+        return this.board;
       }
     }
 
