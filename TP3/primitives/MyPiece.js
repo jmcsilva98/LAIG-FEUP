@@ -11,7 +11,7 @@ constructor(scene, xPosition,zPosition,type){
     this.direction=0;
     this.time=0;
     this.type=type;
-    this.animation= new PieceAnimation(this.scene,this.center,180,this.direction);
+    this.animation= new PieceAnimation(this.scene,this.center,180,-Math.PI/2);
 
 
 }

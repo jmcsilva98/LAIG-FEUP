@@ -50,7 +50,7 @@ class PieceAnimation {
     
     var identMatrix = mat4.create();
     mat4.translate(identMatrix,identMatrix, this.center);
-    mat4.rotate(identMatrix, identMatrix, Math.PI/2, [0,0,1]);
+    mat4.rotate(identMatrix, identMatrix, this.direction, [0,0,1]);
     mat4.rotate(identMatrix,identMatrix,-this.deltaAngle,[1,0,0]);
     mat4.translate(identMatrix,identMatrix, [this.center[0],this.radius,this.center[2]]);
     if (this.rotAngle > 0) mat4.rotate(identMatrix, identMatrix, Math.PI, [0, 1, 0]);
