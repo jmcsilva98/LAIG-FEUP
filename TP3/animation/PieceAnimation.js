@@ -24,8 +24,7 @@ class PieceAnimation {
     var deltaTime = (currentTime - this.currentTime);
     if(this.animationTime < deltaTime)
       deltaTime = this.animationTime;
-  
-  
+
   
     this.deltaAngle = this.initialAngle + this.rotAngle / this.animationTime * this.currentTime;
     this.currentTime+=deltaTime;

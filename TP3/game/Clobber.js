@@ -9,11 +9,12 @@ class Clobber {
       WAITING:0,
       CHOOSING_PIECE_TO_MOVE: 1,
       CHOOSING_NEW_CELL: 2,
-      DRAW_GAME:3,
-      WON_GAME:4,
-      EXIT_GAME:5,
-      MOVIE:6,
-      ERROR:7,
+      MOVE:3,
+      DRAW_GAME:4,
+      WON_GAME:5,
+      EXIT_GAME:6,
+      MOVIE:7,
+      ERROR:8,
     };
 
     this.mode ={
@@ -22,9 +23,14 @@ class Clobber {
       BOT_VS_PLAYER:3,
       BOT_VS_BOT:4,
     };
+    this.moves=[];
+    this.currentMove=0;
+    this.player=1;
+
     this.currentState = this.state.WAITING;
     this.previousState=this.state.WAITING;
-    this.board;
+    this.board=[];
+    this.pieceToMove;
   }
 
   startGame(mode,level){
@@ -73,9 +79,8 @@ class Clobber {
       this.scene.client.getPrologRequest('initialBoard',function(data){
         game.board=game.parseBoard(data.target.response);
         game.scene.isReady=1;  
+      game.currentState=game.state.CHOOSING_PIECE_TO_MOVE;
         console.log(game.board);
-        //game.validatePlay(0,1,0,0);
-        game.test();
       },function(data){
         console.log('connection error');
       });
@@ -141,33 +146,70 @@ class Clobber {
       getBoard(){
         return this.board;
       }
-    validatePlay(row,column,newRow,newColumn){
+
+    selectedPiece(row,column,piece){
+      console.log(row,column,this.currentState);
+      console.log(this.moves);
+      this.previousState=this.currentState;
+      switch(this.currentState){
+        case this.state.CHOOSING_PIECE_TO_MOVE:
+        this.saveFirstPosition(row,column,piece);
+        this.currentState= this.state.CHOOSING_NEW_CELL;
+        break;
+        case this.state.CHOOSING_NEW_CELL:
+        this.direction=this.calculateDirection(this.pieceToMove[0],this.pieceToMove[1],row,column);
+        this.executeMove(row,column,piece);
+        this.currentState=this.state.MOVE;
+        break;
+        default:
+      }
+    }
+
+    saveFirstPosition(row,column,piece){
+      this.pieceToMove=[row,column,piece];
+    }
+
+    executeMove(row,column,piece){
+      let game=this;
+      let board= game.parseBoardProlog();
+      var command="validate_move("+this.pieceToMove[0]+","+row+","+this.pieceToMove[1]+","+column+","+this.player+","+board+",0)";
     
-      let game=this;
-      let board= game.parseBoardProlog();
-      var command="validate_move("+row+","+newRow+","+column+","+newColumn+",1,"+board+",0)";
-      console.log(command);
+      console.log(this.direction);
       this.scene.client.getPrologRequest(command,function(data){
-        console.log(data.target.response)
+        game.board=game.parseBoard(data.target.response);
+        let move = new Move(game.pieceToMove,[row,column],game.player);
+        console.log('aa',game.board[row][column]);
+        piece.isSelected=false;
+        game.moves.push(move);
+        game.changePlayer();
+        game.currentState=game.state.CHOOSING_PIECE_TO_MOVE;
       },function(data){
         console.log('connection error');
       });
+    
 
     }
-    test(){
-      let game=this;
-      let board= game.parseBoardProlog();
-      let i=0;
-     let command="test("+i+")";
-      console.log(command);
-      this.scene.client.getPrologRequest(command,function(data){
-        console.log(data.target.response)
-      },function(data){
-        console.log('connection error');
-      });
+
+    changePlayer(){
+      if (this.player==1)
+          this.player=2;
+      else this.player=1;
+      console.log("It's time for player "+ this.player);
+    }
+    calculateDirection(row,column,newRow,newColumn){
+
+      if (column==newColumn){
+        if (row < newRow)
+        return Math.PI;
+        else return -Math.PI;
+      }
+      else if (column < newColumn)
+          return Math.PI/2;
+      else return -Math.PI/2;
 
     }
-    }
+}
+
 
 
 

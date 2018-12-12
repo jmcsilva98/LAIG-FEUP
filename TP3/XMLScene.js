@@ -159,6 +159,11 @@ let column,row;
           console.log("Picked object: " + obj + ", with ROW " + row + " AND COLUMN "+column);
           console.log(obj);
           obj.isSelected=true;
+          if (this.game.currentState == this.game.state.CHOOSING_NEW_CELL){
+            console.log(this.game.direction)
+            this.game.pieceToMove[2].direction = this.game.direction;
+          }
+          this.game.selectedPiece(row,column,obj);
 				} 
 			}
 			this.pickResults.splice(0,this.pickResults.length);
