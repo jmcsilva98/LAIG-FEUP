@@ -13,9 +13,10 @@ constructor(scene, xPosition,zPosition,type){
     this.type=type;
     this.animation= new PieceAnimation(this.scene,this.center,180,this.direction);
 
+
 }
 display(material){
-    
+ 
     if (this.isSelected){
         this.animation.update(this.time);
         this.time+=0.5;

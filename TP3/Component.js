@@ -80,12 +80,12 @@ class Component {
 
 		//Goes through all the children of the component that are primitives
     for (var i = 0; i < this.primitivesChildren.length; i++) {
-
+      if((this.primitivesChildren[i]=="board" && this.scene.isReady==1) || this.primitivesChildren[i] != "board"){
       this.graph.primitives[this.primitivesChildren[i]].updateTexCoords(currentS, currentT);
       this.graph.primitives[this.primitivesChildren[i]].display();
       this.scene.clearPickRegistration();
-
     }
+  }
     this.scene.popMatrix();
     this.scene.pushMatrix();
     this.scene.multMatrix(this.transformationMatrix);

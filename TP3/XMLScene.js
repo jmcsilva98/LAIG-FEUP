@@ -15,6 +15,7 @@ class XMLscene extends CGFscene {
     this.lightValues = {};
     this.index;
     this.axisOn = true;
+    this.isReady=0;
   }
 
   /**
@@ -42,8 +43,8 @@ class XMLscene extends CGFscene {
     this.client.getPrologRequest("handshake");
     this.game= new Clobber(this);
     this.game.getInitialBoard();
-    this.board=new Board(this,8,8);
-    //this.board.createBoard();
+    
+
     this.setPickEnabled(true); 
   
   }
@@ -155,11 +156,10 @@ let column,row;
           var id = this.pickResults[i][1]-1;	
           column= id % 8;
           row = Math.floor(id / 8);
-          obj.setTex
           console.log("Picked object: " + obj + ", with ROW " + row + " AND COLUMN "+column);
           console.log(obj);
           obj.isSelected=true;
-				}
+				} 
 			}
 			this.pickResults.splice(0,this.pickResults.length);
 		}		

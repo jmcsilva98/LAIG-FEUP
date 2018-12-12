@@ -113,7 +113,11 @@ print_header_line(_).
 parse_input(handshake, handshake).
 parse_input(test(C,N), Res) :- test(C,Res,N).
 parse_input(quit, goodbye).
-parse_input(initialBoard,Board):- finalBoard(AuxBoard),boardToNumbers(AuxBoard,Board),write(Board).
+parse_input(initialBoard,Board):- initialBoard(AuxBoard),boardToNumbers(AuxBoard,Board),write(Board).
+parse_input(validate_move(Row,NewRow,Column,NewColumn,Player,Board,BotPlayer),Answer):-
+											move(Row,NewRow,Column,NewColumn,Player,Board,NewBoard2,0,BotPlayer,0),
+											boardToNumbers(NewBoard2,Answer).
+parse_input(test(Board),Answer):- write(Board),Answer=Board.
 test(_,[],N) :- N =< 0.
 test(A,[A|Bs],N) :- N1 is N-1, test(A,Bs,N1).
 	

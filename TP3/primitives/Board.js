@@ -33,9 +33,9 @@ class Board extends  CGFobject {
     this.selectedMaterialBlack.setSpecular(1,0,0,1);
     this.selectedMaterialBlack.setShininess(0);
     this.selectedMaterialBlack.loadTexture("images/white.jpg");
-    this.distanceBetweenCells=1.2;
-
+    this.distanceBetweenCells=1.2;   
     this.createBoard();
+
 };
 
 
@@ -43,10 +43,14 @@ createBoard(){
     let i, j;
     let line=[];
     let pieceLine=[];
+    let position=0;
     for(i = 0; i < this.dimZ ; i++){
         for(j = 0; j < this.dimX; j++){
+            if ((i+j)%2==0)
+            position="1";
+            else position="2";
             line[j]=new Cube(this.scene,j,i);
-            pieceLine[j]=new MyPiece(this.scene,j,i,"1");//this.scene.game.board[i][j]);
+            pieceLine[j]=new MyPiece(this.scene,j,i,position);
         }
         this.cells[i]=line;
         this.pieces[i]=pieceLine;
@@ -74,21 +78,21 @@ let material;
         this.scene.pushMatrix();
         this.scene.translate(j*this.distanceBetweenCells,0,i+zDistance);
 
-        this.scene.registerForPick(id, this.pieces[j][i]);
+        this.scene.registerForPick(id, this.pieces[i][j]);
         
         id+=1;
-        if (this.scene.game.board[i][j]!=0){
-        if(!this.pieces[j][i].isSelected){
-        if (this.scene.game.board[j][i]=="2"){
+        if(this.scene.game.board[i][j] != 0){
+        if(!this.pieces[i][j].isSelected){
+        if (this.scene.game.board[i][j]=="2"){
             material=this.black;
         }
         else material=this.white;
     }
-    else if(this.scene.game.board[j][i]=="2")
+    else if(this.scene.game.board[i][j]=="2")
         material=this.selectedMaterialBlack;
     else
-    material=this.selectedMaterialWhite;
-        this.pieces[j][i].display(material);
+     material=this.selectedMaterialWhite;
+        this.pieces[i][j].display(material);
 }
         this.scene.clearPickRegistration();
         this.scene.popMatrix();

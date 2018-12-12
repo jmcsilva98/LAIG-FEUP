@@ -72,7 +72,10 @@ class Clobber {
       let game=this;
       this.scene.client.getPrologRequest('initialBoard',function(data){
         game.board=game.parseBoard(data.target.response);
+        game.scene.isReady=1;  
         console.log(game.board);
+        //game.validatePlay(0,1,0,0);
+        game.test();
       },function(data){
         console.log('connection error');
       });
@@ -99,10 +102,71 @@ class Clobber {
         }
         return parsedBoard;
       }
+ parseBoardProlog(){
+      var boardString = "";
+      boardString = boardString + "[";
+    
+      for (let i = 0; i < this.board.length; i++) {
+        boardString = boardString + "[";
+    
+        for (let j = 0; j < this.board[i].length; j++) {
+          let element;
+          switch (this.board[i][j]) {
+            case "0":
+              element = "empty";
+              break;
+            case "1":
+              element = "white";
+              break;
+            case "2":
+              element = "black";
+              break;
+            default:
+              break;
+          }
+          boardString = boardString + element;
+          if (j != this.board[i].length - 1) boardString = boardString + ",";
+        }
+    
+        boardString = boardString + "]";
+        if (i != this.board.length - 1) boardString = boardString + ",";
+      }
+    
+      boardString = boardString + "]";
+    
+      return boardString;
+    }
+    
 
       getBoard(){
         return this.board;
       }
+    validatePlay(row,column,newRow,newColumn){
+    
+      let game=this;
+      let board= game.parseBoardProlog();
+      var command="validate_move("+row+","+newRow+","+column+","+newColumn+",1,"+board+",0)";
+      console.log(command);
+      this.scene.client.getPrologRequest(command,function(data){
+        console.log(data.target.response)
+      },function(data){
+        console.log('connection error');
+      });
+
+    }
+    test(){
+      let game=this;
+      let board= game.parseBoardProlog();
+      let i=0;
+     let command="test("+i+")";
+      console.log(command);
+      this.scene.client.getPrologRequest(command,function(data){
+        console.log(data.target.response)
+      },function(data){
+        console.log('connection error');
+      });
+
+    }
     }
 
 
