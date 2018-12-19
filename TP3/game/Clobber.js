@@ -41,7 +41,7 @@ class Clobber {
 
       if(this.currentState==this.state.WAITING){
 
-        switch (gameMode) {
+        switch (mode) {
           case "Player vs Player":
             this.gameMode = this.mode.PLAYER_VS_PLAYER;
             break;
@@ -58,7 +58,7 @@ class Clobber {
             break;
         }
 
-        switch (gameLevel) {
+        switch (level) {
           case "Rookie":
             this.gameLevel = 0;
             break;
@@ -154,6 +154,7 @@ class Clobber {
     selectedPiece(row,column,piece){
       this.newPiece=piece;
       this.previousState=this.currentState;
+
       switch(this.currentState){
         case this.state.CHOOSING_PIECE_TO_MOVE:
         this.saveFirstPosition(row,column,piece);
@@ -170,6 +171,7 @@ class Clobber {
     saveFirstPosition(row,column,piece){
       this.pieceToMove=[row,column,piece];
     }
+
 
     executeMove(row,column){
       let game=this;
@@ -199,7 +201,23 @@ class Clobber {
       },function(data){
         console.log('connection error');
       });
+    
 
+    }
+
+    executeMoveBot(){
+      let game=this;
+      let board= game.parseBoardProlog();
+      var command="bot_move("+board+","+game.player+")";
+    
+      this.scene.client.getPrologRequest(command,function(data){
+  
+       
+       
+      },function(data){
+        console.log('connection error');
+      });
+    
 
     }
 
