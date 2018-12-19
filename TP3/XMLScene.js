@@ -190,15 +190,15 @@ let column,row;
   }
 
   quitGame(){
-
+    //CHAMAR QUIT GAME
 
   }
   undo(){
-
+    //CHAMAR UNDO
 
   }
   movie(){
-
+    //CHAMAR MOVIE
   }
 
   /**
@@ -217,6 +217,27 @@ let column,row;
     this.loadIdentity();
     this.logPicking();
     this.clearPickRegistration();
+
+
+    if(typeof this.game != "undefined"){
+      if(this.game.player == 1){
+        document.getElementById("player").innerText = "Player: White";
+        document.getElementById("timer").innerText = "Time Passed\n"+ this.game.whitePlayer.minutes + ":" + this.game.whitePlayer.seconds + "\n\n";
+        document.getElementById("score").innerText = "Score: " + this.game.whitePlayer.score + "\n";
+      }
+      else if(this.game.player == 2){
+        document.getElementById("player").innerText = "Player: Black";
+        document.getElementById("timer").innerText = "Time Passed\n"+ this.game.blackPlayer.minutes + ":" + this.game.blackPlayer.seconds + "\n\n";
+        document.getElementById("score").innerText = "Score: " + this.game.blackPlayer.score + "\n";
+      }
+
+      document.getElementById("info").innerText = this.info + "\n";
+      document.getElementById("error").innerText = this.error;
+
+
+    }
+    this.gl.viewport(0, 0, this.gl.canvas.width, this.gl.canvas.height);
+    this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
 
     // Apply transformations corresponding to the camera position relative to the origin
     this.applyViewMatrix();
