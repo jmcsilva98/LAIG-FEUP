@@ -22,6 +22,7 @@ display(material){
         if (this.animation.endOfAnimation){
              this.animating=false;
              this.time=0;
+             this.scene.game.endAnimation();
         }
         else{
         this.animation.update(this.time);
@@ -29,6 +30,7 @@ display(material){
         this.animationMatrix=this.animation.apply();
         }
     }
+
     this.scene.pushMatrix();
     this.scene.translate(0.4,0.5,0);
     this.scene.scale(0.4,0.25,0.4);

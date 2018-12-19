@@ -62,9 +62,7 @@ game_over(Board,X,7,Player):-
                             Y is 0,
                             game_over(Board,X1,Y,Player).
 /*quando chega ao final do tabuleiro*/
-game_over(Board,7,7,Player):-display_board(Board),
-                            write('Player '),write(Player),write(' won the game!!!\n').
-
+game_over(Board,7,7,Player).
 /*verificar se jogador(Player) ganhou*/
 game_over(Board, X,Y,Player):-
     player_piece(Player,Piece),

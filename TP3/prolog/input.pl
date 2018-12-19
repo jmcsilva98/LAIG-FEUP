@@ -90,9 +90,8 @@ move(Row,NewRow,Column,NewColumn,Player,Board,NewBoard2,Bot,BotPlayer,Difficulty
         replace_in_matrix(NewBoard,Row,Column,'empty',NewBoard2),
         show_positions(Row,NewRow,Column,NewColumn).
 
-move(Row,NewRow,Column,NewColumn,Player,Board,NewBoard2,Bot,BotPlayer,0) :-
-    write('Your new coordinates must be adjacent with actual position and you only can move your pieces!!\n'),
-    ask_new_position(Player,Board,NewBoard2,Bot,BotPlayer).
+move(Row,NewRow,Column,NewColumn,Player,Board,Board,Bot,BotPlayer,0) :-
+    write('Your new coordinates must be adjacent with actual position and you only can move your pieces!!\n').
 
 ask_new_position(Player,Board,NewBoard2,Bot,BotPlayer):-
         insert_row(Row),
@@ -111,5 +110,3 @@ show_positions(Row,NewRow,Column,NewColumn):-
                          write('MOVEMENT'),nl,
                          write('['), write(Row1), write(','),write(Column1),write(']'),nl,
                          write('['), write(Row2), write(','),write(Column2),write(']'),nl.
-
-                                        

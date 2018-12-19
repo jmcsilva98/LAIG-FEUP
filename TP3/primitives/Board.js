@@ -87,11 +87,13 @@ let material;
             material=this.black;
         }
         else material=this.white;
+       
     }
     else if(this.scene.game.board[i][j]=="2")
         material=this.selectedMaterialBlack;
-    else
+    else{
      material=this.selectedMaterialWhite;
+    }
         this.pieces[i][j].display(material);
 }
         this.scene.clearPickRegistration();

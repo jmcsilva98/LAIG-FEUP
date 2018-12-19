@@ -118,6 +118,8 @@ parse_input(validate_move(Row,NewRow,Column,NewColumn,Player,Board,BotPlayer),An
 											move(Row,NewRow,Column,NewColumn,Player,Board,NewBoard2,0,BotPlayer,0),
 											boardToNumbers(NewBoard2,Answer).
 parse_input(test(Board),Answer):- write(Board),Answer=Board.
+
+parse_input(game_over(Board,Player),Answer):- game_over(Board,0,0,Player),Answer is 1.
+parse_input(game_over(Board,Player),Answer):- \+game_over(Board,0,0,Player),Answer is 0.
 test(_,[],N) :- N =< 0.
 test(A,[A|Bs],N) :- N1 is N-1, test(A,Bs,N1).
-	
