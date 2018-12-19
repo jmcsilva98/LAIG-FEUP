@@ -71,10 +71,32 @@ class MyInterface extends CGFinterface {
     }
     addAxisGroup(){
         var group=this.gui.addFolder("Options");
-		group.open();
+		    group.open();
         group.add(this.scene, 'axisOn');
     }
-    
+
+    addGameModeGroup(){
+        var group = this.gui.addFolder("Game Settings");
+        group.open();
+        group.add(this.scene, "gameMode", ["Player vs Player", "Player vs Bot", "Bot vs Player", "Bot vs Bot"]).name("Game Mode");
+        group.add(this.scene, "gameDifficulty", ["Rookie", "Pro"]).name('Game Difficulty');
+        group.add(this.scene, "gameSwitchView").name('Switch View');
+    }
+
+
+    addMenuGroup(){
+
+      var group = this.gui.addFolder("Menu");
+      group.open();
+
+      group.add(this.scene, 'startGame').name('Start Game');
+      group.add(this.scene, 'quitGame').name('Quit Game');
+      group.add(this.scene, 'undo').name('Undo');
+      group.add(this.scene, 'movie').name('Movie');
+
+    }
+
+
     processKeyboard (event) {
         // call CGFinterface default code (omit if you want to override)
         CGFinterface.prototype.processKeyboard.call(this,event);
