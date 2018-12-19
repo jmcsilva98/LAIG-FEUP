@@ -1,5 +1,5 @@
 class Clobber {
-  
+
   constructor(scene){
     this.scene=scene;
     this.whitePlayer=new Player(this.scene,1);
@@ -57,7 +57,7 @@ class Clobber {
           default:
             break;
         }
-    
+
         switch (gameLevel) {
           case "Rookie":
             this.gameLevel = 0;
@@ -77,12 +77,12 @@ class Clobber {
         this.player=1;
         this.previousPlayer=this.player;
       }
-  
+
     getInitialBoard(){
       let game=this;
       this.scene.client.getPrologRequest('initialBoard',function(data){
         game.board=game.parseBoard(data.target.response);
-        game.scene.isReady=1;  
+        game.scene.isReady=1;
       game.currentState=game.state.CHOOSING_PIECE_TO_MOVE;
         console.log(game.board);
       },function(data){
@@ -96,7 +96,7 @@ class Clobber {
         let row,column,i;
         let line;
         i=0;
-    
+
         for (column = 0;column < 8;column++){
             line=[];
             row=0;
@@ -105,7 +105,7 @@ class Clobber {
               line.push(board[i]);
               row++;
             }
-            i++; 
+            i++;
             }
             parsedBoard.push(line);
         }
@@ -114,10 +114,10 @@ class Clobber {
  parseBoardProlog(){
       var boardString = "";
       boardString = boardString + "[";
-    
+
       for (let i = 0; i < this.board.length; i++) {
         boardString = boardString + "[";
-    
+
         for (let j = 0; j < this.board[i].length; j++) {
           let element;
           switch (this.board[i][j]) {
@@ -136,16 +136,16 @@ class Clobber {
           boardString = boardString + element;
           if (j != this.board[i].length - 1) boardString = boardString + ",";
         }
-    
+
         boardString = boardString + "]";
         if (i != this.board.length - 1) boardString = boardString + ",";
       }
-    
+
       boardString = boardString + "]";
-    
+
       return boardString;
     }
-    
+
 
       getBoard(){
         return this.board;
@@ -200,6 +200,7 @@ class Clobber {
         console.log('connection error');
       });
 
+
     }
 
     changePlayer(){
@@ -207,6 +208,20 @@ class Clobber {
           this.player=2;
       else this.player=1;
       console.log("It's time for player "+ this.player);
+    }
+
+    changeState(){
+
+    switch (this.currentState) {
+      case EXIT_GAME:
+        //ACABAR O JOGO
+        break;
+
+      default:
+
+    }
+
+
     }
     calculateDirection(row,column,newRow,newColumn){
 
@@ -248,6 +263,12 @@ endAnimation(){
 
 }
 
+    quitGame() {
+      if(this.currentState != this.state.MOVIE && this.currentState != this.state.WAITING){
+        this.currentState = this.state.EXIT_GAME;
+        this.changeState();
+      }
+    }
 
 gameOver(){
 

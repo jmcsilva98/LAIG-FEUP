@@ -16,6 +16,9 @@ class XMLscene extends CGFscene {
     this.index;
     this.axisOn = true;
     this.isReady=0;
+    this.gameMode = "Player vs Player";
+    this.gameDifficulty = "Rookie";
+    this.gameSwitchView = true;
   }
 
   /**
@@ -43,10 +46,10 @@ class XMLscene extends CGFscene {
     this.client.getPrologRequest("handshake");
     this.game= new Clobber(this);
     this.game.getInitialBoard();
-    
 
-    this.setPickEnabled(true); 
-  
+
+    this.setPickEnabled(true);
+
   }
 
   /**
@@ -122,6 +125,8 @@ class XMLscene extends CGFscene {
     this.index = this.graph.defaultView;
     this.interface.addViewsGroup(this.graph.views);
     this.interface.addAxisGroup();
+    this.interface.addGameModeGroup();
+    this.interface.addMenuGroup();
     this.camera = this.graph.views[this.graph.defaultView];
 
 
@@ -153,7 +158,7 @@ let column,row;
 				var obj = this.pickResults[i][0];
 				if (obj)
 				{
-          var id = this.pickResults[i][1]-1;	
+          var id = this.pickResults[i][1]-1;
           column= id % 8;
           row = Math.floor(id / 8);
           console.log("Picked object: " + obj + ", with ROW " + row + " AND COLUMN "+column);
@@ -164,16 +169,37 @@ let column,row;
             this.game.pieceToMove[2].direction = this.game.direction;
           }
           this.game.selectedPiece(row,column,obj);
-				} 
+				}
 			}
 			this.pickResults.splice(0,this.pickResults.length);
-		}		
+		}
 	}
   }
 
 
+  //MENU FUNCTIONS
+
+  startGame(){
+
+      if(this.gameMode == "Player vs Player"){
+        this.gameDifficulty = "Rookie";
+      }
+      console.log("Game Mode: " + this.gameMode);
+      console.log("Game Difficulty: " + this.gameDifficulty);
+      this.game.startGame(this.gameMode,this.gameDifficulty);
+  }
+
+  quitGame(){
 
 
+  }
+  undo(){
+
+
+  }
+  movie(){
+
+  }
 
   /**
    * Displays the scene.
@@ -201,6 +227,11 @@ let column,row;
       // Draw axis
       if (this.axisOn)
         this.axis.display();
+
+      //ADICIONAR FUNCAO PARA MUDAR A CAMARA
+      if(this.gameSwitchView){
+
+      }
 
       var i = 0;
       for (var key in this.lightValues) {
