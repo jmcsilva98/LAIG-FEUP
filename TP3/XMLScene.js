@@ -161,13 +161,9 @@ let column,row;
           var id = this.pickResults[i][1]-1;
           column= id % 8;
           row = Math.floor(id / 8);
-          console.log("Picked object: " + obj + ", with ROW " + row + " AND COLUMN "+column);
-          console.log(obj);
+          //console.log("Picked object: " + obj + ", with ROW " + row + " AND COLUMN "+column);
+          
           obj.isSelected=true;
-          if (this.game.currentState == this.game.state.CHOOSING_NEW_CELL){
-            console.log(this.game.direction)
-            this.game.pieceToMove[2].direction = this.game.direction;
-          }
           this.game.selectedPiece(row,column,obj);
 				}
 			}

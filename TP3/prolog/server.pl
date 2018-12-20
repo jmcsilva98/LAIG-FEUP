@@ -121,6 +121,6 @@ parse_input(test(Board),Answer):- write(Board),Answer=Board.
 
 parse_input(game_over(Board,Player),Answer):- game_over(Board,0,0,Player),Answer is 1.
 parse_input(game_over(Board,Player),Answer):- \+game_over(Board,0,0,Player),Answer is 0.
-parse_input(bot_move(Board,Player), Answer):- choose_move(Board)
+parse_input(bot_move(Board,Player), Answer):- choose_move(Player,Board,NewBoard2,BotPlayer1,BotPlayer2,1),boardToNumbers(NewBoard2,Answer).
 test(_,[],N) :- N =< 0.
 test(A,[A|Bs],N) :- N1 is N-1, test(A,Bs,N1).

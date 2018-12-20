@@ -154,7 +154,7 @@ class Clobber {
     selectedPiece(row,column,piece){
       this.newPiece=piece;
       this.previousState=this.currentState;
-
+      this.executeMoveBot();
       switch(this.currentState){
         case this.state.CHOOSING_PIECE_TO_MOVE:
         this.saveFirstPosition(row,column,piece);
@@ -162,9 +162,10 @@ class Clobber {
         break;
         case this.state.CHOOSING_NEW_CELL:
         this.direction=this.calculateDirection(this.pieceToMove[0],this.pieceToMove[1],row,column);
-        this.executeMove(row,column);
+        //this.executeMove(row,column);
         break;
         default:
+
       }
     }
 
@@ -208,12 +209,15 @@ class Clobber {
     executeMoveBot(){
       let game=this;
       let board= game.parseBoardProlog();
+
       var command="bot_move("+board+","+game.player+")";
     
       this.scene.client.getPrologRequest(command,function(data){
-  
-       
-       
+        let lastBoard = game.board;
+        game.newBoard =game.parseBoard(data.target.response);
+        let newMove= game.findMovement(lastBoard,game.newBoard);
+        console.log(newMove);
+        game.board=game.newBoard;
       },function(data){
         console.log('connection error');
       });
@@ -308,9 +312,23 @@ gameOver(){
    
   },function(data){
     console.log('connection error');
-  });
+  }); 
+}
 
-  
+findMovement(arr1,arr2){
+let firstPosition,secondPosition;
+  if (arr1.length !== arr2.length) return false;
+  for (var i = 0, len = arr1.length; i < len; i++){
+    for (var j =0,len1 =arr2.length;j<len1;j++){
+      if (arr1[i][j] !== arr2[i][j] && arr2[i][j] == 0){
+        firstPosition = [i,j];
+      }
+      else if (arr1[i][j] !== arr2[i][j])
+      secondPosition=[i,j];
+    }
+  }
+  return [firstPosition,secondPosition];
+
 }
 
 
