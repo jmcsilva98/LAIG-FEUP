@@ -16,6 +16,7 @@ class Clobber {
       EXIT_GAME:7,
       MOVIE:8,
       ERROR:9,
+      GAME_WON:11,
     };
 
     this.mode ={
@@ -35,6 +36,8 @@ class Clobber {
     this.pieceToMove;
     this.newPiece;
 
+    this.scene.info = "Please choose a Game Mode and Difficulty. Then press Start Game to play."
+    this.scene.error = "";
   }
 
   startGame(mode,level){
@@ -76,6 +79,7 @@ class Clobber {
         this.moves=[];
         this.player=1;
         this.previousPlayer=this.player;
+
       }
 
     getInitialBoard(){
@@ -87,6 +91,7 @@ class Clobber {
         console.log(game.board);
       },function(data){
         console.log('connection error');
+        this.scene.error("Connection Error: " + data.target.response);
       });
       }
 
@@ -178,16 +183,16 @@ class Clobber {
       let game=this;
       let board= game.parseBoardProlog();
       var command="validate_move("+this.pieceToMove[0]+","+row+","+this.pieceToMove[1]+","+column+","+this.player+","+board+",0)";
-    
+
       this.scene.client.getPrologRequest(command,function(data){
         let lastBoard = game.board;
         game.newBoard =game.parseBoard(data.target.response);
         let boardsAreEqual= game.arraysAreIdentical(lastBoard,game.newBoard);
-       
+
         if(boardsAreEqual){
-          game.pieceToMove[2].isSelected=false; 
-          game.currentState=game.state.CHOOSING_PIECE_TO_MOVE;  
-          game.newPiece.isSelected=false;      
+          game.pieceToMove[2].isSelected=false;
+          game.currentState=game.state.CHOOSING_PIECE_TO_MOVE;
+          game.newPiece.isSelected=false;
         }
         else{
         let move = new Move(game.pieceToMove,[row,column],game.player);
@@ -195,14 +200,15 @@ class Clobber {
         game.currentState=game.state.ANIMATION;
         game.pieceToMove[2].animating=true;
         game.pieceToMove[2].animation.direction=game.calculateDirection(game.pieceToMove[0],game.pieceToMove[1],row,column);
-        
+
       }
-       
-       
+
+
       },function(data){
         console.log('connection error');
+        this.scene.error = "Error: " + data.target.response;
       });
-    
+
 
     }
 
@@ -211,7 +217,7 @@ class Clobber {
       let board= game.parseBoardProlog();
 
       var command="bot_move("+board+","+game.player+")";
-    
+
       this.scene.client.getPrologRequest(command,function(data){
         let lastBoard = game.board;
         game.newBoard =game.parseBoard(data.target.response);
@@ -221,7 +227,7 @@ class Clobber {
       },function(data){
         console.log('connection error');
       });
-    
+
 
     }
 
@@ -232,19 +238,55 @@ class Clobber {
       console.log("It's time for player "+ this.player);
     }
 
+    updatePlayerScore(){
+      switch (this.player) {
+        case 1:
+          this.whitePlayer.incrementScore();
+          break;
+        case 1:
+          this.blacklayer.incrementScore();
+          break;
+        default:
+
+      }
+    }
+
     changeState(){
 
     switch (this.currentState) {
-      case EXIT_GAME:
-        //ACABAR O JOGO
+      case this.state.EXIT_GAME:
+        this.scene.info = "Leaving the game.";
         break;
-
+      case this.state.WAITING:
+        this.scene.info = "Waiting for play. A piece can only move to an adjacent (horizontal and vertical) cell that contains a piece of the other player";
+      break;
+      case this.state.CHOOSING_PIECE_TO_MOVE:
+        this.scene.info = "Select the piece you want to move.";
+      break;
+      case this.state.CHOOSING_NEW_CELL:
+        this.scene.info = "Select the cell you wish to move to. Only an adjacent cell with an opposite piece";
+      break;
+      case this.state.ANIMATION:
+        this.scene.info = "Moving piece";
+      break;
+      case this.state.MOVE:
+        this.scene.info = "Moving piece";
+      break;
+      case this.state.DRAW_GAME:
+        this.scene.info = "The game was a draw...";
+      break;
+      case this.state.GAME_OVER:
+        this.scene.info = "Game Over!!";
+      break;
+      case this.state.GAME_WON:
+        this.scene.info = "Game Won!!";
+      break;
       default:
 
     }
-
-
     }
+
+
     calculateDirection(row,column,newRow,newColumn){
 
       if (column==newColumn){
@@ -267,28 +309,28 @@ class Clobber {
           }
         }
       }
-      return true; 
+      return true;
   }
 
 endAnimation(){
-  
-  
+
+
   let game = this;
   game.pieceToMove[2].isSelected=false;
   game.newPiece.isSelected=false;
-  
+
   game.board = game.newBoard;
   game.gameOver();
 
- 
- 
+
+
 
 }
 
     quitGame() {
       if(this.currentState != this.state.MOVIE && this.currentState != this.state.WAITING){
         this.currentState = this.state.EXIT_GAME;
-        this.changeState();
+        game.changeState();
       }
     }
 
@@ -297,7 +339,7 @@ gameOver(){
   let game=this;
   let board= game.parseBoardProlog();
   var command="game_over("+board+","+this.player+")";
-    
+
   this.scene.client.getPrologRequest(command,function(data){
     let answer=data.target.response;
     console.log(answer);
@@ -307,9 +349,11 @@ gameOver(){
     }
     else  {
       game.changePlayer();
-      game.currentState=game.state.CHOOSING_PIECE_TO_MOVE;  
+      game.currentState=game.state.CHOOSING_PIECE_TO_MOVE;
     }
-   
+
+    this.changeState();
+
   },function(data){
     console.log('connection error');
   }); 
@@ -333,5 +377,3 @@ let firstPosition,secondPosition;
 
 
 }
-
-
