@@ -44,4 +44,5 @@ display(material){
 updateTexCoords (s, t) {
 
 };
+
 }

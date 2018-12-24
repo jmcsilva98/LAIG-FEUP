@@ -77,13 +77,16 @@ class Component {
 		//sets the texture and applies the material of the component
     this.graph.materials[currentMaterial].setTexture(this.graph.textures[currentTexture]);
     this.graph.materials[currentMaterial].apply();
-
+     
 		//Goes through all the children of the component that are primitives
     for (var i = 0; i < this.primitivesChildren.length; i++) {
       if((this.primitivesChildren[i]=="board" && this.scene.isReady==1) || this.primitivesChildren[i] != "board"){
       this.graph.primitives[this.primitivesChildren[i]].updateTexCoords(currentS, currentT);
       this.graph.primitives[this.primitivesChildren[i]].display();
       this.scene.clearPickRegistration();
+      if ((this.primitivesChildren[i]=="board" && this.scene.isReady==1)){
+            this.scene.board = this.graph.primitives[this.primitivesChildren[i]];
+      }
     }
   }
     this.scene.popMatrix();

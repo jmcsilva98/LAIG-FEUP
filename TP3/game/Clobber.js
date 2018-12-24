@@ -22,8 +22,7 @@ class Clobber {
     this.mode ={
       PLAYER_VS_PLAYER:1,
       PLAYER_VS_BOT:2,
-      BOT_VS_PLAYER:3,
-      BOT_VS_BOT:4,
+      BOT_VS_BOT:3,
     };
     this.moves=[];
     this.currentMove=0;
@@ -34,7 +33,14 @@ class Clobber {
     this.board=[];
     this.newBoard=[];
     this.pieceToMove;
-    this.newPiece;
+    this.nextPiece;
+
+    this.selectedMaterialWhite = new CGFappearance(this.scene);
+    this.selectedMaterialWhite.setAmbient(1,0.71,0.76,1);
+    this.selectedMaterialWhite.setDiffuse(1,0,0,1);
+    this.selectedMaterialWhite.setSpecular(1,0,0,1);
+    this.selectedMaterialWhite.setShininess(0);
+    this.selectedMaterialWhite.loadTexture("images/white.jpg");
 
     this.scene.info = "Please choose a Game Mode and Difficulty. Then press Start Game to play."
     this.scene.error = "";
@@ -43,16 +49,13 @@ class Clobber {
   startGame(mode,level){
 
       if(this.currentState==this.state.WAITING){
-
+        console.log(mode);
         switch (mode) {
           case "Player vs Player":
             this.gameMode = this.mode.PLAYER_VS_PLAYER;
             break;
           case "Player vs Bot":
             this.gameMode = this.mode.PLAYER_VS_BOT;
-            break;
-          case "Bot vs Player":
-            this.gameMode = this.mode.BOT_VS_PLAYER;
             break;
           case "Bot vs Bot":
             this.gameMode = this.mode.BOT_VS_BOT;
@@ -79,6 +82,8 @@ class Clobber {
         this.moves=[];
         this.player=1;
         this.previousPlayer=this.player;
+        this.currentState=this.state.CHOOSING_PIECE_TO_MOVE;
+       if (this.gameMode=="Bot vs Bot") this.executeMoveBot();
 
       }
 
@@ -87,11 +92,9 @@ class Clobber {
       this.scene.client.getPrologRequest('initialBoard',function(data){
         game.board=game.parseBoard(data.target.response);
         game.scene.isReady=1;
-      game.currentState=game.state.CHOOSING_PIECE_TO_MOVE;
-        console.log(game.board);
       },function(data){
         console.log('connection error');
-        this.scene.error("Connection Error: " + data.target.response);
+        //this.scene.error("Connection Error: " + data.target.response);
       });
       }
 
@@ -114,7 +117,9 @@ class Clobber {
             }
             parsedBoard.push(line);
         }
-        return parsedBoard;
+        
+     return parsedBoard;
+     
       }
  parseBoardProlog(){
       var boardString = "";
@@ -157,9 +162,8 @@ class Clobber {
       }
 
     selectedPiece(row,column,piece){
-      this.newPiece=piece;
+      this.nextPiece=piece;
       this.previousState=this.currentState;
-      this.executeMoveBot();
       switch(this.currentState){
         case this.state.CHOOSING_PIECE_TO_MOVE:
         this.saveFirstPosition(row,column,piece);
@@ -167,7 +171,7 @@ class Clobber {
         break;
         case this.state.CHOOSING_NEW_CELL:
         this.direction=this.calculateDirection(this.pieceToMove[0],this.pieceToMove[1],row,column);
-        //this.executeMove(row,column);
+        this.executeMove(row,column);
         break;
         default:
 
@@ -192,7 +196,7 @@ class Clobber {
         if(boardsAreEqual){
           game.pieceToMove[2].isSelected=false;
           game.currentState=game.state.CHOOSING_PIECE_TO_MOVE;
-          game.newPiece.isSelected=false;
+          game.nextPiece.isSelected=false;
         }
         else{
         let move = new Move(game.pieceToMove,[row,column],game.player);
@@ -222,8 +226,21 @@ class Clobber {
         let lastBoard = game.board;
         game.newBoard =game.parseBoard(data.target.response);
         let newMove= game.findMovement(lastBoard,game.newBoard);
-        console.log(newMove);
-        game.board=game.newBoard;
+
+        let firstPiece = game.scene.board.pieces[newMove[0][0]][newMove[0][1]];
+        game.pieceToMove[2]=firstPiece;
+        game.pieceToMove[2].isSelected=true;
+        let secondPiece = game.scene.board.pieces[newMove[1][0]][newMove[1][1]];
+        game.nextPiece=secondPiece;
+        game.nextPiece.isSelected=true;
+        let move = new Move(firstPiece,secondPiece,game.player);
+        game.moves.push(move);
+        game.currentState=game.state.ANIMATION;
+       game.pieceToMove[2].animating=true;
+       game.pieceToMove[2].animation.direction=game.calculateDirection(newMove[0][0],newMove[0][1],newMove[1][0],newMove[1][1]);
+
+        console.log(newMove[0],firstPiece);
+      
       },function(data){
         console.log('connection error');
       });
@@ -243,7 +260,7 @@ class Clobber {
         case 1:
           this.whitePlayer.incrementScore();
           break;
-        case 1:
+        case 2:
           this.blacklayer.incrementScore();
           break;
         default:
@@ -313,18 +330,15 @@ class Clobber {
   }
 
 endAnimation(){
-
-
   let game = this;
   game.pieceToMove[2].isSelected=false;
-  game.newPiece.isSelected=false;
-
+  game.nextPiece.isSelected=false;
   game.board = game.newBoard;
+  game.currentState=game.state.CHOOSING_PIECE_TO_MOVE;
+  console.log('first',game.player);
   game.gameOver();
-
-
-
-
+ 
+ 
 }
 
     quitGame() {
@@ -350,9 +364,12 @@ gameOver(){
     else  {
       game.changePlayer();
       game.currentState=game.state.CHOOSING_PIECE_TO_MOVE;
+      if(game.gameMode == 3 || (game.gameMode ==2 && game.player==2)){
+        game.executeMoveBot();
+      }
     }
 
-    this.changeState();
+    game.changeState();
 
   },function(data){
     console.log('connection error');
@@ -365,7 +382,8 @@ let firstPosition,secondPosition;
   for (var i = 0, len = arr1.length; i < len; i++){
     for (var j =0,len1 =arr2.length;j<len1;j++){
       if (arr1[i][j] !== arr2[i][j] && arr2[i][j] == 0){
-        firstPosition = [i,j];
+        firstPosition=[i,j];
+        this.saveFirstPosition(i,j,null);
       }
       else if (arr1[i][j] !== arr2[i][j])
       secondPosition=[i,j];

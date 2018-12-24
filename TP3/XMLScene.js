@@ -183,7 +183,7 @@ let column,row;
       console.log("Game Mode: " + this.gameMode);
       console.log("Game Difficulty: " + this.gameDifficulty);
       this.game.startGame(this.gameMode,this.gameDifficulty);
-  }
+    }
 
   quitGame(){
     //CHAMAR QUIT GAME
