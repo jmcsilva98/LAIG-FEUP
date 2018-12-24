@@ -83,7 +83,11 @@ class Clobber {
         this.player=1;
         this.previousPlayer=this.player;
         this.currentState=this.state.CHOOSING_PIECE_TO_MOVE;
-       if (this.gameMode=="Bot vs Bot") this.executeMoveBot();
+        console.log(this.gameMode)
+       if (this.gameMode==this.mode.BOT_VS_BOT){
+          console.log('gameMode');
+          this.executeMoveBot();
+        }
 
       }
 

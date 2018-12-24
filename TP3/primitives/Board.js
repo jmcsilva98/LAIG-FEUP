@@ -6,6 +6,15 @@ class Board extends  CGFobject {
     this.cells=[];
     this.pieces=[];
 
+    this.cellAppearance= new CGFappearance(this.scene);
+    this.cellAppearance.setAmbient(0.8,0.8,0.8,1);
+    this.cellAppearance.setDiffuse(1.0,1,1,1);
+    this.cellAppearance.setSpecular(1.0,1,1,1);
+    this.cellAppearance.setShininess(0);
+    this.cellAppearance.loadTexture("images/table.jpg");
+
+
+
     
     this.white = new CGFappearance(this.scene);
     this.white.setAmbient(1.0,1,1,1);
@@ -13,6 +22,7 @@ class Board extends  CGFobject {
     this.white.setSpecular(1.0,1,1,1);
     this.white.setShininess(0);
     this.white.loadTexture("images/white.jpg");
+
     this.black = new CGFappearance(this.scene);
     this.black.setAmbient(1.0,1,1,1);
     this.black.setDiffuse(1.0,1,1,1);
@@ -68,10 +78,7 @@ let material;
     for (j = 0; j < this.dimX;j++){
         this.scene.pushMatrix();
         this.scene.translate(j*this.distanceBetweenCells,0,i+zDistance);
-        if ((j+i)%2==0){
-            this.white.apply();
-        }
-        else this.black.apply();
+        this.cellAppearance.apply();
         this.scene.scale(1, 0.25, 1);
         this.cells[j][i].display();
         this.scene.popMatrix();
