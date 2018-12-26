@@ -191,7 +191,7 @@ let column,row;
 
   }
   undo(){
-    //CHAMAR UNDO
+  this.game.undo();
 
   }
   movie(){

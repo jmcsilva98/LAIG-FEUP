@@ -204,7 +204,7 @@ class Clobber {
           game.nextPiece.isSelected=false;
         }
         else{
-        let move = new Move(game.pieceToMove,[row,column],game.player);
+        let move = new Move(game.pieceToMove,[row,column],lastBoard,game.player);
         game.moves.push(move);
         game.currentState=game.state.ANIMATION;
         game.pieceToMove[2].animating=true;
@@ -238,7 +238,7 @@ class Clobber {
         let secondPiece = game.scene.board.pieces[newMove[1][0]][newMove[1][1]];
         game.nextPiece=secondPiece;
         game.nextPiece.isSelected=true;
-        let move = new Move(firstPiece,secondPiece,game.player);
+        let move = new Move(firstPiece,secondPiece,lastBoard,game.player);
         game.moves.push(move);
         game.currentState=game.state.ANIMATION;
        game.pieceToMove[2].animating=true;
@@ -340,7 +340,6 @@ endAnimation(){
   game.nextPiece.isSelected=false;
   game.board = game.newBoard;
   game.currentState=game.state.CHOOSING_PIECE_TO_MOVE;
-  console.log('first',game.player);
   game.gameOver();
  
  
@@ -396,6 +395,14 @@ let firstPosition,secondPosition;
   }
   return [firstPosition,secondPosition];
 
+}
+undo(){
+  let game = this;
+  console.log(game.board)
+  game.board = this.moves[this.moves.length-1].lastBoard;
+  //console.log(game.board);
+  game.player = this.moves[this.moves.length-1].player;
+  game.currentState=game.state.CHOOSING_PIECE_TO_MOVE;
 }
 
 

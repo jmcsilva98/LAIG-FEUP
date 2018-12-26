@@ -12,10 +12,7 @@ class Board extends  CGFobject {
     this.cellAppearance.setSpecular(1.0,1,1,1);
     this.cellAppearance.setShininess(0);
     this.cellAppearance.loadTexture("images/table.jpg");
-
-
-
-    
+ 
     this.white = new CGFappearance(this.scene);
     this.white.setAmbient(1.0,1,1,1);
     this.white.setDiffuse(1.0,1,1,1);
