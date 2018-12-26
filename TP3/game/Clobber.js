@@ -361,10 +361,10 @@ gameOver(){
 
   this.scene.client.getPrologRequest(command,function(data){
     let answer=data.target.response;
-    console.log(answer);
     if (answer==1){
    game.currentState = game.state.GAME_OVER;
-   console.log('GAME OVER',answer);
+   console.log('MOVES',game.moves);
+  
     }
     else  {
       game.changePlayer();
