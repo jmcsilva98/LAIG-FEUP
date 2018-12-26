@@ -42,7 +42,7 @@ class Clobber {
     this.selectedMaterialWhite.setShininess(0);
     this.selectedMaterialWhite.loadTexture("images/white.jpg");
 
-    this.scene.info = "Please choose a Game Mode and Difficulty. Then press Start Game to play."
+  //  this.scene.info = "Please choose a Game Mode and Difficulty. Then press Start Game to play."
     this.scene.error = "";
   }
 
@@ -121,9 +121,9 @@ class Clobber {
             }
             parsedBoard.push(line);
         }
-        
+
      return parsedBoard;
-     
+
       }
  parseBoardProlog(){
       var boardString = "";
@@ -245,7 +245,7 @@ class Clobber {
        game.pieceToMove[2].animation.direction=game.calculateDirection(newMove[0][0],newMove[0][1],newMove[1][0],newMove[1][1]);
 
         console.log(newMove[0],firstPiece);
-      
+
       },function(data){
         console.log('connection error');
       });
@@ -256,6 +256,8 @@ class Clobber {
     changePlayer(){
       if (this.player==1)
           this.player=2;
+          //mudar a camera
+          //set do tempo
       else this.player=1;
       console.log("It's time for player "+ this.player);
     }
@@ -273,11 +275,12 @@ class Clobber {
       }
     }
 
-    changeState(){
+    checkState(){
 
     switch (this.currentState) {
       case this.state.EXIT_GAME:
         this.scene.info = "Leaving the game.";
+        this.currentState = this.state.WAITING;
         break;
       case this.state.WAITING:
         this.scene.info = "Waiting for play. A piece can only move to an adjacent (horizontal and vertical) cell that contains a piece of the other player";
@@ -341,14 +344,14 @@ endAnimation(){
   game.board = game.newBoard;
   game.currentState=game.state.CHOOSING_PIECE_TO_MOVE;
   game.gameOver();
- 
- 
+
+
 }
 
     quitGame() {
       if(this.currentState != this.state.MOVIE && this.currentState != this.state.WAITING){
         this.currentState = this.state.EXIT_GAME;
-        game.changeState();
+
       }
     }
 
@@ -363,7 +366,7 @@ gameOver(){
     if (answer==1){
    game.currentState = game.state.GAME_OVER;
    console.log('MOVES',game.moves);
-  
+
     }
     else  {
       game.changePlayer();
@@ -373,11 +376,11 @@ gameOver(){
       }
     }
 
-    game.changeState();
+
 
   },function(data){
     console.log('connection error');
-  }); 
+  });
 }
 
 findMovement(arr1,arr2){

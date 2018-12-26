@@ -19,6 +19,7 @@ class XMLscene extends CGFscene {
     this.gameMode = "Player vs Player";
     this.gameDifficulty = "Rookie";
     this.gameSwitchView = true;
+    this.startedGame = false;
   }
 
   /**
@@ -163,7 +164,7 @@ let column,row;
           row = Math.floor(id / 8);
           //console.log("Picked object: " + obj + ", with ROW " + row + " AND COLUMN "+column);
           if (this.game.gameMode==1 || (this.game.gameMode==2 && this.game.player==1)){
-          
+
           this.game.selectedPiece(row,column,obj);
           }
 				}
@@ -183,12 +184,13 @@ let column,row;
       }
       console.log("Game Mode: " + this.gameMode);
       console.log("Game Difficulty: " + this.gameDifficulty);
+      this.startedGame = true;
       this.game.startGame(this.gameMode,this.gameDifficulty);
     }
 
   quitGame(){
     //CHAMAR QUIT GAME
-
+//  this.game.quitGame();
   }
   undo(){
   this.game.undo();
@@ -214,7 +216,7 @@ let column,row;
     this.loadIdentity();
     this.logPicking();
     this.clearPickRegistration();
-
+    this.game.checkState();
 
     if(typeof this.game != "undefined"){
       if(this.game.player == 1){
@@ -228,7 +230,10 @@ let column,row;
         document.getElementById("score").innerText = "Score: " + this.game.blackPlayer.score + "\n";
       }
 
-      document.getElementById("info").innerText = this.info + "\n";
+      if(!this.startedGame){
+        document.getElementById("info").innerText ="Please choose a Game Mode and Difficulty. Then press Start Game to play.\n";
+      }else
+        document.getElementById("info").innerText = this.info + "\n";
       document.getElementById("error").innerText = this.error;
 
 
