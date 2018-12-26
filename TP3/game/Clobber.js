@@ -397,12 +397,18 @@ let firstPosition,secondPosition;
 
 }
 undo(){
-  let game = this;
-  console.log(game.board)
-  game.board = this.moves[this.moves.length-1].lastBoard;
-  //console.log(game.board);
-  game.player = this.moves[this.moves.length-1].player;
-  game.currentState=game.state.CHOOSING_PIECE_TO_MOVE;
+  if(this.gameMode ==this.mode.PLAYER_VS_PLAYER){
+    if(this.currentState !==this.state.WAITING && this.currentState !== this.state.MOVIE){
+         let game = this;
+         let diff = game.findMovement(game.moves[this.moves.length-1].lastBoard,game.board);
+         let firstPiece = diff[0];
+         game.board = this.moves[this.moves.length-1].lastBoard;
+         game.scene.board.pieces[firstPiece[0]][firstPiece[1]] = new MyPiece(game.scene,firstPiece[1],firstPiece[0],this.moves[this.moves.length-1].player);
+         game.player = this.moves[this.moves.length-1].player;
+         game.currentState=game.state.CHOOSING_PIECE_TO_MOVE;
+   }
+
+}
 }
 
 
