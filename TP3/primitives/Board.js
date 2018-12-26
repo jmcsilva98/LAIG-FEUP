@@ -54,8 +54,8 @@ createBoard(){
     for(i = 0; i < this.dimZ ; i++){
         for(j = 0; j < this.dimX; j++){
             if ((i+j)%2==0)
-            position="1";
-            else position="2";
+            position="2";
+            else position="1";
             line[j]=new Cube(this.scene,j,i);
             pieceLine[j]=new MyPiece(this.scene,j,i,position);
         }
