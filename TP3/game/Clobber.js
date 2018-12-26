@@ -88,7 +88,7 @@ class Clobber {
           console.log('gameMode');
           this.executeMoveBot();
         }
-
+        this.setPlayTime();
       }
 
     getInitialBoard(){
@@ -208,6 +208,8 @@ class Clobber {
         game.moves.push(move);
         game.currentState=game.state.ANIMATION;
         game.pieceToMove[2].animating=true;
+        if(game.player == 1) game.whitePlayer.incrementScore();
+        else  game.blackPlayer.incrementScore();
         game.pieceToMove[2].animation.direction=game.calculateDirection(game.pieceToMove[0],game.pieceToMove[1],row,column);
 
       }
@@ -242,6 +244,8 @@ class Clobber {
         game.moves.push(move);
         game.currentState=game.state.ANIMATION;
        game.pieceToMove[2].animating=true;
+       if(game.player == 1) game.whitePlayer.incrementScore();
+       else  game.blackPlayer.incrementScore();
        game.pieceToMove[2].animation.direction=game.calculateDirection(newMove[0][0],newMove[0][1],newMove[1][0],newMove[1][1]);
 
         console.log(newMove[0],firstPiece);
@@ -253,12 +257,68 @@ class Clobber {
 
     }
 
+    setPlayTime(){
+
+      switch (this.player) {
+        case 1:
+          this.blackPlayer.stopCounter();
+          this.whitePlayer.restartTime();
+
+          this.whitePlayer.beginCounter();
+          break;
+        case 2:
+          this.whitePlayer.stopCounter();
+          this.blackPlayer.restartTime();
+          this.blackPlayer.beginCounter();
+          break;
+        default:
+
+      }
+
+  }
+
+  checkPlayTime(){
+    //acrescentar condicoes
+    this.getPlayDecrementTime();
+  }
+
+  getPlayDecrementTime(){
+    switch (this.player) {
+      case 1:
+        this.playTime = this.whitePlayer.totalTimeSeconds;
+        break;
+      case 2:
+        this.playTime = this.blackPlayer.totalTimeSeconds;
+        break;
+      default:
+
+    }
+  }
+
+  stopAllTimes(){
+    this.whitePlayer.stopCounter();
+    this.blackPlayer.stopCounter();
+    this.whitePlayer.restartTime();
+    this.blackPlayer.restartTime();
+  }
+
+
+
+
+
     changePlayer(){
-      if (this.player==1)
+      if (this.player==1){
           this.player=2;
           //mudar a camera
           //set do tempo
-      else this.player=1;
+          console.log("TIME   Min: " + this.whitePlayer.minutes + "\n");
+          console.log("TIME  sec: " + this.whitePlayer.seconds );
+          this.setPlayTime();
+        }
+      else {
+        this.player=1;
+        this.setPlayTime();
+      }
       console.log("It's time for player "+ this.player);
     }
 
@@ -268,7 +328,7 @@ class Clobber {
           this.whitePlayer.incrementScore();
           break;
         case 2:
-          this.blacklayer.incrementScore();
+          this.blackPlayer.incrementScore();
           break;
         default:
 
@@ -299,12 +359,15 @@ class Clobber {
       break;
       case this.state.DRAW_GAME:
         this.scene.info = "The game was a draw...";
+        this.stopAllTimes();
       break;
       case this.state.GAME_OVER:
         this.scene.info = "Game Over!!";
+        this.stopAllTimes();
       break;
       case this.state.GAME_WON:
         this.scene.info = "Game Won!!";
+        this.stopAllTimes();
       break;
       default:
 

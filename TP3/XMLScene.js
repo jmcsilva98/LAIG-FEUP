@@ -232,8 +232,9 @@ let column,row;
 
       if(!this.startedGame){
         document.getElementById("info").innerText ="Please choose a Game Mode and Difficulty. Then press Start Game to play.\n";
-      }else
+      }else{
         document.getElementById("info").innerText = this.info + "\n";
+      }
       document.getElementById("error").innerText = this.error;
 
 
