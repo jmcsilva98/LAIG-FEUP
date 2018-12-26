@@ -162,9 +162,10 @@ let column,row;
           column= id % 8;
           row = Math.floor(id / 8);
           //console.log("Picked object: " + obj + ", with ROW " + row + " AND COLUMN "+column);
+          if (this.game.gameMode==1 || (this.game.gameMode==2 && this.game.player==1)){
           
-          obj.isSelected=true;
           this.game.selectedPiece(row,column,obj);
+          }
 				}
 			}
 			this.pickResults.splice(0,this.pickResults.length);

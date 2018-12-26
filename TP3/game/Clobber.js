@@ -66,10 +66,10 @@ class Clobber {
 
         switch (level) {
           case "Rookie":
-            this.gameLevel = 0;
+            this.gameLevel = 1;
             break;
           case "Pro":
-            this.gameLevel = 1;
+            this.gameLevel = 2;
             break;
           default:
             break;
@@ -166,6 +166,7 @@ class Clobber {
       }
 
     selectedPiece(row,column,piece){
+      piece.isSelected=true;
       this.nextPiece=piece;
       this.previousState=this.currentState;
       switch(this.currentState){
@@ -224,7 +225,7 @@ class Clobber {
       let game=this;
       let board= game.parseBoardProlog();
 
-      var command="bot_move("+board+","+game.player+")";
+      var command="bot_move("+board+","+game.player+","+game.gameLevel+")";
 
       this.scene.client.getPrologRequest(command,function(data){
         let lastBoard = game.board;
