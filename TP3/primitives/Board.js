@@ -42,6 +42,7 @@ class Board extends  CGFobject {
     this.selectedMaterialBlack.loadTexture("images/white.jpg");
     this.distanceBetweenCells=1.2;   
     this.createBoard();
+    console.log(this.pieces);
 
 };
 

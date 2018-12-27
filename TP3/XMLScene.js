@@ -163,6 +163,7 @@ let column,row;
           column= id % 8;
           row = Math.floor(id / 8);
           //console.log("Picked object: " + obj + ", with ROW " + row + " AND COLUMN "+column);
+          if (this.game.currentState == this.game.state.CHOOSING_PIECE_TO_MOVE ||this.game.currentState == this.game.state.CHOOSING_NEW_CELL)
           if (this.game.gameMode==1 || (this.game.gameMode==2 && this.game.player==1)){
 
           this.game.selectedPiece(row,column,obj);
@@ -179,6 +180,8 @@ let column,row;
 
   startGame(){
 
+    
+
       if(this.gameMode == "Player vs Player"){
         this.gameDifficulty = "Rookie";
       }
@@ -189,8 +192,8 @@ let column,row;
     }
 
   quitGame(){
-    //CHAMAR QUIT GAME
-//  this.game.quitGame();
+
+  this.game.quitGame();
   }
   undo(){
   this.game.undo();
