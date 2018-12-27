@@ -201,7 +201,7 @@ class Clobber {
           game.nextPiece.isSelected=false;
         }
         else{
-        let move = new Move(game.pieceToMove,[row,column],lastBoard,game.player);
+       let move = new Move(game.pieceToMove,[row,column],lastBoard,game.player);
         game.moves.push(move);
         game.currentState=game.state.ANIMATION;
         game.pieceToMove[2].animating=true;
@@ -478,19 +478,26 @@ undo(){
 movie(){
 
   if (this.moves.length > 0){
+    console.log(this.moves);
     let game=this;
+    let finalBoard = game.board;
+    console.log(finalBoard);
     this.restartBoard();
     this.currentState=this.state.MOVIE;
-    for (let i=0; i<this.moves.length-1;i++){
-      setTimeout(function(){ game.movieMove(i);}, 2000*i);
+    for (let i=0; i<this.moves.length;i++){
+      setTimeout(function(){ game.movieMove(i,finalBoard);}, 2000*i);
     }
 
     setTimeout(function(){ game.currentState = game.state.WAITING;}, 2000*game.moves.length);
 }
 }
-  movieMove(i){
+  movieMove(i,finalBoard){
+    //console.log(i,i+1,this.moves.length);
     let firstBoard= this.moves[i].lastBoard;
-    let secondBoard=this.moves[i+1].lastBoard;
+    let secondBoard;
+    let movesLength = i+1;
+    if (movesLength==this.moves.length) secondBoard = finalBoard;
+    else  secondBoard=this.moves[i+1].lastBoard;
     let game = this;
     game.newBoard=secondBoard;
     let newMove= this.findMovement(firstBoard,secondBoard);
