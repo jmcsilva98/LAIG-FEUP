@@ -181,14 +181,14 @@ let column,row;
   startGame(){
 
       if(this.gameMode == "Player vs Player"){
-        this.gameDifficulty = "Rookie";    
+        this.gameDifficulty = "Rookie";
       }else {
         this.gameSwitchView = false;
       }
       console.log("Game Mode: " + this.gameMode);
       console.log("Game Difficulty: " + this.gameDifficulty);
       this.startedGame = true;
-      this.gameCamera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(0,35,15), vec3.fromValues(0, 0, 0));
+      this.gameCamera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(0,35,5), vec3.fromValues(0, 0, 0));
       this.camera = this.gameCamera;
       this.game.startGame(this.gameMode,this.gameDifficulty);
     }

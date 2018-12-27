@@ -6,7 +6,7 @@ class Player extends CGFobject{
     this.seconds = "00";
     this.score = 0;
     this.addTime = true;
-    this.setPlayer();
+  this.setPlayer();
 
   }
 
@@ -14,11 +14,11 @@ class Player extends CGFobject{
 
     if (this.playerId==1){
        this.color="white";
-       this.playerPos = vec3.fromValues(0, 35,5);
+       this.playerPos = vec3.fromValues(0, 35, 5);
     }
     else{
        this.color="black";
-       this.playerPos = vec3.fromValues(0, 35,-5);
+       this.playerPos =vec3.fromValues(0, 35, -5);
     }
   }
 
