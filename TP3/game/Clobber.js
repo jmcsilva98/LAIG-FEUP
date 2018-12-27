@@ -42,8 +42,11 @@ class Clobber {
     this.selectedMaterialWhite.setShininess(0);
     this.selectedMaterialWhite.loadTexture("images/white.jpg");
 
+    this.normalCamera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(0,35,15), vec3.fromValues(0, 0, 0));
+    this.rotateCamera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(0, 0, 0), vec3.fromValues(0, 15, 0));
   //  this.scene.info = "Please choose a Game Mode and Difficulty. Then press Start Game to play."
     this.scene.error = "";
+    //this.scene.camera = this.normalCamera;
   }
 
   startGame(mode,level){
@@ -89,6 +92,7 @@ class Clobber {
           this.executeMoveBot();
         }
         this.setPlayTime();
+        this.setGameView();
       }
 
     getInitialBoard(){
@@ -302,21 +306,44 @@ class Clobber {
     this.blackPlayer.restartTime();
   }
 
+  setGameView(){
+    if(this.scene.gameSwitchView){
+      if(this.player == 0 || this.player == 1){
+        this.rotateCamera.setPosition(this.whitePlayer.playerPos);
+      }else   this.rotateCamera.setPosition(this.blackPlayer.playerPos);
 
+      console.log("AQUI");
+      console.log("\ncamera antes " + this.scene.camera);
+      this.rotateCamera.zoom(2);
+      this.scene.camera = this.rotateCamera;
+      console.log("\ncamera depois " + this.scene.camera);
+    }
+    else{
+      this.scene.camera = this.normalCamera;
+      console.log("\ncamera sem switch " + this.scene.camera);
+    }
+  }
+
+  rotateView(){
+    if(this.scene.gameSwitchView){
+      this.scene.viewRotEnabled = true;
+      this.scene.viewRotAngle = Math.PI;
+    }
+  }
 
 
 
     changePlayer(){
       if (this.player==1){
           this.player=2;
-          //mudar a camera
-          //set do tempo
           console.log("TIME   Min: " + this.whitePlayer.minutes + "\n");
           console.log("TIME  sec: " + this.whitePlayer.seconds );
+          this.rotateView();
           this.setPlayTime();
         }
       else {
         this.player=1;
+        this.rotateView();
         this.setPlayTime();
       }
       console.log("It's time for player "+ this.player);

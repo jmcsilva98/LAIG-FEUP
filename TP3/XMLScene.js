@@ -20,6 +20,7 @@ class XMLscene extends CGFscene {
     this.gameDifficulty = "Rookie";
     this.gameSwitchView = true;
     this.startedGame = false;
+
   }
 
   /**
@@ -30,7 +31,8 @@ class XMLscene extends CGFscene {
     super.init(application);
 
     this.sceneInited = false;
-
+    this.viewRotAngle;
+    this.viewRotEnabled = false;
 
     this.initCameras();
 
@@ -126,10 +128,9 @@ class XMLscene extends CGFscene {
     this.index = this.graph.defaultView;
     this.interface.addViewsGroup(this.graph.views);
     this.interface.addAxisGroup();
-    this.interface.addGameModeGroup();
+    this.interface.addGameModeGroup(this.game);
     this.interface.addMenuGroup();
     this.camera = this.graph.views[this.graph.defaultView];
-
 
     this.sceneInited = true;
   }
@@ -185,6 +186,8 @@ let column,row;
       console.log("Game Mode: " + this.gameMode);
       console.log("Game Difficulty: " + this.gameDifficulty);
       this.startedGame = true;
+      this.gameCamera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(0,35,15), vec3.fromValues(0, 0, 0));
+      this.camera = this.gameCamera;
       this.game.startGame(this.gameMode,this.gameDifficulty);
     }
 
@@ -198,6 +201,10 @@ let column,row;
   }
   movie(){
     //CHAMAR MOVIE
+  }
+
+  update(deltaTime){
+
   }
 
   /**
@@ -238,6 +245,17 @@ let column,row;
       document.getElementById("error").innerText = this.error;
 
 
+    }
+
+    if(this.viewRotEnabled){
+      let angle = Math.PI * 0.01;
+      console.log("\nangle " + angle);
+      this.viewRotAngle -= angle;
+      console.log("\nROT angle " + this.viewRotAngle);
+      if(this.viewRotAngle < 0){
+        this.viewRotEnabled = false;
+        this.game.setGameView();
+      } else this.camera.orbit(vec3.fromValues(0, 1, 0), angle);
     }
     this.gl.viewport(0, 0, this.gl.canvas.width, this.gl.canvas.height);
     this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);

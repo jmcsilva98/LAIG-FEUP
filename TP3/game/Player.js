@@ -11,8 +11,14 @@ class Player extends CGFobject{
 
   setPlayer(){
 
-    if (this.playerId==1) this.color="white";
-    else    this.color="black";
+    if (this.playerId==1){
+       this.color="white";
+       this.playerPos = vec3.fromValues(0, 35,15);
+    }
+    else{
+       this.color="black";
+       this.playerPos = vec3.fromValues(0, 35,-15);
+    }
   }
 
   incrementScore(){ this.score = this.score + 2;}

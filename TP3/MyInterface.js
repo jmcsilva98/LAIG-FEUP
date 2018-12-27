@@ -75,12 +75,16 @@ class MyInterface extends CGFinterface {
         group.add(this.scene, 'axisOn');
     }
 
-    addGameModeGroup(){
+    addGameModeGroup(game){
         var group = this.gui.addFolder("Game Settings");
         group.open();
         group.add(this.scene, "gameMode", ["Player vs Player", "Player vs Bot", "Bot vs Player", "Bot vs Bot"]).name("Game Mode");
         group.add(this.scene, "gameDifficulty", ["Rookie", "Pro"]).name('Game Difficulty');
-        group.add(this.scene, "gameSwitchView").name('Switch View');
+        let aux =  group.add(this.scene, "gameSwitchView").name('Switch View');
+
+      aux.onChange(function(){
+        game.setGameView();
+      });
     }
 
 
