@@ -85,10 +85,11 @@ class Clobber {
         this.player=1;
         this.previousPlayer=this.player;
         this.currentState=this.state.CHOOSING_PIECE_TO_MOVE;
-       if (this.gameMode==this.mode.BOT_VS_BOT){      
+       if (this.gameMode==this.mode.BOT_VS_BOT){
           this.executeMoveBot();
         }
         this.setPlayTime();
+        this.restartScore();
         this.setGameView();
       }
 
@@ -300,6 +301,10 @@ class Clobber {
     this.blackPlayer.restartTime();
   }
 
+  restartScore(){
+      this.whitePlayer.score = 0;
+      this.blackPlayer.score = 0;
+  }
   setGameView(){
     if(this.scene.gameSwitchView){
       if(this.player == 0 || this.player == 1){
@@ -319,10 +324,12 @@ class Clobber {
   }
 
   rotateView(){
+
     if(this.scene.gameSwitchView){
-      this.scene.viewRotEnabled = true;
-      this.scene.viewRotAngle = Math.PI;
-    }
+     this.scene.viewRotEnabled = true;
+     this.scene.viewRotAngle = Math.PI;
+   }
+
   }
 
 
@@ -330,8 +337,6 @@ class Clobber {
     changePlayer(){
       if (this.player==1){
           this.player=2;
-          console.log("TIME   Min: " + this.whitePlayer.minutes + "\n");
-          console.log("TIME  sec: " + this.whitePlayer.seconds );
           this.rotateView();
           this.setPlayTime();
         }
@@ -358,6 +363,7 @@ class Clobber {
 
     checkState(){
 
+
     switch (this.currentState) {
       case this.state.EXIT_GAME:
         this.scene.info = "Leaving the game.";
@@ -379,16 +385,27 @@ class Clobber {
         this.scene.info = "Moving piece";
       break;
       case this.state.DRAW_GAME:
-        this.scene.info = "The game was a draw...";
+        this.scene.info = "The game was a draw... \n\nTo restart the game please press Quit Game and then Start Game";
         this.stopAllTimes();
       break;
       case this.state.GAME_OVER:
-        this.scene.info = "Game Over!!";
-        this.stopAllTimes();
+        if(this.whitePlayer.score == this.blackPlayer.score) {
+          this.currentState = this.state.DRAW_GAME;
+          checkState();
+        }
+        else if(this.whitePlayer.score > this.blackPlayer.score && this.player == 1)
+          this.scene.info = "Game Over! You won with " + this.whitePlayer.score + " points while the other player has " + this.blackPlayer.score + " points.\n\nTo restart the game please press Quit Game and then Start Game";
+        else if(this.whitePlayer.score < this.blackPlayer.score && this.player == 1)
+          this.scene.info = "Game Over! You lost with " + this.whitePlayer.score + " points... the winner has " + this.blackPlayer.score + " points.\n\nTo restart the game please press Quit Game and then Start Game";
+        else if(this.whitePlayer.score > this.blackPlayer.score && this.player == 2)
+          this.scene.info = "Game Over! You lost with " + this.blackPlayer.score + " points... the winner has " + this.whitePlayer.score + " points.\n\nTo restart the game please press Quit Game and then Start Game";
+        else
+          this.scene.info = "Game Over! You won with " + this.blackPlayer.score + " points while the other player has " + this.whitePlayer.score + " points.\n\nTo restart the game please press Quit Game and then Start Game";
+          this.stopAllTimes();
       break;
       case this.state.MOVIE:
-      this.scene.info = "Game film";
-      this.stopAllTimes();
+        this.scene.info = "Game film";
+        this.stopAllTimes();
       break;
       default:
 
@@ -433,10 +450,12 @@ endAnimation(){
 }
 
     quitGame() {
-      
+
       if(this.currentState != this.state.MOVIE && this.currentState != this.state.WAITING){
         this.currentState = this.state.EXIT_GAME;
         this.restartBoard();
+        this.stopAllTimes();
+        this.restartScore();
         this.scene.startedGame=false;
 
       }
@@ -540,4 +559,3 @@ movie(){
 
 
 }
-
