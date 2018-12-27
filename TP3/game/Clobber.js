@@ -307,6 +307,7 @@ class Clobber {
   }
   setGameView(){
     if(this.scene.gameSwitchView){
+      console.log(this.whitePlayer.playerPos);
       if(this.player == 0 || this.player == 1){
         this.rotateCamera.setPosition(this.whitePlayer.playerPos);
       }else   this.rotateCamera.setPosition(this.blackPlayer.playerPos);
