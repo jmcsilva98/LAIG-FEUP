@@ -180,10 +180,12 @@ let column,row;
 
   startGame(){
 
-    
+
 
       if(this.gameMode == "Player vs Player"){
         this.gameDifficulty = "Rookie";
+      }else{
+        this.gameSwitchView = false;
       }
       console.log("Game Mode: " + this.gameMode);
       console.log("Game Difficulty: " + this.gameDifficulty);
