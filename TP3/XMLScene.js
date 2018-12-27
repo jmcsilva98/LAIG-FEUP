@@ -162,7 +162,6 @@ let column,row;
           var id = this.pickResults[i][1]-1;
           column= id % 8;
           row = Math.floor(id / 8);
-          //console.log("Picked object: " + obj + ", with ROW " + row + " AND COLUMN "+column);
           if (this.game.currentState == this.game.state.CHOOSING_PIECE_TO_MOVE ||this.game.currentState == this.game.state.CHOOSING_NEW_CELL)
           if (this.game.gameMode==1 || (this.game.gameMode==2 && this.game.player==1)){
 
@@ -200,7 +199,8 @@ let column,row;
 
   }
   movie(){
-    //CHAMAR MOVIE
+    
+    this.game.movie();
   }
 
   /**

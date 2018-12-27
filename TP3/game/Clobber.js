@@ -83,9 +83,7 @@ class Clobber {
         this.player=1;
         this.previousPlayer=this.player;
         this.currentState=this.state.CHOOSING_PIECE_TO_MOVE;
-        console.log(this.gameMode)
-       if (this.gameMode==this.mode.BOT_VS_BOT){
-          console.log('gameMode');
+       if (this.gameMode==this.mode.BOT_VS_BOT){      
           this.executeMoveBot();
         }
         this.setPlayTime();
@@ -226,7 +224,6 @@ class Clobber {
     executeMoveBot(){
       let game=this;
       let board= game.parseBoardProlog();
-
       var command="bot_move("+board+","+game.player+","+game.gameLevel+")";
 
       this.scene.client.getPrologRequest(command,function(data){
@@ -247,8 +244,6 @@ class Clobber {
        if(game.player == 1) game.whitePlayer.incrementScore();
        else  game.blackPlayer.incrementScore();
        game.pieceToMove[2].animation.direction=game.calculateDirection(newMove[0][0],newMove[0][1],newMove[1][0],newMove[1][1]);
-
-        console.log(newMove[0],firstPiece);
 
       },function(data){
         console.log('connection error');
@@ -405,8 +400,11 @@ endAnimation(){
   game.pieceToMove[2].isSelected=false;
   game.nextPiece.isSelected=false;
   game.board = game.newBoard;
+  if (game.currentState != game.state.MOVIE){
   game.currentState=game.state.CHOOSING_PIECE_TO_MOVE;
   game.gameOver();
+  console.log('diferente de movie')
+  }
 
 
 }
@@ -415,13 +413,15 @@ endAnimation(){
       
       if(this.currentState != this.state.MOVIE && this.currentState != this.state.WAITING){
         this.currentState = this.state.EXIT_GAME;
-        this.getInitialBoard();
-        this.scene.board.createBoard();
+        this.restartBoard();
         this.scene.startedGame=false;
 
       }
     }
-
+restartBoard(){
+  this.getInitialBoard();
+  this.scene.board.createBoard();
+}
 gameOver(){
 
   let game=this;
@@ -483,5 +483,36 @@ undo(){
    }
 }
 
+movie(){
+  let i;
+  let game=this;
+  if (this.moves.length > 0){
+    this.restartBoard();
+    game.currentState=this.state.MOVIE;
+    for (i=0; i<this.moves.length-2;i++){
+     
+      setTimeout(function(){ this.movieMove(this.moves[i].lastBoard,this.moves[i+1].lastBoard);
+                             console.log('aqui');
+                             console.log(this.moves.length,i);
+                            }.bind(this), 5000*i);
+    }
+  setTimeout(function(){ this.currentState = this.state.WAITING_FOR_START;}.bind(this), 5000*this.moves.length);
+}
+}
+  movieMove(firstBoard,secondBoard){
+    let game = this;
+    game.newBoard=secondBoard;
+    let newMove= this.findMovement(firstBoard,secondBoard);
+    let firstPiece = game.scene.board.pieces[newMove[0][0]][newMove[0][1]];
+    game.pieceToMove[2]=firstPiece;
+    game.pieceToMove[2].isSelected=true;
+    let secondPiece = game.scene.board.pieces[newMove[1][0]][newMove[1][1]];
+    game.nextPiece=secondPiece;
+    game.nextPiece.isSelected=true;
+    game.pieceToMove[2].animating=true;
+    game.pieceToMove[2].animation.direction=game.calculateDirection(newMove[0][0],newMove[0][1],newMove[1][0],newMove[1][1]);
+  }
+
 
 }
+
