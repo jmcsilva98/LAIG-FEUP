@@ -392,7 +392,7 @@ class Clobber {
       case this.state.GAME_OVER:
         if(this.whitePlayer.score == this.blackPlayer.score) {
           this.currentState = this.state.DRAW_GAME;
-          checkState();
+          this.checkState();
         }
         else if(this.whitePlayer.score > this.blackPlayer.score && this.player == 1)
           this.scene.info = "Game Over! You won with " + this.whitePlayer.score + " points while the other player has " + this.blackPlayer.score + " points.\n\nTo restart the game please press Quit Game and then Start Game";

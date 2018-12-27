@@ -4,7 +4,7 @@ constructor(scene, xPosition,zPosition,type){
     super(scene);
     this.xPosition=xPosition;
     this.zPosition=zPosition;
-    this.piece=new MyCylinder(this.scene,1,1,1,20,8);
+    this.piece=new MyCylinder(this.scene,1,1,4,6,8);
     this.isSelected=false;
     this.animationMatrix=mat4.create();
     this.center= vec3.create(xPosition,0,zPosition);
