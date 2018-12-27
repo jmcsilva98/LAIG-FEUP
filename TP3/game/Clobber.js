@@ -49,7 +49,6 @@ class Clobber {
   startGame(mode,level){
 
       if(this.currentState==this.state.WAITING){
-        console.log(mode);
         switch (mode) {
           case "Player vs Player":
             this.gameMode = this.mode.PLAYER_VS_PLAYER;
@@ -360,9 +359,9 @@ class Clobber {
         this.scene.info = "Game Over!!";
         this.stopAllTimes();
       break;
-      case this.state.GAME_WON:
-        this.scene.info = "Game Won!!";
-        this.stopAllTimes();
+      case this.state.MOVIE:
+      this.scene.info = "Game film";
+      this.stopAllTimes();
       break;
       default:
 
@@ -403,10 +402,7 @@ endAnimation(){
   if (game.currentState != game.state.MOVIE){
   game.currentState=game.state.CHOOSING_PIECE_TO_MOVE;
   game.gameOver();
-  console.log('diferente de movie')
   }
-
-
 }
 
     quitGame() {
@@ -432,8 +428,6 @@ gameOver(){
     let answer=data.target.response;
     if (answer==1){
    game.currentState = game.state.GAME_OVER;
-   console.log('MOVES',game.moves);
-
     }
     else  {
       game.changePlayer();
@@ -442,8 +436,6 @@ gameOver(){
         game.executeMoveBot();
       }
     }
-
-
 
   },function(data){
     console.log('connection error');
@@ -484,22 +476,21 @@ undo(){
 }
 
 movie(){
-  let i;
-  let game=this;
+
   if (this.moves.length > 0){
+    let game=this;
     this.restartBoard();
-    game.currentState=this.state.MOVIE;
-    for (i=0; i<this.moves.length-2;i++){
-     
-      setTimeout(function(){ this.movieMove(this.moves[i].lastBoard,this.moves[i+1].lastBoard);
-                             console.log('aqui');
-                             console.log(this.moves.length,i);
-                            }.bind(this), 5000*i);
+    this.currentState=this.state.MOVIE;
+    for (let i=0; i<this.moves.length-1;i++){
+      setTimeout(function(){ game.movieMove(i);}, 2000*i);
     }
-  setTimeout(function(){ this.currentState = this.state.WAITING_FOR_START;}.bind(this), 5000*this.moves.length);
+
+    setTimeout(function(){ game.currentState = game.state.WAITING;}, 2000*game.moves.length);
 }
 }
-  movieMove(firstBoard,secondBoard){
+  movieMove(i){
+    let firstBoard= this.moves[i].lastBoard;
+    let secondBoard=this.moves[i+1].lastBoard;
     let game = this;
     game.newBoard=secondBoard;
     let newMove= this.findMovement(firstBoard,secondBoard);

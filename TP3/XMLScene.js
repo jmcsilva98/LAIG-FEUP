@@ -199,8 +199,9 @@ let column,row;
 
   }
   movie(){
-    
-    this.game.movie();
+    if (this.game.currentState==this.game.state.GAME_OVER)
+        this.game.movie();
+    else console.log("You only can see the movie in the end of your game!");
   }
 
   /**
