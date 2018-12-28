@@ -117,9 +117,8 @@ let material;
 for (let i =0;i<this.piecesThatLeftBlack.length;i++){
     if(i%2 ==0) j++;
     this.scene.pushMatrix();
-   //     this.scene.translate(-4.5+i%2,0,1+2.2*j/2);
-   this.scene.translate(11.5+i%2,0,1+2.2*j/2);  
-     material =this.black;
+    this.scene.translate(11.5+i%2,0,1+2.2*j/2);  
+    material =this.black;
     this.piecesThatLeftBlack[i].display(material);
     this.scene.popMatrix();
 
@@ -140,11 +139,13 @@ for (let i =0;i<this.piecesThatLeftWhite.length;i++){
 dividePieces(){
     this.piecesThatLeftBlack=[];
     this.piecesThatLeftWhite=[];
+    let piece = new MyPiece(this.scene,0,0,0);
     for (let i =0;i<this.piecesThatLeft.length;i++){
         if (this.piecesThatLeft[i].type == 1)
-            this.piecesThatLeftBlack.push(this.piecesThatLeft[i]);
+            
+            this.piecesThatLeftBlack.push(piece);
         else
-        this.piecesThatLeftWhite.push(this.piecesThatLeft[i]);
+        this.piecesThatLeftWhite.push(piece);
     }
 }
 updateTexCoords(length_s,length_t)

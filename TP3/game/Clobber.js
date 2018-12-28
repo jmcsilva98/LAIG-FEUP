@@ -27,7 +27,7 @@ class Clobber {
       BOT_VS_BOT:3,
     };
     this.moves=[];
-    this.currentMove=0;
+    this.currentMove=this.moves.length-1;
     this.player=1;
 
     this.currentState = this.state.WAITING;
@@ -258,7 +258,6 @@ class Clobber {
         game.moves.push(move);
         game.currentState=game.state.ANIMATION;
         game.pieceToMove[2].animating=true;
-  
           if(game.player == 1) {
           game.whitePlayer.incrementScore();
           game.blackPiecesLeft++;
@@ -327,20 +326,19 @@ class Clobber {
   }
   setGameView(){
     if(this.scene.gameSwitchView){
-      console.log(this.whitePlayer.playerPos);
       if(this.player == 0 || this.player == 1){
         this.rotateCamera.setPosition(this.whitePlayer.playerPos);
       }else   this.rotateCamera.setPosition(this.blackPlayer.playerPos);
 
-      console.log("AQUI");
-      console.log("\ncamera antes " + this.scene.camera);
+      //console.log("AQUI");
+      //console.log("\ncamera antes " + this.scene.camera);
       this.rotateCamera.zoom(2);
       this.scene.camera = this.rotateCamera;
-      console.log("\ncamera depois " + this.scene.camera);
+      //console.log("\ncamera depois " + this.scene.camera);
     }
     else{
       this.scene.camera = this.normalCamera;
-      console.log("\ncamera sem switch " + this.scene.camera);
+     // console.log("\ncamera sem switch " + this.scene.camera);
     }
   }
 
@@ -350,7 +348,6 @@ class Clobber {
      this.scene.viewRotEnabled = true;
      this.scene.viewRotAngle = Math.PI;
    }
-
   }
 
 
@@ -366,7 +363,7 @@ class Clobber {
         this.rotateView();
         this.setPlayTime();
       }
-      console.log("It's time for player "+ this.player);
+      //console.log("It's time for player "+ this.player);
     }
 
     updatePlayerScore(){
@@ -463,7 +460,6 @@ endAnimation(){
   let game = this;
   game.pieceToMove[2].isSelected=false;
   game.nextPiece.isSelected=false;
-  console.log(game.whitePiecesLeft,game.blackPiecesLeft);
   game.board = game.newBoard;
   if (game.currentState != game.state.MOVIE){
   game.currentState=game.state.CHOOSING_PIECE_TO_MOVE;
@@ -485,6 +481,7 @@ endAnimation(){
 restartBoard(){
   this.getInitialBoard();
   this.scene.board.createBoard();
+  this.scene.board.piecesThatLeft=[];
 }
 gameOver(){
 
@@ -533,9 +530,16 @@ undo(){
          let game = this;
          let diff = game.findMovement(game.moves[this.moves.length-1].lastBoard,game.board);
          let firstPiece = diff[0];
+        for (let i =0;i<this.scene.board.piecesThatLeft.length;i++){
+          if(this.scene.board.piecesThatLeft[i].type == this.moves[this.moves.length-1].player){
+            this.scene.board.piecesThatLeft.splice(i,1);
+            break;
+          }
+        }
          game.board = this.moves[this.moves.length-1].lastBoard;
          game.scene.board.pieces[firstPiece[0]][firstPiece[1]] = new MyPiece(game.scene,firstPiece[1],firstPiece[0],this.moves[this.moves.length-1].player);
          game.player = this.moves[this.moves.length-1].player;
+         this.moves.splice(this.moves.length-1,1);
          game.currentState=game.state.CHOOSING_PIECE_TO_MOVE;
       }
 
@@ -546,10 +550,9 @@ undo(){
 movie(){
 
   if (this.moves.length > 0){
-    console.log(this.moves);
+   
     let game=this;
     let finalBoard = game.board;
-    console.log(finalBoard);
     this.restartBoard();
     this.currentState=this.state.MOVIE;
     for (let i=0; i<this.moves.length;i++){
@@ -573,6 +576,7 @@ movie(){
     game.pieceToMove[2]=firstPiece;
     game.pieceToMove[2].isSelected=true;
     let secondPiece = game.scene.board.pieces[newMove[1][0]][newMove[1][1]];
+    game.scene.board.piecesThatLeft.push(secondPiece);
     game.nextPiece=secondPiece;
     game.nextPiece.isSelected=true;
     game.pieceToMove[2].animating=true;

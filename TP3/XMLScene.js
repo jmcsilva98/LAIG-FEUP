@@ -106,8 +106,8 @@ class XMLscene extends CGFscene {
    * As loading is asynchronous, this may be called already after the application has started the run loop
    */
   onGraphLoaded() {
-    // this.camera.near = this.graph.near;
-    //  this.camera.far = this.graph.far;
+    /*  this.camera.near = this.graph.near;
+      this.camera.far = this.graph.far; */
 
     //TODO: Change reference length according to parsed graph
     this.axis = new CGFaxis(this, this.graph.referenceLength);
@@ -202,7 +202,7 @@ let column,row;
 
   }
   movie(){
-    if (this.game.currentState==this.game.state.GAME_OVER)
+    if (this.game.currentState==this.game.state.GAME_OVER || this.game.currentState == this.game.state.DRAW_GAME)
         this.game.movie();
     else console.log("You only can see the movie in the end of your game!");
   }
@@ -253,9 +253,9 @@ let column,row;
 
     if(this.viewRotEnabled){
       let angle = Math.PI * 0.01;
-      console.log("\nangle " + angle);
+      //console.log("\nangle " + angle);
       this.viewRotAngle -= angle;
-      console.log("\nROT angle " + this.viewRotAngle);
+      //console.log("\nROT angle " + this.viewRotAngle);
       if(this.viewRotAngle < 0){
         this.viewRotEnabled = false;
         this.game.setGameView();
