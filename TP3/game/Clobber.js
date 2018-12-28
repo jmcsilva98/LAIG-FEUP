@@ -4,6 +4,8 @@ class Clobber {
     this.scene=scene;
     this.whitePlayer=new Player(this.scene,1);
     this.blackPlayer=new Player(this.scene,2);
+    this.whitePiecesLeft=0;
+    this.blackPiecesLeft=0;
 
     this.state= {
       WAITING:0,
@@ -209,9 +211,18 @@ class Clobber {
        let move = new Move(game.pieceToMove,[row,column],lastBoard,game.player);
         game.moves.push(move);
         game.currentState=game.state.ANIMATION;
+        let pieceLeft=new MyPiece(game.scene,column,row,game.player);
+        game.scene.board.piecesThatLeft.push(pieceLeft);
         game.pieceToMove[2].animating=true;
-        if(game.player == 1) game.whitePlayer.incrementScore();
-        else  game.blackPlayer.incrementScore();
+        if(game.player == 1) {
+          game.whitePlayer.incrementScore();
+          game.blackPiecesLeft++;
+        }
+        else  {
+          game.blackPlayer.incrementScore();
+          game.whitePiecesLeft++;
+        }
+     
         game.pieceToMove[2].animation.direction=game.calculateDirection(game.pieceToMove[0],game.pieceToMove[1],row,column);
 
       }
@@ -241,12 +252,21 @@ class Clobber {
         let secondPiece = game.scene.board.pieces[newMove[1][0]][newMove[1][1]];
         game.nextPiece=secondPiece;
         game.nextPiece.isSelected=true;
+        let pieceLeft=game.scene.board.pieces[newMove[1][0]][newMove[1][1]];
+        game.scene.board.piecesThatLeft.push(pieceLeft);
         let move = new Move(firstPiece,secondPiece,lastBoard,game.player);
         game.moves.push(move);
         game.currentState=game.state.ANIMATION;
-       game.pieceToMove[2].animating=true;
-       if(game.player == 1) game.whitePlayer.incrementScore();
-       else  game.blackPlayer.incrementScore();
+        game.pieceToMove[2].animating=true;
+  
+          if(game.player == 1) {
+          game.whitePlayer.incrementScore();
+          game.blackPiecesLeft++;
+        }
+        else  {
+          game.blackPlayer.incrementScore();
+          game.whitePiecesLeft++;
+        }
        game.pieceToMove[2].animation.direction=game.calculateDirection(newMove[0][0],newMove[0][1],newMove[1][0],newMove[1][1]);
 
       },function(data){
@@ -443,6 +463,7 @@ endAnimation(){
   let game = this;
   game.pieceToMove[2].isSelected=false;
   game.nextPiece.isSelected=false;
+  console.log(game.whitePiecesLeft,game.blackPiecesLeft);
   game.board = game.newBoard;
   if (game.currentState != game.state.MOVIE){
   game.currentState=game.state.CHOOSING_PIECE_TO_MOVE;
@@ -539,7 +560,7 @@ movie(){
 }
 }
   movieMove(i,finalBoard){
-    //console.log(i,i+1,this.moves.length);
+    
     let firstBoard= this.moves[i].lastBoard;
     let secondBoard;
     let movesLength = i+1;

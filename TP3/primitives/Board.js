@@ -5,6 +5,10 @@ class Board extends  CGFobject {
     this.dimZ=dimZ;
     this.cells=[];
     this.pieces=[];
+    this.piecesThatLeftWhite=[];
+    this.piecesThatLeftBlack=[];
+    this.piecesThatLeft=[];
+
 
     this.cellAppearance= new CGFappearance(this.scene);
     this.cellAppearance.setAmbient(0.8,0.8,0.8,1);
@@ -107,9 +111,42 @@ let material;
     zDistance+=0.2;
     
 }
+ j =0;
+ this.dividePieces();
+ 
+for (let i =0;i<this.piecesThatLeftBlack.length;i++){
+    if(i%2 ==0) j++;
+    this.scene.pushMatrix();
+   //     this.scene.translate(-4.5+i%2,0,1+2.2*j/2);
+   this.scene.translate(11.5+i%2,0,1+2.2*j/2);  
+     material =this.black;
+    this.piecesThatLeftBlack[i].display(material);
+    this.scene.popMatrix();
+
+}
+j=0;
+for (let i =0;i<this.piecesThatLeftWhite.length;i++){
+    if(i%2 ==0) j++;
+    this.scene.pushMatrix();
+    this.scene.translate(-3-i%2,0,7.5-2.2*j/2); 
+     material =this.white;
+    this.piecesThatLeftWhite[i].display(material);
+    this.scene.popMatrix();
+
+}
+
 
 };
-
+dividePieces(){
+    this.piecesThatLeftBlack=[];
+    this.piecesThatLeftWhite=[];
+    for (let i =0;i<this.piecesThatLeft.length;i++){
+        if (this.piecesThatLeft[i].type == 1)
+            this.piecesThatLeftBlack.push(this.piecesThatLeft[i]);
+        else
+        this.piecesThatLeftWhite.push(this.piecesThatLeft[i]);
+    }
+}
 updateTexCoords(length_s,length_t)
 {
 	
