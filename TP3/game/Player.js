@@ -6,7 +6,7 @@ class Player extends CGFobject{
     this.seconds = "00";
     this.score = 0;
     this.addTime = true;
-  this.setPlayer();
+    this.setPlayer();
 
   }
 

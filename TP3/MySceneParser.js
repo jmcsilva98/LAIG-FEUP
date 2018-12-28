@@ -26,6 +26,7 @@ class MySceneParser {
     // Establish bidirectional references between scene and graph.
     this.scene = scene;
     scene.graph = this;
+     this.filename = filename;
 
     //Arrays that will save the information parsed (data structure)
     this.nodes = [];
@@ -42,6 +43,7 @@ class MySceneParser {
     this.axisCoords['y'] = [0, 1, 0];
     this.axisCoords['z'] = [0, 0, 1];
 
+  //  this.changeScene(filename);
     // File reading
     this.reader = new CGFXMLreader();
 
@@ -51,8 +53,27 @@ class MySceneParser {
      * If any error occurs, the reader calls onXMLError on this object, with an error message
      */
 
-    this.reader.open('scenes/' + filename, this);
+   this.reader.open('scenes/' + filename, this);
   }
+
+  // changeScene(filename){
+  //   this.loadedOk = null;
+  //   this.nodes = [];
+  //   this.textures = [];
+  //   this.transformations = [];
+  //   this.components = [];
+  //   this.views = [];
+  //   this.animations=[];
+  //   this.defaultView; //Default view of the camera
+  //
+  //   this.reader = new CGFXMLreader();
+  //   this.reader.open('scenes/' + filename, this);
+  //
+  // }
+
+
+
+
   /*
    * Callback to be executed after successful reading
    */

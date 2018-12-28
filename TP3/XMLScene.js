@@ -20,6 +20,7 @@ class XMLscene extends CGFscene {
     this.gameDifficulty = "Rookie";
     this.gameSwitchView = true;
     this.startedGame = false;
+  //  this.existingScenes = ['scene1', 'scene2'];
 
   }
 
@@ -33,6 +34,8 @@ class XMLscene extends CGFscene {
     this.sceneInited = false;
     this.viewRotAngle;
     this.viewRotEnabled = false;
+  //  this.firstScene = true;
+    //this.currentScene = 1;
 
     this.initCameras();
 
@@ -50,6 +53,8 @@ class XMLscene extends CGFscene {
     this.game= new Clobber(this);
     this.game.getInitialBoard();
 
+
+  //  this.currentScene = this.existingScenes[0];
 
     this.setPickEnabled(true);
 
@@ -124,6 +129,7 @@ class XMLscene extends CGFscene {
     // Adds lights group.
     this.interface.addLightsGroup(this.graph.lights);
 
+
     //Adds views group.
     this.index = this.graph.defaultView;
     this.interface.addViewsGroup(this.graph.views);
@@ -134,6 +140,22 @@ class XMLscene extends CGFscene {
 
     this.sceneInited = true;
   }
+
+  onChangeGraph(filename){
+
+    this.graph = new MySceneParser(filename, this);
+  }
+
+  // loadNewTheme(sceneTheme){
+  //   if(sceneTheme == THEME.RELAXING){
+  //       let filename=getUrlVars()['file'] || "scene1.xml";
+  //       this.graph = new MySceneGraph(filename, this);
+  //   }else{
+  //     let filename=getUrlVars()['file'] || "scene2.xml";
+  //     this.graph = new MySceneGraph(filename, this);
+  //   }
+  //
+  // }
 
   switchMaterials() {
 
@@ -253,14 +275,17 @@ let column,row;
 
     if(this.viewRotEnabled){
       let angle = Math.PI * 0.01;
-      //console.log("\nangle " + angle);
+      console.log("\nangle " + angle);
+
       this.viewRotAngle -= angle;
-      //console.log("\nROT angle " + this.viewRotAngle);
+      console.log("\nROT angle " + this.viewRotAngle);
+
       if(this.viewRotAngle < 0){
         this.viewRotEnabled = false;
         this.game.setGameView();
       } else this.camera.orbit(vec3.fromValues(0, 1, 0), angle);
     }
+
     this.gl.viewport(0, 0, this.gl.canvas.width, this.gl.canvas.height);
     this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
 
@@ -296,7 +321,8 @@ let column,row;
 
 
       // Displays the scene (MySceneGraph function).
-      this.graph.displayScene();
+      if (this.graph.loadedOk)
+        this.graph.displayScene();
       this.interface.setActiveCamera(this.camera);
     } else {
       // Draw axis

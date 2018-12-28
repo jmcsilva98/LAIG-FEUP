@@ -20,6 +20,18 @@ class MyInterface extends CGFinterface {
 
         this.gui = new dat.GUI();
 
+        this.scenes = this.gui.addFolder("Scenes Available");
+        this.scenes.open();
+        this.gui.scene = 'scene1';
+        this.gui.sceneList = this.scenes.add(this.gui,'scene', ['scene1', 'scene2']).name('Current Scene');
+        this.gui.sceneList.onFinishChange(function(){
+            this.removeFolder("Lights",this.gui);
+            this.removeFolder("Views",this.gui);
+            this.removeFolder("Options",this.gui);
+            this.removeFolder("Game Settings",this.gui);
+            this.removeFolder("Menu",this.gui);
+            this.scene.onChangeGraph(this.gui.scene + '.xml');	}.bind(this))
+
         // add a group of controls (and open/expand by defult)
 
         return true;
@@ -82,11 +94,21 @@ class MyInterface extends CGFinterface {
         group.add(this.scene, "gameDifficulty", ["Rookie", "Pro"]).name('Game Difficulty');
         let aux =  group.add(this.scene, "gameSwitchView").name('Switch View');
 
-      aux.onChange(function(){
-        game.setGameView();
-      });
+      aux.onChange(game.setGameView());
+
     }
 
+    // addScenes(scene){
+    //   var group = this.gui.addFolder("Scenes Available");
+    //   group.open();
+    //   this.gui.scene = 'scene1';
+    //   this.gui.sceneList = group.add(this.gui,'scene', ['scene1', 'scene2']).name('Current Scene');
+    //   this.gui.sceneList.onFinishChange(function(){
+    //     this.scene.onChangeGraph(this.gui.scene + '.xml')}.bind(this));
+    //   //let aux = group.add(this.scene,'currentScene', ["scene1", "scene2"]).name('Current Scene');
+    // //  aux.onChange(this.scene.onSceneChange.bind(scene));
+    //
+    // }
 
     addMenuGroup(){
 
@@ -97,8 +119,9 @@ class MyInterface extends CGFinterface {
       group.add(this.scene, 'quitGame').name('Quit Game');
       group.add(this.scene, 'undo').name('Undo');
       group.add(this.scene, 'movie').name('Movie');
-
     }
+
+
 
 
     processKeyboard (event) {
@@ -115,6 +138,19 @@ class MyInterface extends CGFinterface {
 
       }
 
+    }
+
+    removeFolder(name, parent){
+      if(!parent)
+		    parent = this.gui;
+      let folder = parent.__folders[name];
+      if (!folder) {
+      return;
+      }
+    folder.close();
+    parent.__ul.removeChild(folder.domElement.parentNode);
+    delete parent.__folders[name];
+    parent.onResize();
     }
 
 }

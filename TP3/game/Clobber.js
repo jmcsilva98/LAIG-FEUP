@@ -46,6 +46,8 @@ class Clobber {
 
     this.normalCamera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(0, 35, 5), vec3.fromValues(0, 0, 0));
     this.rotateCamera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(0, 0, 0), vec3.fromValues(0, 5, 0));
+    
+    this.defaultCamera =  new CGFcamera(0.4, 0.1, 500, vec3.fromValues(15, 15, 15), vec3.fromValues(0, 0, 0));
   //  this.scene.info = "Please choose a Game Mode and Difficulty. Then press Start Game to play."
     this.scene.error = "";
     //this.scene.camera = this.normalCamera;
@@ -324,21 +326,19 @@ class Clobber {
       this.whitePlayer.score = 0;
       this.blackPlayer.score = 0;
   }
+
   setGameView(){
     if(this.scene.gameSwitchView){
-      if(this.player == 0 || this.player == 1){
-        this.rotateCamera.setPosition(this.whitePlayer.playerPos);
-      }else   this.rotateCamera.setPosition(this.blackPlayer.playerPos);
 
-      //console.log("AQUI");
-      //console.log("\ncamera antes " + this.scene.camera);
+      if(this.player == 2)
+        this.rotateCamera.setPosition(this.blackPlayer.playerPos);
+      else
+        this.rotateCamera.setPosition(this.whitePlayer.playerPos);
+
       this.rotateCamera.zoom(2);
       this.scene.camera = this.rotateCamera;
-      //console.log("\ncamera depois " + this.scene.camera);
-    }
-    else{
+    } else{
       this.scene.camera = this.normalCamera;
-     // console.log("\ncamera sem switch " + this.scene.camera);
     }
   }
 
@@ -474,6 +474,8 @@ endAnimation(){
         this.restartBoard();
         this.stopAllTimes();
         this.restartScore();
+        this.defaultCamera.zoom(-2);
+        this.scene.camera = this.defaultCamera;
         this.scene.startedGame=false;
 
       }
