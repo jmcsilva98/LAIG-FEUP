@@ -141,7 +141,6 @@ dividePieces(){
     this.piecesThatLeftWhite=[];
     let piece = new MyPiece(this.scene,0,0,0);
     let i = 0;
-    console.log(this.blackPiecesLeft,this.whitePiecesLeft);
     while(i < this.whitePiecesLeft){
         this.piecesThatLeftWhite.push(piece);
         i++;

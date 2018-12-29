@@ -213,7 +213,6 @@ class Clobber {
         game.moves.push(move);
         game.currentState=game.state.ANIMATION;
         let pieceLeft=new MyPiece(game.scene,column,row,game.player);
-        game.scene.board.piecesThatLeft.push(pieceLeft);
         game.pieceToMove[2].animating=true;
         if(game.player == 1) {
           game.whitePlayer.incrementScore();
