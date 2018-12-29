@@ -7,8 +7,8 @@ class Board extends  CGFobject {
     this.pieces=[];
     this.piecesThatLeftWhite=[];
     this.piecesThatLeftBlack=[];
-    this.piecesThatLeft=[];
-
+    this.whitePiecesLeft=0;
+    this.blackPiecesLeft=0;
 
     this.cellAppearance= new CGFappearance(this.scene);
     this.cellAppearance.setAmbient(0.8,0.8,0.8,1);
@@ -117,7 +117,7 @@ let material;
 for (let i =0;i<this.piecesThatLeftBlack.length;i++){
     if(i%2 ==0) j++;
     this.scene.pushMatrix();
-    this.scene.translate(11.5+i%2,0,1+2.2*j/2);  
+    this.scene.translate(11.5+i%2,0,-2+2.2*j/2);  
     material =this.black;
     this.piecesThatLeftBlack[i].display(material);
     this.scene.popMatrix();
@@ -127,7 +127,7 @@ j=0;
 for (let i =0;i<this.piecesThatLeftWhite.length;i++){
     if(i%2 ==0) j++;
     this.scene.pushMatrix();
-    this.scene.translate(-3-i%2,0,7.5-2.2*j/2); 
+    this.scene.translate(-3-i%2,0,10.5-2.2*j/2); 
      material =this.white;
     this.piecesThatLeftWhite[i].display(material);
     this.scene.popMatrix();
@@ -140,14 +140,20 @@ dividePieces(){
     this.piecesThatLeftBlack=[];
     this.piecesThatLeftWhite=[];
     let piece = new MyPiece(this.scene,0,0,0);
-    for (let i =0;i<this.piecesThatLeft.length;i++){
-        if (this.piecesThatLeft[i].type == 1)
-            
-            this.piecesThatLeftBlack.push(piece);
-        else
+    let i = 0;
+    console.log(this.blackPiecesLeft,this.whitePiecesLeft);
+    while(i < this.whitePiecesLeft){
         this.piecesThatLeftWhite.push(piece);
+        i++;
     }
+    i=0;
+    while(i < this.blackPiecesLeft){
+        this.piecesThatLeftBlack.push(piece);
+        i++;
+    }
+
 }
+
 updateTexCoords(length_s,length_t)
 {
 	
