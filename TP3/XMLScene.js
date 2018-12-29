@@ -34,8 +34,6 @@ class XMLscene extends CGFscene {
     this.sceneInited = false;
     this.viewRotAngle;
     this.viewRotEnabled = false;
-  //  this.firstScene = true;
-    //this.currentScene = 1;
 
     this.initCameras();
 
@@ -52,9 +50,6 @@ class XMLscene extends CGFscene {
     this.client.getPrologRequest("handshake");
     this.game= new Clobber(this);
     this.game.getInitialBoard();
-
-
-  //  this.currentScene = this.existingScenes[0];
 
     this.setPickEnabled(true);
 
@@ -145,17 +140,6 @@ class XMLscene extends CGFscene {
 
     this.graph = new MySceneParser(filename, this);
   }
-
-  // loadNewTheme(sceneTheme){
-  //   if(sceneTheme == THEME.RELAXING){
-  //       let filename=getUrlVars()['file'] || "scene1.xml";
-  //       this.graph = new MySceneGraph(filename, this);
-  //   }else{
-  //     let filename=getUrlVars()['file'] || "scene2.xml";
-  //     this.graph = new MySceneGraph(filename, this);
-  //   }
-  //
-  // }
 
   switchMaterials() {
 

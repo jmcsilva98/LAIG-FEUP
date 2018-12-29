@@ -98,18 +98,6 @@ class MyInterface extends CGFinterface {
 
     }
 
-    // addScenes(scene){
-    //   var group = this.gui.addFolder("Scenes Available");
-    //   group.open();
-    //   this.gui.scene = 'scene1';
-    //   this.gui.sceneList = group.add(this.gui,'scene', ['scene1', 'scene2']).name('Current Scene');
-    //   this.gui.sceneList.onFinishChange(function(){
-    //     this.scene.onChangeGraph(this.gui.scene + '.xml')}.bind(this));
-    //   //let aux = group.add(this.scene,'currentScene', ["scene1", "scene2"]).name('Current Scene');
-    // //  aux.onChange(this.scene.onSceneChange.bind(scene));
-    //
-    // }
-
     addMenuGroup(){
 
       var group = this.gui.addFolder("Menu");

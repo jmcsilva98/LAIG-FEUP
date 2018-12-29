@@ -4,9 +4,7 @@ constructor(scene, xPosition,zPosition,type){
     super(scene);
     this.xPosition=xPosition;
     this.zPosition=zPosition;
-    //console.log("piece: " + this.scene.scene1)
-
-    console.log("\nROOT: " +this.scene.graph.rootName)
+  
     if(this.scene.graph.rootName == 'relaxing')
       this.piece=new MyCylinder(this.scene,1,1,1,20,8);
     else {
