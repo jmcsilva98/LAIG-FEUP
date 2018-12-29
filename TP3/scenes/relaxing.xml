@@ -1,6 +1,6 @@
 <yas>
 
-  <scene root="scene1" axis_length="10"/>
+  <scene root="relaxing" axis_length="10"/>
 
   <views default="view1">
     <perspective id="view1" near="0.1" far="500" angle="20">
@@ -100,7 +100,9 @@
     <texture id="black" file="../images/black.jpg"/>
     <texture id="white" file="../images/white.jpg"/>
     <texture id="puff" file="../images/puff.jpg"/>
-    
+    <texture id="base" file="../images/base.jpg"/>
+
+
   </textures>
 
   <materials>
@@ -161,6 +163,12 @@
     </material>
     <material id="wall" shininess="1">
       <emission r="0.34" g="0.05" b="0.01" a="1"/>
+      <ambient r="0.1" g="0.1" b="0.1" a="1"/>
+      <diffuse r="0.1" g="0.1" b="0.1" a="1"/>
+      <specular r="0.1" g="0.1" b="0.1" a="1"/>
+    </material>
+    <material id="base" shininess="1">
+      <emission r="0.87" g="0.72" b="0.52" a="1"/>
       <ambient r="0.1" g="0.1" b="0.1" a="1"/>
       <diffuse r="0.1" g="0.1" b="0.1" a="1"/>
       <specular r="0.1" g="0.1" b="0.1" a="1"/>
@@ -243,7 +251,7 @@
 
   <components>
 
-    <component id="scene1">
+    <component id="relaxing">
       <transformation></transformation>
       <animations></animations>
 
@@ -264,7 +272,7 @@
        <componentref id="puff1"/>
 
       </children>
-    </component>  
+    </component>
 
     <component id="floor">
       <transformation>
@@ -285,12 +293,12 @@
 
     <component id="leftWall">
       <transformation>
-      
-       <translate x="-10" y="5" z="0"/>  
-        <scale x="20" y="10" z="20"/> 
+
+       <translate x="-10" y="5" z="0"/>
+        <scale x="20" y="10" z="20"/>
        <rotate axis="y" angle="90"/>
-      
-      
+
+
       </transformation>
       <animations></animations>
       <materials>
@@ -306,10 +314,10 @@
 
      <component id="backWall">
       <transformation>
-        <translate x="0" y="5" z="-10"/>  
-          <scale x="20" y="10" z="20"/> 
-      
-      
+        <translate x="0" y="5" z="-10"/>
+          <scale x="20" y="10" z="20"/>
+
+
       </transformation>
       <animations></animations>
       <materials>
@@ -362,10 +370,10 @@
 
      <component id="tableLeg1">
       <transformation>
-      
+
        <rotate axis="y" angle="45"/>
        <scale x="2.5" y="1" z="0.25"/>
-      <rotate axis="z" angle="90"/>      
+      <rotate axis="z" angle="90"/>
       </transformation>
       <animations></animations>
       <materials>
@@ -379,10 +387,10 @@
 
      <component id="tableLeg2">
       <transformation>
-      
+
        <rotate axis="y" angle="-45"/>
        <scale x="2.5" y="1" z="0.25"/>
-      <rotate axis="z" angle="90"/>      
+      <rotate axis="z" angle="90"/>
       </transformation>
       <animations></animations>
       <materials>
@@ -396,10 +404,10 @@
 
     <component id="tableLeg3">
       <transformation>
-      
+
        <rotate axis="y" angle="135"/>
        <scale x="2.5" y="1" z="0.25"/>
-      <rotate axis="z" angle="90"/>      
+      <rotate axis="z" angle="90"/>
       </transformation>
       <animations></animations>
       <materials>
@@ -413,10 +421,10 @@
 
     <component id="tableLeg4">
       <transformation>
-      
+
        <rotate axis="y" angle="-135"/>
        <scale x="2.5" y="1" z="0.25"/>
-      <rotate axis="z" angle="90"/>      
+      <rotate axis="z" angle="90"/>
       </transformation>
       <animations></animations>
       <materials>
@@ -430,13 +438,13 @@
     <component id="basePiece1">
       <transformation>
       <scale x="1" y="0.25" z="2"/>
-      <translate x="2" y="6" z="0"/>  
+      <translate x="2" y="6" z="0"/>
       </transformation>
       <animations></animations>
       <materials>
         <material id="defaultMaterial"/>
       </materials>
-      <texture id="inherit" length_s="0.25" length_t="0.25"/>
+      <texture id="base" length_s="1" length_t="1"/>
       <children>
         <componentref id="parallelepiped"/>
       </children>
@@ -444,13 +452,13 @@
      <component id="basePiece2">
       <transformation>
       <scale x="1" y="0.25" z="2"/>
-      <translate x="-3" y="6" z="0"/>  
+      <translate x="-3" y="6" z="0"/>
       </transformation>
       <animations></animations>
       <materials>
         <material id="defaultMaterial"/>
       </materials>
-      <texture id="inherit" length_s="0.25" length_t="0.25"/>
+      <texture id="base" length_s="1" length_t="1"/>
       <children>
         <componentref id="parallelepiped"/>
       </children>
@@ -489,7 +497,7 @@
     <component id="leftPainting">
       <transformation>
       <translate x="-9.8" y="5" z="0"/>
-       <scale x="2.5" y="3.5" z="2.5"/> 
+       <scale x="2.5" y="3.5" z="2.5"/>
       <rotate axis="y" angle="90"/>
       </transformation>
       <animations></animations>
@@ -501,11 +509,11 @@
         <primitiveref id="rectangle"/>
       </children>
     </component>
-    
+
      <component id="backPainting">
       <transformation>
-     <translate x="0" y="6" z="-9.8"/>  
-      <scale x="6" y="4" z="6"/> 
+     <translate x="0" y="6" z="-9.8"/>
+      <scale x="6" y="4" z="6"/>
       </transformation>
       <animations></animations>
       <materials>
@@ -517,7 +525,7 @@
       </children>
     </component>
 
-    
+
     <component id="board">
       <transformation>
       <translate x="-1.5" y="1.5" z="0"/>

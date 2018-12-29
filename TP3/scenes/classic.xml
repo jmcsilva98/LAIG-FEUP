@@ -1,6 +1,6 @@
 <yas>
 
-  <scene root="scene2" axis_length="10"/>
+  <scene root="classic" axis_length="10"/>
 
   <views default="view1">
     <perspective id="view1" near="0.1" far="500" angle="20">
@@ -93,9 +93,12 @@
     <texture id="floor" file="../images/floor2.jpg"/>
     <texture id="wall" file="../images/wall2.jpg"/>
     <texture id="wall1" file="../images/wall2.jpg"/>
-    <texture id="painting1" file="../images/painting3.PNG"/>
-    <texture id="painting2" file="../images/painting1.PNG"/>
-    <texture id="table" file="../images/table.jpg"/>
+    <texture id="painting1" file="../images/painting6.png"/>
+    <texture id="painting2" file="../images/painting5.png"/>
+    <texture id="painting3" file="../images/painting7.png"/>
+    <texture id="painting4" file="../images/painting8.png"/>
+    <texture id="table" file="../images/table2.jpg"/>
+    <texture id="side_table" file="../images/table.jpg"/>
     <texture id="board" file="../images/board.jpg"/>
     <texture id="black" file="../images/black.jpg"/>
     <texture id="white" file="../images/white.jpg"/>
@@ -243,7 +246,7 @@
 
   <components>
 
-    <component id="scene2">
+    <component id="classic">
       <transformation></transformation>
       <animations></animations>
 
@@ -259,9 +262,11 @@
       <componentref id="backWall"/>
       <componentref id="table"/>
       <componentref id="leftPainting"/>
-       <componentref id="backPainting"/>
+      <componentref id="leftPainting2"/>
+      <componentref id="leftPainting3"/>
+      <componentref id="backPainting"/>
       <componentref id="puff"/>
-       <componentref id="puff1"/>
+      <componentref id="puff1"/>
 
       </children>
     </component>
@@ -276,7 +281,7 @@
         <material id="defaultMaterial"/>
       </materials>
 
-      <texture id="floor" length_s="0.5" length_t="0.5"/>
+      <texture id="floor" length_s="0.25" length_t="0.25"/>
 
       <children>
         <primitiveref id="rectangle"/>
@@ -297,7 +302,7 @@
         <material id="defaultMaterial"/>
       </materials>
 
-      <texture id="wall1" length_s="0.25" length_t="0.25"/>
+      <texture id="wall1" length_s="0.98" length_t="0.98"/>
 
       <children>
         <primitiveref id="rectangle"/>
@@ -316,7 +321,7 @@
         <material id="defaultMaterial"/>
       </materials>
 
-      <texture id="wall1" length_s="0.25" length_t="0.25"/>
+      <texture id="wall1" length_s="0.98" length_t="0.98"/>
 
       <children>
         <primitiveref id="rectangle"/>
@@ -434,9 +439,9 @@
       </transformation>
       <animations></animations>
       <materials>
-        <material id="defaultMaterial"/>
+        <material id="roof"/>
       </materials>
-      <texture id="inherit" length_s="0.25" length_t="0.25"/>
+      <texture id="side_table" length_s="1" length_t="1"/>
       <children>
         <componentref id="parallelepiped"/>
       </children>
@@ -448,9 +453,9 @@
       </transformation>
       <animations></animations>
       <materials>
-        <material id="defaultMaterial"/>
+        <material id="roof"/>
       </materials>
-      <texture id="inherit" length_s="0.25" length_t="0.25"/>
+      <texture id="side_table" length_s="1" length_t="1"/>
       <children>
         <componentref id="parallelepiped"/>
       </children>
@@ -488,8 +493,8 @@
 
     <component id="leftPainting">
       <transformation>
-      <translate x="-9.8" y="5" z="0"/>
-       <scale x="2.5" y="3.5" z="2.5"/>
+      <translate x="-9.8" y="6.5" z="0"/>
+       <scale x="3.5" y="4.5" z="3.5"/>
       <rotate axis="y" angle="90"/>
       </transformation>
       <animations></animations>
@@ -502,10 +507,42 @@
       </children>
     </component>
 
+    <component id="leftPainting2">
+      <transformation>
+      <translate x="-9.8" y="6.5" z="-6"/>
+       <scale x="2.5" y="3.5" z="2.5"/>
+      <rotate axis="y" angle="90"/>
+      </transformation>
+      <animations></animations>
+      <materials>
+        <material id="defaultMaterial"/>
+      </materials>
+      <texture id="painting3" length_s="1" length_t="1"/>
+      <children>
+        <primitiveref id="rectangle"/>
+      </children>
+    </component>
+
+    <component id="leftPainting3">
+      <transformation>
+      <translate x="-9.8" y="6.5" z="6"/>
+       <scale x="2.5" y="3.5" z="2.5"/>
+      <rotate axis="y" angle="90"/>
+      </transformation>
+      <animations></animations>
+      <materials>
+        <material id="defaultMaterial"/>
+      </materials>
+      <texture id="painting4" length_s="1" length_t="1"/>
+      <children>
+        <primitiveref id="rectangle"/>
+      </children>
+    </component>
+
      <component id="backPainting">
       <transformation>
-     <translate x="0" y="6" z="-9.8"/>
-      <scale x="6" y="4" z="6"/>
+     <translate x="0" y="6.5" z="-9.8"/>
+      <scale x="9" y="5" z="9"/>
       </transformation>
       <animations></animations>
       <materials>

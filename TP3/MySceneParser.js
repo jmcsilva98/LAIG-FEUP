@@ -36,7 +36,7 @@ class MySceneParser {
     this.views = [];
     this.animations=[];
     this.defaultView; //Default view of the camera
-
+    //this.rootName;
 
     this.axisCoords = [];
     this.axisCoords['x'] = [1, 0, 0];
@@ -55,23 +55,6 @@ class MySceneParser {
 
    this.reader.open('scenes/' + filename, this);
   }
-
-  // changeScene(filename){
-  //   this.loadedOk = null;
-  //   this.nodes = [];
-  //   this.textures = [];
-  //   this.transformations = [];
-  //   this.components = [];
-  //   this.views = [];
-  //   this.animations=[];
-  //   this.defaultView; //Default view of the camera
-  //
-  //   this.reader = new CGFXMLreader();
-  //   this.reader.open('scenes/' + filename, this);
-  //
-  // }
-
-
 
 
   /*
@@ -252,7 +235,7 @@ class MySceneParser {
     else
       this.rootName = rootName;
 
-    var axisLength = sceneNode.getAttribute("axis_length");
+      var axisLength = sceneNode.getAttribute("axis_length");
     //If the number in the attribute 'axis_length' isn't a valid number, we assume the value as 1
     if (isNaN(axisLength)) {
       this.onXMLMinorError("Not a valid axis length; assuming value=1");

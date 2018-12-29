@@ -22,8 +22,8 @@ class MyInterface extends CGFinterface {
 
         this.scenes = this.gui.addFolder("Scenes Available");
         this.scenes.open();
-        this.gui.scene = 'scene1';
-        this.gui.sceneList = this.scenes.add(this.gui,'scene', ['scene1', 'scene2']).name('Current Scene');
+        this.gui.scene = 'relaxing';
+        this.gui.sceneList = this.scenes.add(this.gui,'scene', ['relaxing', 'classic']).name('Current Scene');
         this.gui.sceneList.onFinishChange(function(){
             this.removeFolder("Lights",this.gui);
             this.removeFolder("Views",this.gui);
