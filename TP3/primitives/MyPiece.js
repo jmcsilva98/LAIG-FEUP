@@ -4,7 +4,12 @@ constructor(scene, xPosition,zPosition,type){
     super(scene);
     this.xPosition=xPosition;
     this.zPosition=zPosition;
-    this.piece=new MyCylinder(this.scene,1,1,1,20,8);
+  
+    if(this.scene.graph.rootName == 'relaxing')
+      this.piece=new MyCylinder(this.scene,1,1,1,20,8);
+    else {
+      this.piece=new MyCylinder(this.scene,1,1,1,6,8);
+    }
     this.isSelected=false;
     this.animationMatrix=mat4.create();
     this.center= vec3.create(xPosition,0,zPosition);
@@ -17,7 +22,7 @@ constructor(scene, xPosition,zPosition,type){
 
 }
 display(material){
- 
+
     if (this.animating){
         if (this.animation.endOfAnimation){
              this.animating=false;
