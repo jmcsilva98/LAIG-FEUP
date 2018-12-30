@@ -10,13 +10,23 @@ class Board extends  CGFobject {
     this.whitePiecesLeft=0;
     this.blackPiecesLeft=0;
 
+
     this.cellAppearance= new CGFappearance(this.scene);
-    this.cellAppearance.setAmbient(0.8,0.8,0.8,1);
-    this.cellAppearance.setDiffuse(1.0,1,1,1);
-    this.cellAppearance.setSpecular(1.0,1,1,1);
+		if(this.scene.graph.rootName == "relaxing"){
+    this.cellAppearance.setAmbient(0.3,0.3,0.3,1);
+    this.cellAppearance.setDiffuse(0.5,0.5,0.5,1);
+    this.cellAppearance.setSpecular(0.8,0.8,0.8,1);
+		    this.cellAppearance.loadTexture("images/base.jpg");
+	}else{
+		this.cellAppearance.setAmbient(0.2,0.2,0.2,1);
+		this.cellAppearance.setDiffuse(0.3,0.3,0.3,1);
+		this.cellAppearance.setSpecular(0.1,0.1,0.1,1);
+		this.cellAppearance.loadTexture("images/table.jpg");
+	}
     this.cellAppearance.setShininess(0);
-    this.cellAppearance.loadTexture("images/table.jpg");
- 
+
+
+
     this.white = new CGFappearance(this.scene);
     this.white.setAmbient(1.0,1,1,1);
     this.white.setDiffuse(1.0,1,1,1);
@@ -30,7 +40,7 @@ class Board extends  CGFobject {
     this.black.setSpecular(1.0,1,1,1);
     this.black.setShininess(0);
     this.black.loadTexture("images/black.jpg");
-    
+
     this.selectedMaterialWhite = new CGFappearance(this.scene);
     this.selectedMaterialWhite.setAmbient(1,0.71,0.76,1);
     this.selectedMaterialWhite.setDiffuse(1,0,0,1);
@@ -44,7 +54,7 @@ class Board extends  CGFobject {
     this.selectedMaterialBlack.setSpecular(1,0,0,1);
     this.selectedMaterialBlack.setShininess(0);
     this.selectedMaterialBlack.loadTexture("images/white.jpg");
-    this.distanceBetweenCells=1.2;   
+    this.distanceBetweenCells=1.2;
     this.createBoard();
     console.log(this.pieces);
 
@@ -88,7 +98,7 @@ let material;
         this.scene.translate(j*this.distanceBetweenCells,0,i+zDistance);
 
         this.scene.registerForPick(id, this.pieces[i][j]);
-        
+
         id+=1;
         if(this.scene.game.board[i][j] != 0){
         if(!this.pieces[i][j].isSelected){
@@ -96,7 +106,7 @@ let material;
             material=this.black;
         }
         else material=this.white;
-       
+
     }
     else if(this.scene.game.board[i][j]=="2")
         material=this.selectedMaterialBlack;
@@ -109,15 +119,15 @@ let material;
         this.scene.popMatrix();
     }
     zDistance+=0.2;
-    
+
 }
  j =0;
  this.dividePieces();
- 
+
 for (let i =0;i<this.piecesThatLeftBlack.length;i++){
     if(i%2 ==0) j++;
     this.scene.pushMatrix();
-    this.scene.translate(11.5+i%2,0,-2+2.2*j/2);  
+    this.scene.translate(11.5+i%2,0,-2+2.2*j/2);
     material =this.black;
     this.piecesThatLeftBlack[i].display(material);
     this.scene.popMatrix();
@@ -127,7 +137,7 @@ j=0;
 for (let i =0;i<this.piecesThatLeftWhite.length;i++){
     if(i%2 ==0) j++;
     this.scene.pushMatrix();
-    this.scene.translate(-3-i%2,0,10.5-2.2*j/2); 
+    this.scene.translate(-3-i%2,0,10.5-2.2*j/2);
      material =this.white;
     this.piecesThatLeftWhite[i].display(material);
     this.scene.popMatrix();
@@ -155,6 +165,6 @@ dividePieces(){
 
 updateTexCoords(length_s,length_t)
 {
-	
+
 }
 };

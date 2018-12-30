@@ -20,7 +20,6 @@ class XMLscene extends CGFscene {
     this.gameDifficulty = "Rookie";
     this.gameSwitchView = true;
     this.startedGame = false;
-  //  this.existingScenes = ['scene1', 'scene2'];
 
   }
 
@@ -59,9 +58,19 @@ class XMLscene extends CGFscene {
    * Initializes the scene cameras.
    */
   initCameras() {
+
+    // this.playerCameras = [];
+    // this.playerCameras[1] = vec3.fromValues(0, 35, 5);
+    // this.playerCameras[2] = vec3.fromValues(0, 35, -5);
+
+
     this.camera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(15, 15, 15), vec3.fromValues(0, 0, 0));
-
-
+    // this.camera.setTarget(vec3.fromValues(4, 0, 4));
+    //
+    // this.camera_radius = vec3.length(vec3.subtract(vec3.create(), this.playerCameras[2], this.playerCameras[1])) / 2;
+    // this.camera_center = vec3.scale(vec3.create(), vec3.add(vec3.create(), this.playerCameras[2], this.playerCameras[1]), 0.5);
+    // this.camera_speed = 40;
+    // this.cameraMoving = false;
   }
   /**
    * Initializes the scene lights with the values read from the XML file.
@@ -196,6 +205,7 @@ let column,row;
       this.startedGame = true;
       this.gameCamera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(0,35,5), vec3.fromValues(0, 0, 0));
       this.camera = this.gameCamera;
+    //  this.camera.setPosition(this.playerCameras[1]);
       this.game.startGame(this.gameMode,this.gameDifficulty);
     }
 
@@ -213,9 +223,6 @@ let column,row;
     else console.log("You only can see the movie in the end of your game!");
   }
 
-  update(deltaTime){
-
-  }
 
   /**
    * Displays the scene.
@@ -256,6 +263,9 @@ let column,row;
 
 
     }
+    if(this.game.currentState != this.game.state.GAME_OVER){
+      this.totalTime += 1;
+    }
 
     if(this.viewRotEnabled){
       let angle = Math.PI * 0.01;
@@ -267,8 +277,20 @@ let column,row;
       if(this.viewRotAngle < 0){
         this.viewRotEnabled = false;
         this.game.setGameView();
-      } else this.camera.orbit(vec3.fromValues(0, 1, 0), angle);
+      }
+      else this.camera.orbit(vec3.fromValues(0, 1, 0), angle);
     }
+
+   //  if (this.cameraMoving) {
+   //     if (this.game.camera_animation.endOfAnimation) {
+   //         this.cameraMoving = false;
+   //     } else {
+   //         let deltaTime = (0.01 - this.game.initial_camera_timestamp) / 1000;
+   //         let camera_animation_matrix = this.game.camera_animation.matrix;
+   //         let camera_position = vec3.transformMat4(vec3.create(), vec3.create(), camera_animation_matrix);
+   //         this.camera.setPosition(camera_position);
+   //     }
+   // }
 
     this.gl.viewport(0, 0, this.gl.canvas.width, this.gl.canvas.height);
     this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
@@ -283,10 +305,7 @@ let column,row;
       if (this.axisOn)
         this.axis.display();
 
-      //ADICIONAR FUNCAO PARA MUDAR A CAMARA
-      if(this.gameSwitchView){
 
-      }
 
       var i = 0;
       for (var key in this.lightValues) {
@@ -307,7 +326,8 @@ let column,row;
       // Displays the scene (MySceneGraph function).
       if (this.graph.loadedOk)
         this.graph.displayScene();
-      this.interface.setActiveCamera(this.camera);
+        if((this.gameMode != "Player vs Player" && this.startedGame) || this.startedGame == false)
+        this.interface.setActiveCamera(this.camera);
     } else {
       // Draw axis
       this.axis.display();
@@ -316,4 +336,14 @@ let column,row;
     this.popMatrix();
     // ---- END Background, camera and axis setup
   }
+
+  // onChangeView(){
+  //   if(this.gameSwitchView){
+  //     this.camera.setTarget(vec3.fromValues(4, 0, 4));
+  //     this.camera.setPosition(this.playerCameras[this.game.player]);
+  //     this.camera._up = vec3.fromValues(0.0, 1.0, 0.0);
+  //     console.log("HEREEEE\n");
+  //   }
+  // }
+
 }

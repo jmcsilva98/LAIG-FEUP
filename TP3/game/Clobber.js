@@ -4,7 +4,7 @@ class Clobber {
     this.scene=scene;
     this.whitePlayer=new Player(this.scene,1);
     this.blackPlayer=new Player(this.scene,2);
-    
+
 
     this.state= {
       WAITING:0,
@@ -45,9 +45,8 @@ class Clobber {
 
     this.normalCamera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(0, 35, 5), vec3.fromValues(0, 0, 0));
     this.rotateCamera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(0, 0, 0), vec3.fromValues(0, 5, 0));
-    
+
     this.defaultCamera =  new CGFcamera(0.4, 0.1, 500, vec3.fromValues(15, 15, 15), vec3.fromValues(0, 0, 0));
-  //  this.scene.info = "Please choose a Game Mode and Difficulty. Then press Start Game to play."
     this.scene.error = "";
     //this.scene.camera = this.normalCamera;
   }
@@ -222,7 +221,7 @@ class Clobber {
           game.blackPlayer.incrementScore();
           game.scene.board.whitePiecesLeft++;
         }
-     
+
         game.pieceToMove[2].animation.direction=game.calculateDirection(game.pieceToMove[0],game.pieceToMove[1],row,column);
 
       }
@@ -280,7 +279,6 @@ class Clobber {
         case 1:
           this.blackPlayer.stopCounter();
           this.whitePlayer.restartTime();
-
           this.whitePlayer.beginCounter();
           break;
         case 2:
@@ -294,23 +292,6 @@ class Clobber {
 
   }
 
-  checkPlayTime(){
-    //acrescentar condicoes
-    this.getPlayDecrementTime();
-  }
-
-  getPlayDecrementTime(){
-    switch (this.player) {
-      case 1:
-        this.playTime = this.whitePlayer.totalTimeSeconds;
-        break;
-      case 2:
-        this.playTime = this.blackPlayer.totalTimeSeconds;
-        break;
-      default:
-
-    }
-  }
 
   stopAllTimes(){
     this.whitePlayer.stopCounter();
@@ -327,10 +308,10 @@ class Clobber {
   setGameView(){
     if(this.scene.gameSwitchView){
 
-      if(this.player == 2)
-        this.rotateCamera.setPosition(this.blackPlayer.playerPos);
-      else
+      if(this.player == 0 || this.player == 1)
         this.rotateCamera.setPosition(this.whitePlayer.playerPos);
+      else
+        this.rotateCamera.setPosition(this.blackPlayer.playerPos);
 
       this.rotateCamera.zoom(2);
       this.scene.camera = this.rotateCamera;
@@ -400,7 +381,8 @@ class Clobber {
         this.scene.info = "Moving piece";
       break;
       case this.state.DRAW_GAME:
-        this.scene.info = "The game was a draw... \n\nTo restart the game please press Quit Game and then Start Game";
+        this.scene.info = "The game was a draw...\n\nTo restart the game please press Quit Game and then Start Game";
+        this.scene.error = "Time used in game: \n Player 1 - " + this.whitePlayer.totalMinutes + ":"+ this.whitePlayer.totalSeconds;
         this.stopAllTimes();
       break;
       case this.state.GAME_OVER:
@@ -408,8 +390,10 @@ class Clobber {
           this.currentState = this.state.DRAW_GAME;
           this.checkState();
         }
-        else if(this.whitePlayer.score > this.blackPlayer.score && this.player == 1)
+        else if(this.whitePlayer.score > this.blackPlayer.score && this.player == 1){
           this.scene.info = "Game Over! You won with " + this.whitePlayer.score + " points while the other player has " + this.blackPlayer.score + " points.\n\nTo restart the game please press Quit Game and then Start Game";
+          this.scene.error = "Time used in game: \n Player 1 - " + this.whitePlayer.totalMinutes + ":"+ this.whitePlayer.totalSeconds;
+        }
         else if(this.whitePlayer.score < this.blackPlayer.score && this.player == 1)
           this.scene.info = "Game Over! You lost with " + this.whitePlayer.score + " points... the winner has " + this.blackPlayer.score + " points.\n\nTo restart the game please press Quit Game and then Start Game";
         else if(this.whitePlayer.score > this.blackPlayer.score && this.player == 2)
@@ -546,7 +530,7 @@ undo(){
 movie(){
 
   if (this.moves.length > 0){
-   
+
     let game=this;
     let finalBoard = game.board;
     this.restartBoard();
@@ -559,7 +543,7 @@ movie(){
 }
 }
   movieMove(i,finalBoard){
-    
+
     let firstBoard= this.moves[i].lastBoard;
     let secondBoard;
     let movesLength = i+1;

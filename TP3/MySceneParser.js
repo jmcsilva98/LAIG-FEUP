@@ -1226,12 +1226,9 @@ else{
    */
   displayScene() {
 
-    //this.primitives["vehicle"].display();
     // entry point for graph rendering (calls the display of the first component)
   this.components[this.rootName].display(this.components[this.rootName].materialId, this.components[this.rootName].textId, this.components[this.rootName].length_s, this.components[this.rootName].length_t);
 
-  /*this.textures['texture1'].bind(1);
-    this.primitives["terrain"].display();*/
   }
 
 }
