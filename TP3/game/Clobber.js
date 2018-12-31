@@ -391,15 +391,15 @@ class Clobber {
           this.checkState();
         }
         else if(this.whitePlayer.score > this.blackPlayer.score && this.player == 1){
-          this.scene.info = "Game Over! You won with " + this.whitePlayer.score + " points while the other player has " + this.blackPlayer.score + " points.\n\nTo restart the game please press Quit Game and then Start Game";
-          this.scene.error = "Time used in game: \n Player 1 - " + this.whitePlayer.totalMinutes + ":"+ this.whitePlayer.totalSeconds;
+          this.scene.info = "Game Over! White player won with " + this.whitePlayer.score + " points while the black player has " + this.blackPlayer.score + " points.\n\nTo restart the game please press Quit Game and then Start Game";
+          this.scene.error = "Time used in game: \n White Player  - " + this.whitePlayer.totalMinutes + ":"+ this.whitePlayer.totalSeconds;
         }
         else if(this.whitePlayer.score < this.blackPlayer.score && this.player == 1)
-          this.scene.info = "Game Over! You lost with " + this.whitePlayer.score + " points... the winner has " + this.blackPlayer.score + " points.\n\nTo restart the game please press Quit Game and then Start Game";
+          this.scene.info = "Game Over! White Player lost with " + this.whitePlayer.score + " points... the winner has " + this.blackPlayer.score + " points.\n\nTo restart the game please press Quit Game and then Start Game";
         else if(this.whitePlayer.score > this.blackPlayer.score && this.player == 2)
-          this.scene.info = "Game Over! You lost with " + this.blackPlayer.score + " points... the winner has " + this.whitePlayer.score + " points.\n\nTo restart the game please press Quit Game and then Start Game";
+          this.scene.info = "Game Over! Black Player lost with " + this.blackPlayer.score + " points... the winner has " + this.whitePlayer.score + " points.\n\nTo restart the game please press Quit Game and then Start Game";
         else
-          this.scene.info = "Game Over! You won with " + this.blackPlayer.score + " points while the other player has " + this.whitePlayer.score + " points.\n\nTo restart the game please press Quit Game and then Start Game";
+          this.scene.info = "Game Over! Black Player won with " + this.blackPlayer.score + " points while the other player has " + this.whitePlayer.score + " points.\n\nTo restart the game please press Quit Game and then Start Game";
           this.stopAllTimes();
       break;
       case this.state.MOVIE:
@@ -534,6 +534,7 @@ movie(){
     let game=this;
     let finalBoard = game.board;
     this.restartBoard();
+    this.restartScore();
     this.currentState=this.state.MOVIE;
     for (let i=0; i<this.moves.length;i++){
       setTimeout(function(){ game.movieMove(i,finalBoard);}, 2000*i);
@@ -559,10 +560,12 @@ movie(){
     if(game.player == 1) {
       game.whitePlayer.incrementScore();
       game.scene.board.blackPiecesLeft++;
+      game.player=2;
     }
     else  {
       game.blackPlayer.incrementScore();
       game.scene.board.whitePiecesLeft++;
+      game.player =1;
     }
     game.nextPiece=secondPiece;
     game.nextPiece.isSelected=true;
