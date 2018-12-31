@@ -519,6 +519,7 @@ undo(){
          game.board = this.moves[this.moves.length-1].lastBoard;
          game.scene.board.pieces[firstPiece[0]][firstPiece[1]] = new MyPiece(game.scene,firstPiece[1],firstPiece[0],this.moves[this.moves.length-1].player);
          game.player = this.moves[this.moves.length-1].player;
+         this.rotateView();
          this.moves.splice(this.moves.length-1,1);
          game.currentState=game.state.CHOOSING_PIECE_TO_MOVE;
       }
