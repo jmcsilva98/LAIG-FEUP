@@ -381,7 +381,11 @@ class Clobber {
         this.scene.info = "Moving piece";
       break;
       case this.state.DRAW_GAME:
-        this.scene.info = "The game was a draw...\n\nTo restart the game please press Quit Game and then Start Game";
+      if (this.player == 1){
+        this.scene.info = "Game Over! White player won with " + this.whitePlayer.score + " points while the black player has " + this.blackPlayer.score + " points.\n\nTo restart the game please press Quit Game and then Start Game";
+      }
+      else this.scene.info = "Game Over! White Player lost with " + this.whitePlayer.score + " points... the winner has " + this.blackPlayer.score + " points.\n\nTo restart the game please press Quit Game and then Start Game";
+
         this.scene.error = "Time used in game: \n Player 1 - " + this.whitePlayer.totalMinutes + ":"+ this.whitePlayer.totalSeconds;
         this.stopAllTimes();
       break;
