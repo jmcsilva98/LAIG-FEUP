@@ -6,29 +6,13 @@ class Player extends CGFobject{
     this.seconds = "00";
     this.score = 0;
     this.addTime = true;
-    this.totalMinutes = 0;
-    this.totalSeconds = 0;
+
 
     this.setPlayer();
 
   }
 
   setPlayer(){
-    //this.initial_camera_timestamp = performance.now();
-    // if (this.playerId==1 && this.scene.gameSwitchView){
-    //   // this.color="white";
-    //    this.playerPos = vec3.fromValues(0, 35, 5);
-    //    this.cameraMoving = true;
-    //    this.camera_animation = new CircularAnimation( this.camera_center, this.camera_speed, this.camera_radius, 90, 180);
-    //    console.log("Camera Animation -> " + this.camera_animation);
-    // }
-    // else if (this.scene.gameSwitchView){
-    //   // this.color="black";
-    //    this.playerPos =vec3.fromValues(0, 35, -5);
-    //    this.cameraMoving = true;
-    //    this.camera_animation = new CircularAnimation( this.camera_center, this.camera_speed, this.camera_radius, -90, 180);
-    // }
-
     if (this.playerId==1 ){
       this.color="white";
       this.playerPos = vec3.fromValues(0, 35, 5);
@@ -65,7 +49,6 @@ class Player extends CGFobject{
   getTime(){
     this.minutes = this.convertTime(parseInt(this.totalTimeSeconds / 60));
     this.seconds = this.convertTime(this.totalTimeSeconds % 60);
-
   }
 
   restartTime(){
