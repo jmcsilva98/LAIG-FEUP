@@ -45,10 +45,8 @@ class Clobber {
 
     this.normalCamera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(0, 35, 5), vec3.fromValues(0, 0, 0));
     this.rotateCamera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(0, 0, 0), vec3.fromValues(0, 5, 0));
-
     this.defaultCamera =  new CGFcamera(0.4, 0.1, 500, vec3.fromValues(15, 15, 15), vec3.fromValues(0, 0, 0));
-    this.scene.error = "";
-    //this.scene.camera = this.normalCamera;
+    this.scene.camera = this.normalCamera;
   }
 
   startGame(mode,level){
@@ -102,7 +100,6 @@ class Clobber {
         game.scene.isReady=1;
       },function(data){
         console.log('connection error');
-        //this.scene.error("Connection Error: " + data.target.response);
       });
       }
 
@@ -229,7 +226,6 @@ class Clobber {
 
       },function(data){
         console.log('connection error');
-        this.scene.error = "Error: " + data.target.response;
       });
 
 
@@ -381,12 +377,9 @@ class Clobber {
         this.scene.info = "Moving piece";
       break;
       case this.state.DRAW_GAME:
-      if (this.player == 1){
+      if (this.player == 1)
         this.scene.info = "Game Over! White player won with " + this.whitePlayer.score + " points while the black player has " + this.blackPlayer.score + " points.\n\nTo restart the game please press Quit Game and then Start Game";
-      }
       else this.scene.info = "Game Over! White Player lost with " + this.whitePlayer.score + " points... the winner has " + this.blackPlayer.score + " points.\n\nTo restart the game please press Quit Game and then Start Game";
-
-        this.scene.error = "Time used in game: \n Player 1 - " + this.whitePlayer.totalMinutes + ":"+ this.whitePlayer.totalSeconds;
         this.stopAllTimes();
       break;
       case this.state.GAME_OVER:
@@ -394,10 +387,8 @@ class Clobber {
           this.currentState = this.state.DRAW_GAME;
           this.checkState();
         }
-        else if(this.whitePlayer.score > this.blackPlayer.score && this.player == 1){
+        else if(this.whitePlayer.score > this.blackPlayer.score && this.player == 1)
           this.scene.info = "Game Over! White player won with " + this.whitePlayer.score + " points while the black player has " + this.blackPlayer.score + " points.\n\nTo restart the game please press Quit Game and then Start Game";
-          this.scene.error = "Time used in game: \n White Player  - " + this.whitePlayer.totalMinutes + ":"+ this.whitePlayer.totalSeconds;
-        }
         else if(this.whitePlayer.score < this.blackPlayer.score && this.player == 1)
           this.scene.info = "Game Over! White Player lost with " + this.whitePlayer.score + " points... the winner has " + this.blackPlayer.score + " points.\n\nTo restart the game please press Quit Game and then Start Game";
         else if(this.whitePlayer.score > this.blackPlayer.score && this.player == 2)
@@ -453,15 +444,15 @@ endAnimation(){
 }
 
     quitGame() {
-
       if(this.currentState != this.state.MOVIE && this.currentState != this.state.WAITING){
         this.currentState = this.state.EXIT_GAME;
         this.restartBoard();
         this.stopAllTimes();
         this.restartScore();
-        this.defaultCamera.zoom(-2);
         this.scene.camera = this.defaultCamera;
         this.scene.startedGame=false;
+        this.viewRotEnabled = false;
+        this.scene.gameSwitchView = true;
 
       }
     }

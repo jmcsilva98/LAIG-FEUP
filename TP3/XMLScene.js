@@ -15,7 +15,7 @@ class XMLscene extends CGFscene {
     this.lightValues = {};
     this.index;
     this.axisOn = true;
-    this.isReady=0;
+    this.isReady = 0;
     this.gameMode = "Player vs Player";
     this.gameDifficulty = "Rookie";
     this.gameSwitchView = true;
@@ -47,7 +47,7 @@ class XMLscene extends CGFscene {
     this.view = [];
     this.client = new Client();
     this.client.getPrologRequest("handshake");
-    this.game= new Clobber(this);
+    this.game = new Clobber(this);
     this.game.getInitialBoard();
 
     this.setPickEnabled(true);
@@ -58,20 +58,9 @@ class XMLscene extends CGFscene {
    * Initializes the scene cameras.
    */
   initCameras() {
-
-    // this.playerCameras = [];
-    // this.playerCameras[1] = vec3.fromValues(0, 35, 5);
-    // this.playerCameras[2] = vec3.fromValues(0, 35, -5);
-
-
     this.camera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(15, 15, 15), vec3.fromValues(0, 0, 0));
-    // this.camera.setTarget(vec3.fromValues(4, 0, 4));
-    //
-    // this.camera_radius = vec3.length(vec3.subtract(vec3.create(), this.playerCameras[2], this.playerCameras[1])) / 2;
-    // this.camera_center = vec3.scale(vec3.create(), vec3.add(vec3.create(), this.playerCameras[2], this.playerCameras[1]), 0.5);
-    // this.camera_speed = 40;
-    // this.cameraMoving = false;
-  }
+    }
+
   /**
    * Initializes the scene lights with the values read from the XML file.
    */
@@ -145,8 +134,7 @@ class XMLscene extends CGFscene {
     this.sceneInited = true;
   }
 
-  onChangeGraph(filename){
-
+  onChangeGraph(filename) {
     this.graph = new MySceneParser(filename, this);
   }
 
@@ -167,59 +155,55 @@ class XMLscene extends CGFscene {
 
   }
 
-  logPicking(){
-let column,row;
-	if (this.pickMode == false) {
-		if (this.pickResults != null && this.pickResults.length > 0) {
-			for (var i=0; i< this.pickResults.length; i++) {
-				var obj = this.pickResults[i][0];
-				if (obj)
-				{
-          var id = this.pickResults[i][1]-1;
-          column= id % 8;
-          row = Math.floor(id / 8);
-          if (this.game.currentState == this.game.state.CHOOSING_PIECE_TO_MOVE ||this.game.currentState == this.game.state.CHOOSING_NEW_CELL)
-          if (this.game.gameMode==1 || (this.game.gameMode==2 && this.game.player==1)){
+  logPicking() {
+    let column, row;
+    if (this.pickMode == false) {
+      if (this.pickResults != null && this.pickResults.length > 0) {
+        for (var i = 0; i < this.pickResults.length; i++) {
+          var obj = this.pickResults[i][0];
+          if (obj) {
+            var id = this.pickResults[i][1] - 1;
+            column = id % 8;
+            row = Math.floor(id / 8);
+            if (this.game.currentState == this.game.state.CHOOSING_PIECE_TO_MOVE || this.game.currentState == this.game.state.CHOOSING_NEW_CELL)
+              if (this.game.gameMode == 1 || (this.game.gameMode == 2 && this.game.player == 1)) {
 
-          this.game.selectedPiece(row,column,obj);
+                this.game.selectedPiece(row, column, obj);
+              }
           }
-				}
-			}
-			this.pickResults.splice(0,this.pickResults.length);
-		}
-	}
+        }
+        this.pickResults.splice(0, this.pickResults.length);
+      }
+    }
   }
 
 
   //MENU FUNCTIONS
 
-  startGame(){
+  startGame() {
 
-      if(this.gameMode == "Player vs Player"){
-        this.gameDifficulty = "Rookie";
-      }else {
-        this.gameSwitchView = false;
-      }
-      console.log("Game Mode: " + this.gameMode);
-      console.log("Game Difficulty: " + this.gameDifficulty);
-      this.startedGame = true;
-      this.gameCamera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(0,35,5), vec3.fromValues(0, 0, 0));
-      this.camera = this.gameCamera;
-    //  this.camera.setPosition(this.playerCameras[1]);
-      this.game.startGame(this.gameMode,this.gameDifficulty);
+    if (this.gameMode == "Player vs Player") {
+      this.gameDifficulty = "Rookie";
+    } else {
+      this.gameSwitchView = false;
     }
-
-  quitGame(){
-
-  this.game.quitGame();
+    console.log("Game Mode: " + this.gameMode);
+    console.log("Game Difficulty: " + this.gameDifficulty);
+    this.startedGame = true;
+    this.gameCamera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(0, 35, 5), vec3.fromValues(0, 0, 0));
+    this.camera = this.gameCamera;
+    this.game.startGame(this.gameMode, this.gameDifficulty);
   }
-  undo(){
-  this.game.undo();
 
+  quitGame() {
+    this.game.quitGame();
   }
-  movie(){
-    if (this.game.currentState==this.game.state.GAME_OVER || this.game.currentState == this.game.state.DRAW_GAME)
-        this.game.movie();
+  undo() {
+    this.game.undo();
+  }
+  movie() {
+    if (this.game.currentState == this.game.state.GAME_OVER || this.game.currentState == this.game.state.DRAW_GAME)
+      this.game.movie();
     else console.log("You only can see the movie in the end of your game!");
   }
 
@@ -242,55 +226,35 @@ let column,row;
     this.clearPickRegistration();
     this.game.checkState();
 
-    if(typeof this.game != "undefined"){
-      if(this.game.player == 1){
+    if (typeof this.game != "undefined") {
+      if (this.game.player == 1) {
         document.getElementById("player").innerText = "Player: White";
-        document.getElementById("timer").innerText = "Time Passed\n"+ this.game.whitePlayer.minutes + ":" + this.game.whitePlayer.seconds + "\n\n";
+        document.getElementById("timer").innerText = "Time Passed\n" + this.game.whitePlayer.minutes + ":" + this.game.whitePlayer.seconds + "\n\n";
         document.getElementById("score").innerText = "Score: " + this.game.whitePlayer.score + "\n";
-      }
-      else if(this.game.player == 2){
+      } else if (this.game.player == 2) {
         document.getElementById("player").innerText = "Player: Black";
-        document.getElementById("timer").innerText = "Time Passed\n"+ this.game.blackPlayer.minutes + ":" + this.game.blackPlayer.seconds + "\n\n";
+        document.getElementById("timer").innerText = "Time Passed\n" + this.game.blackPlayer.minutes + ":" + this.game.blackPlayer.seconds + "\n\n";
         document.getElementById("score").innerText = "Score: " + this.game.blackPlayer.score + "\n";
       }
 
-      if(!this.startedGame){
-        document.getElementById("info").innerText ="Please choose a Game Mode and Difficulty. Then press Start Game to play.\n";
-      }else{
+      if (!this.startedGame) {
+        document.getElementById("info").innerText = "Please choose a Game Mode and Difficulty. Then press Start Game to play.\n";
+      } else {
         document.getElementById("info").innerText = this.info + "\n";
       }
-      document.getElementById("error").innerText = this.error;
-
 
     }
-    if(this.game.currentState != this.game.state.GAME_OVER){
-      this.totalTime += 1;
-    }
 
-    if(this.viewRotEnabled){
-      let angle = Math.PI * 0.01;
-      console.log("\nangle " + angle);
 
+    if (this.viewRotEnabled) {
+      let angle = Math.PI * 0.05;
       this.viewRotAngle -= angle;
-      console.log("\nROT angle " + this.viewRotAngle);
 
-      if(this.viewRotAngle < 0){
+      if (this.viewRotAngle < 0) {
         this.viewRotEnabled = false;
         this.game.setGameView();
-      }
-      else this.camera.orbit(vec3.fromValues(0, 1, 0), angle);
+      } else this.camera.orbit(vec3.fromValues(0, 1, 0), angle);
     }
-
-   //  if (this.cameraMoving) {
-   //     if (this.game.camera_animation.endOfAnimation) {
-   //         this.cameraMoving = false;
-   //     } else {
-   //         let deltaTime = (0.01 - this.game.initial_camera_timestamp) / 1000;
-   //         let camera_animation_matrix = this.game.camera_animation.matrix;
-   //         let camera_position = vec3.transformMat4(vec3.create(), vec3.create(), camera_animation_matrix);
-   //         this.camera.setPosition(camera_position);
-   //     }
-   // }
 
     this.gl.viewport(0, 0, this.gl.canvas.width, this.gl.canvas.height);
     this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
@@ -326,7 +290,7 @@ let column,row;
       // Displays the scene (MySceneGraph function).
       if (this.graph.loadedOk)
         this.graph.displayScene();
-        if((this.gameMode != "Player vs Player" && this.startedGame) || this.startedGame == false)
+      if ((this.gameMode != "Player vs Player" && this.startedGame) || this.startedGame == false)
         this.interface.setActiveCamera(this.camera);
     } else {
       // Draw axis
@@ -336,14 +300,5 @@ let column,row;
     this.popMatrix();
     // ---- END Background, camera and axis setup
   }
-
-  // onChangeView(){
-  //   if(this.gameSwitchView){
-  //     this.camera.setTarget(vec3.fromValues(4, 0, 4));
-  //     this.camera.setPosition(this.playerCameras[this.game.player]);
-  //     this.camera._up = vec3.fromValues(0.0, 1.0, 0.0);
-  //     console.log("HEREEEE\n");
-  //   }
-  // }
 
 }

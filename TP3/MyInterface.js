@@ -95,7 +95,7 @@ class MyInterface extends CGFinterface {
         let aux =  group.add(this.scene, "gameSwitchView").name('Switch View');
 
       aux.onChange(game.setGameView());
-      //this.scene.onChangeView());
+    
 
     }
 
