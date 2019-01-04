@@ -59,7 +59,7 @@ class XMLscene extends CGFscene {
    */
   initCameras() {
     this.camera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(15, 15, 15), vec3.fromValues(0, 0, 0));
-    }
+  }
 
   /**
    * Initializes the scene lights with the values read from the XML file.
@@ -182,9 +182,7 @@ class XMLscene extends CGFscene {
 
   startGame() {
 
-    if (this.gameMode == "Player vs Player") {
-      this.gameDifficulty = "Rookie";
-    } else {
+    if (this.gameMode != "Player vs Player") {
       this.gameSwitchView = false;
     }
     console.log("Game Mode: " + this.gameMode);
@@ -228,12 +226,13 @@ class XMLscene extends CGFscene {
 
     if (typeof this.game != "undefined") {
       if (this.game.player == 1) {
+
         document.getElementById("player").innerText = "Player: White";
-        document.getElementById("timer").innerText = "Time Passed\n" + this.game.whitePlayer.minutes + ":" + this.game.whitePlayer.seconds + "\n\n";
+        document.getElementById("timer").innerText = "Timer\n" + this.game.whitePlayer.minutes + ":" + this.game.whitePlayer.seconds + "\n\n";
         document.getElementById("score").innerText = "Score: " + this.game.whitePlayer.score + "\n";
       } else if (this.game.player == 2) {
         document.getElementById("player").innerText = "Player: Black";
-        document.getElementById("timer").innerText = "Time Passed\n" + this.game.blackPlayer.minutes + ":" + this.game.blackPlayer.seconds + "\n\n";
+        document.getElementById("timer").innerText = "Timer\n" + this.game.blackPlayer.minutes + ":" + this.game.blackPlayer.seconds + "\n\n";
         document.getElementById("score").innerText = "Score: " + this.game.blackPlayer.score + "\n";
       }
 
