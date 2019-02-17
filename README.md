@@ -36,7 +36,14 @@ Implemented Features:
 - [x] Modeling and movement of game pieces.
 - [x] Current player information.
 
-
-
+## Build
+Inside the project folder open terminal and insert:
+```
+python3 -m http.server 8080
+```
+Then go to:
+```
+http://localhost:8080/
+```
 
 
