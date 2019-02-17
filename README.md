@@ -6,12 +6,15 @@ Authors:<br>
 * [Ana Rita Norinho Pinto ](https://github.com/ritanorinho)<br>
 * [Joana Maria Cerqueira da Silva](https://github.com/jmcsilva98)
 
+Grades:<br>
+* **TP1** - 19.4/20<br>
+* **TP2** - 18.8/20<br>
+* **TP3** - 19.7/20<br>
 
-## Project 3
+## Project 3 (TP3)
 
 **3D Interface of a game** <br>
 3D game interface developed in WebGL to represent the game states of a board game, Clobber, developed in SICStus Prolog.<br>
-Project Grade: 19.7/20<br><br>
 ![](https://github.com/ritanorinho/LAIG-FEUP/blob/master/TP3/delivery/screenshots/ezgif.com-video-to-gif.gif) <br><br>
 ![](https://github.com/ritanorinho/LAIG-FEUP/blob/master/TP3/delivery/screenshots/ezgif.com-video-to-gif%20(1).gif) <br><br>
 
